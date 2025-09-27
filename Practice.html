@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Library Management System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    :root {
+      --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+      --saas-primary: #ec4899;
+    }
+
+    /* General */
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* Sidebar */
+    .main-sidebar {
+      width: 260px; height: 100vh;
+      position: fixed; top: 0; left: 0;
+      background: #2d3748; color: #e2e8f0;
+      display: flex; flex-direction: column;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: width 0.3s;
+      z-index: 1000;
+    }
+    .sidebar-header {
+      height: 80px; display: flex;
+      align-items: center; justify-content: center;
+      border-bottom: 1px solid #4a5568;
+    }
+    .sidebar-header h1 { margin: 0; font-size: 1.5em; font-weight: 600; color: #fff; }
+    .sidebar-links { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
+    .sidebar-heading {
+      display: block; padding: 10px 25px; margin-top: 15px;
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; color: #a0aec0;
+    }
+    .main-sidebar a {
+      display: flex; align-items: center; gap: 15px;
+      padding: 12px 25px 12px 35px;
+      color: #cbd5e0; font-size: 15px; font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .main-sidebar a:hover { background: #4a5568; color: #fff; }
+    .main-sidebar a.active { color: var(--saas-primary); font-weight: 600; }
+
+    .notification-badge {
+      background: #ef4444; color: #fff; font-size: 0.8em;
+      font-weight: bold; border-radius: 12px;
+      padding: 2px 8px; margin-left: auto;
+    }
+
+    .sidebar-footer { border-top: 1px solid #4a5568; padding: 20px 0 10px; }
+
+    /* Sidebar toggle */
+    .sidebar-toggle {
+      position: absolute; top: 50%; right: -20px;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; border: 3px solid #fff;
+      background-image: var(--saas-gradient); color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: all 0.35s;
+    }
+    .sidebar-toggle:hover { transform: translateY(-50%) scale(1.1); }
+
+    /* Collapsed Sidebar */
+    body.sidebar-collapsed .main-sidebar { width: 75px; }
+    body.sidebar-collapsed .main-content { margin-left: 75px; }
+    body.sidebar-collapsed .sidebar-header h1,
+    body.sidebar-collapsed .sidebar-heading { display: none; }
+    body.sidebar-collapsed .main-sidebar a { justify-content: center; padding: 12px; }
+    body.sidebar-collapsed .notification-badge {
+      position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; font-size: 0;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 260px; transition: margin-left 0.3s;
+    }
+    .content-header {
+      height: 80px; background: #fff;
+      padding: 0 30px; display: flex;
+      align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .header-title-section h1 { margin: 0; font-size: 28px; font-weight: 700; color: #1a202c; }
+    .breadcrumbs { font-size: 14px; color: #718096; display: flex; gap: 8px; }
+    .breadcrumbs a { color: var(--saas-primary); font-weight: 500; }
+
+    .btn-primary {
+      background-image: var(--saas-gradient);
+      border: none; border-radius: 8px;
+      padding: 10px 24px; font-weight: 600;
+      color: #fff; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+    /* Dashboard */
+    .content-wrapper { padding: 30px; }
+    .dashboard-container {
+      display: grid; gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .stat-card {
+      background: #fff; padding: 25px;
+      border: 1px solid #e2e8f0; border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card:hover { transform: translateY(-5px); border-color: var(--saas-primary); }
+    .stat-card-icon {
+      position: absolute; top: 20px; right: 20px;
+      width: 50px; height: 50px; opacity: 0.3;
+    }
+    .stat-card-info h3 { margin: 0 0 10px; font-size: 3.5rem; font-weight: 700; color: #1a202c; }
+    .stat-card-info p { margin: 0; font-size: 1rem; color: #718096; }
+    .stat-card.alert { border-color: #ef4444; background: #fef2f2; }
+
+    /* Blocks */
+    .dashboard-main-content {
+      margin-top: 40px; padding-top: 40px;
+      display: grid; gap: 30px; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid #e2e8f0;
+    }
+    .content-block {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+      padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .content-block h2 { margin: 0 0 20px; font-size: 20px; font-weight: 600; }
+
+    /* Quick Actions */
+    .quick-actions-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .quick-action-btn {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 20px; border-radius: 8px;
+      background: #f8f9fa; font-weight: 500; color: #4a5568;
+      transition: 0.2s;
+    }
+    .quick-action-btn:hover { background: var(--saas-primary); color: #fff; transform: translateY(-3px); }
+
+    /* Activity */
+    .activity-table { width: 100%; border-collapse: collapse; }
+    .activity-table td { padding: 12px 0; vertical-align: middle; }
+    .activity-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-right: 15px;
+    }
+    .activity-icon.borrow { background: #fee2e2; color: #dc2626; }
+    .activity-icon.return { background: #dcfce7; color: #16a34a; }
+    .activity-user { font-weight: 600; color: #1a202c; }
+    .activity-book { color: #718096; }
+    .activity-time { font-size: 14px; color: #a0aec0; text-align: right; white-space: nowrap; }
+
+    @media (max-width: 992px) {
+      .dashboard-main-content { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="main-sidebar">
+    <button id="sidebarToggle" class="sidebar-toggle">
+      <i data-lucide="arrow-left-to-line" class="icon"></i>
+    </button>
+
+    <div class="sidebar-header">
+      <h1><a href="#">Admin Panel</a></h1>
+    </div>
+
+    <div class="sidebar-links">
+      <span class="sidebar-heading">Main</span>
+      <a href="#" class="active"><i data-lucide="layout-dashboard" class="icon"></i> Dashboard</a>
+
+      <span class="sidebar-heading">Actions</span>
+      <a href="#"><i data-lucide="arrow-right-from-line" class="icon"></i> Borrowing Requests <span class="notification-badge">2</span></a>
+      <a href="#"><i data-lucide="arrow-left-to-line" class="icon"></i> Return Requests</a>
+      <a href="#" class="nav-alert"><i data-lucide="triangle-alert" class="icon"></i> Overdue Books</a>
+      <a href="#"><i data-lucide="book-user" class="icon"></i> Active Borrowing</a>
+
+      <span class="sidebar-heading">Management</span>
+      <a href="#"><i data-lucide="book-open" class="icon"></i> Manage Books</a>
+      <a href="#"><i data-lucide="calendar-check" class="icon"></i> Manage Reservations</a>
+      <a href="#"><i data-lucide="users" class="icon"></i> Manage Accounts</a>
+      <a href="#"><i data-lucide="school" class="icon"></i> Manage Academics</a>
+      <a href="#"><i data-lucide="history" class="icon"></i> System Logs</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="#"><i data-lucide="user-circle" class="icon"></i> My Profile</a>
+      <a href="#" class="nav-alert"><i data-lucide="log-out" class="icon"></i> Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-header">
+      <div class="header-title-section">
+        <h1>Admin Dashboard</h1>
+        <div class="breadcrumbs">
+          <a href="#">Home</a> <span>/</span> <span>Dashboard</span>
+        </div>
+      </div>
+      <div class="header-actions-section">
+        <a href="#" class="btn btn-primary"><i data-lucide="plus"></i> Add New Book</a>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Stats -->
+      <div class="dashboard-container">
+        <a href="#" class="stat-card"><i data-lucide="book-open" class="stat-card-icon"></i><div class="stat-card-info"><h3>1,250</h3><p>Total Books</p></div></a>
+        <a href="#" class="stat-card"><i data-lucide="users" class="stat-card-icon"></i><div class="stat-card-info"><h3>350</h3><p>Total Students</p></div></a>
+        <a href="#" class="stat-card"><i data-lucide="book-user" class="stat-card-icon"></i><div class="stat-card-info"><h3>75</h3><p>Books on Loan</p></div></a>
+        <a href="#" class="stat-card alert"><i data-lucide="arrow-right-from-line" class="stat-card-icon"></i><div class="stat-card-info"><h3>2</h3><p>Pending Borrow Requests</p></div></a>
+        <a href="#" class="stat-card"><i data-lucide="arrow-left-to-line" class="stat-card-icon"></i><div class="stat-card-info"><h3>0</h3><p>Pending Return Requests</p></div></a>
+      </div>
+
+      <!-- Quick Actions & Activity -->
+      <div class="dashboard-main-content">
+        <div class="content-block">
+          <h2>Quick Actions</h2>
+          <div class="quick-actions-container">
+            <a href="#" class="quick-action-btn"><i data-lucide="book-plus"></i><span>Add a New Book</span></a>
+            <a href="#" class="quick-action-btn"><i data-lucide="user-check"></i><span>Approve New Users</span></a>
+            <a href="#" class="quick-action-btn"><i data-lucide="arrow-right-from-line"></i><span>View Borrow Requests</span></a>
+            <a href="#" class="quick-action-btn"><i data-lucide="history"></i><span>View System Logs</span></a>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h2>Recent Activity</h2>
+          <table class="activity-table">
+            <tbody>
+              <tr>
+                <td><div class="activity-icon return"><i data-lucide="arrow-left"></i></div></td>
+                <td><span class="activity-user">jdelacruz</span> returned <span class="activity-book">"The Lord of the Rings"</span></td>
+                <td class="activity-time">5m ago</td>
+              </tr>
+              <tr>
+                <td><div class="activity-icon borrow"><i data-lucide="arrow-right"></i></div></td>
+                <td><span class="activity-user">mreyes</span> borrowed <span class="activity-book">"Dune"</span></td>
+                <td class="activity-time">2h ago</td>
+              </tr>
+              <tr>
+                <td><div class="activity-icon return"><i data-lucide="arrow-left"></i></div></td>
+                <td><span class="activity-user">asantos</span> returned <span class="activity-book">"Pride and Prejudice"</span></td>
+                <td class="activity-time">1d ago</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      document.getElementById('sidebarToggle').addEventListener('click', () => {
+        document.body.classList.toggle('sidebar-collapsed');
+      });
+
+      // GSAP animations
+      gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30 });
+      gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, delay: 0.2 });
+      gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, delay: 0.4 });
+    });
+  </script>
+</body>
+</html>
