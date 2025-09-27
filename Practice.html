@@ -4,20 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Library Management System</title>
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
   <style>
     :root {
       --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
       --saas-primary: #ec4899;
     }
 
-    /* General */
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -27,7 +23,6 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* Sidebar */
     .main-sidebar {
       width: 260px; height: 100vh;
       position: fixed; top: 0; left: 0;
@@ -65,8 +60,6 @@
     }
 
     .sidebar-footer { border-top: 1px solid #4a5568; padding: 20px 0 10px; }
-
-    /* Sidebar toggle */
     .sidebar-toggle {
       position: absolute; top: 50%; right: -20px;
       transform: translateY(-50%);
@@ -79,8 +72,6 @@
       transition: all 0.35s;
     }
     .sidebar-toggle:hover { transform: translateY(-50%) scale(1.1); }
-
-    /* Collapsed Sidebar */
     body.sidebar-collapsed .main-sidebar { width: 75px; }
     body.sidebar-collapsed .main-content { margin-left: 75px; }
     body.sidebar-collapsed .sidebar-header h1,
@@ -89,8 +80,6 @@
     body.sidebar-collapsed .notification-badge {
       position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; font-size: 0;
     }
-
-    /* Main Content */
     .main-content {
       margin-left: 260px; transition: margin-left 0.3s;
     }
@@ -111,8 +100,6 @@
       color: #fff; transition: transform 0.2s, box-shadow 0.2s;
     }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-
-    /* Dashboard */
     .content-wrapper { padding: 30px; }
     .dashboard-container {
       display: grid; gap: 30px;
@@ -133,8 +120,6 @@
     .stat-card-info h3 { margin: 0 0 10px; font-size: 3.5rem; font-weight: 700; color: #1a202c; }
     .stat-card-info p { margin: 0; font-size: 1rem; color: #718096; }
     .stat-card.alert { border-color: #ef4444; background: #fef2f2; }
-
-    /* Blocks */
     .dashboard-main-content {
       margin-top: 40px; padding-top: 40px;
       display: grid; gap: 30px; grid-template-columns: 1fr 1fr;
@@ -145,8 +130,6 @@
       padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     }
     .content-block h2 { margin: 0 0 20px; font-size: 20px; font-weight: 600; }
-
-    /* Quick Actions */
     .quick-actions-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .quick-action-btn {
       display: flex; flex-direction: column; align-items: center;
@@ -155,8 +138,6 @@
       transition: 0.2s;
     }
     .quick-action-btn:hover { background: var(--saas-primary); color: #fff; transform: translateY(-3px); }
-
-    /* Activity */
     .activity-table { width: 100%; border-collapse: collapse; }
     .activity-table td { padding: 12px 0; vertical-align: middle; }
     .activity-icon {
@@ -176,7 +157,6 @@
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <nav class="main-sidebar">
     <button id="sidebarToggle" class="sidebar-toggle">
       <i data-lucide="arrow-left-to-line" class="icon"></i>
@@ -209,8 +189,6 @@
       <a href="#" class="nav-alert"><i data-lucide="log-out" class="icon"></i> Logout</a>
     </div>
   </nav>
-
-  <!-- Main Content -->
   <main class="main-content">
     <div class="content-header">
       <div class="header-title-section">
@@ -225,7 +203,6 @@
     </div>
 
     <div class="content-wrapper">
-      <!-- Stats -->
       <div class="dashboard-container">
         <a href="#" class="stat-card"><i data-lucide="book-open" class="stat-card-icon"></i><div class="stat-card-info"><h3>1,250</h3><p>Total Books</p></div></a>
         <a href="#" class="stat-card"><i data-lucide="users" class="stat-card-icon"></i><div class="stat-card-info"><h3>350</h3><p>Total Students</p></div></a>
@@ -233,8 +210,6 @@
         <a href="#" class="stat-card alert"><i data-lucide="arrow-right-from-line" class="stat-card-icon"></i><div class="stat-card-info"><h3>2</h3><p>Pending Borrow Requests</p></div></a>
         <a href="#" class="stat-card"><i data-lucide="arrow-left-to-line" class="stat-card-icon"></i><div class="stat-card-info"><h3>0</h3><p>Pending Return Requests</p></div></a>
       </div>
-
-      <!-- Quick Actions & Activity -->
       <div class="dashboard-main-content">
         <div class="content-block">
           <h2>Quick Actions</h2>
@@ -271,8 +246,6 @@
       </div>
     </div>
   </main>
-
-  <!-- Scripts -->
   <script src="js/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script>
@@ -282,7 +255,6 @@
         document.body.classList.toggle('sidebar-collapsed');
       });
 
-      // GSAP animations
       gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30 });
       gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, delay: 0.2 });
       gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, delay: 0.4 });
