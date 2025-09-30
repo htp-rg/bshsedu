@@ -842,7 +842,8 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+  let currentRow;
   if (window.lucide) {
   lucide.createIcons();
 }
@@ -895,22 +896,59 @@ document.addEventListener('DOMContentLoaded', function () {
   const deleteModal = document.getElementById('deleteModal');
   let currentRow = null;
 
- document.querySelectorAll('.edit-btn').forEach((btn, index) => {
-  btn.addEventListener('click', () => {
-    currentRow = tableRows[index];
-    const cells = currentRow.querySelectorAll('td');
-    document.getElementById('editName').value = cells[0].innerText;
-    document.getElementById('editPosition').value = cells[1].innerText;
-    document.getElementById('editDepartment').value = cells[2].innerText;
-    document.getElementById('editStatus').value = cells[3].innerText;
-    openModal('editModal');
-  });
-});
+  function openModal(id) {
+    document.getElementById(id).style.display = 'flex';
+  }
 
-document.querySelectorAll('.delete-btn').forEach((btn, index) => {
-  btn.addEventListener('click', () => {
-    currentRow = tableRows[index];
-    openModal('deleteModal');
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  const tableRows = document.querySelectorAll('.activity-table tbody tr');
+
+  document.querySelectorAll('.edit-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentRow = tableRows[index];
+      const cells = currentRow.querySelectorAll('td');
+
+      document.getElementById('editName').value = cells[0].innerText;
+      document.getElementById('editPosition').value = cells[1].innerText;
+      document.getElementById('editDepartment').value = cells[2].innerText;
+      document.getElementById('editStatus').value = cells[3].innerText;
+
+      openModal('editModal');
+    });
+  });
+
+  document.querySelectorAll('.delete-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentRow = tableRows[index];
+      openModal('deleteModal');
+    });
+  });
+
+  document.querySelectorAll('.modal .close').forEach(closeBtn => {
+    closeBtn.addEventListener('click', () => {
+      closeModal(closeBtn.closest('.modal').id);
+    });
+  });
+
+  document.getElementById('saveEdit').addEventListener('click', () => {
+    if (currentRow) {
+      currentRow.querySelectorAll('td')[0].innerText = document.getElementById('editName').value;
+      currentRow.querySelectorAll('td')[1].innerText = document.getElementById('editPosition').value;
+      currentRow.querySelectorAll('td')[2].innerText = document.getElementById('editDepartment').value;
+      currentRow.querySelectorAll('td')[3].innerText = document.getElementById('editStatus').value;
+    }
+    closeModal('editModal');
+  });
+
+  document.getElementById('confirmDelete').addEventListener('click', () => {
+    if (currentRow) {
+      currentRow.remove();
+      currentRow = null;
+    }
+    closeModal('deleteModal');
   });
 });
 
