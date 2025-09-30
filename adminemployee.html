@@ -756,24 +756,23 @@
   <button class="btn btn-primary" id="exportBtn">Export</button>
 </div>
 
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+<div class="modal" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true" style="display:none;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="reportModalLabel">Generated Report</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" onclick="closeModal('reportModal')" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <textarea id="reportArea" style="width:100%; height:300px; font-family: monospace;"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal('reportModal')">Close</button>
         <button type="button" class="btn btn-primary" id="modalExportBtn">Export</button>
       </div>
     </div>
   </div>
 </div>
-
     <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
       <input type="text" placeholder="🔍 Search employees..." 
              style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
@@ -985,9 +984,26 @@ Generated on: ${new Date().toLocaleString()}
   modalExportBtn.addEventListener('click', exportReport);
       let currentRow = null;
 
-      function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-      function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-      window.closeModal = closeModal;
+      function openModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = 'flex';
+    
+    modal.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        closeModal(id);
+      }
+    });
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = 'none';
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', () => {
+    document.getElementById('reportArea').value = "Generated Report Content...";
+    openModal('reportModal');
+  });
 
       document.querySelectorAll('.edit-btn').forEach((btn, index) => {
         btn.addEventListener('click', () => {
