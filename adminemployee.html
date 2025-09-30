@@ -739,10 +739,12 @@
   <div class="content-block" style="margin-top:30px;">
     <h2>Employee Records</h2>
 
-    <div style="margin-bottom:15px; display:flex; gap:10px;">
-      <button class="btn btn-primary">Generate Report</button>
-      <button class="btn btn-primary">Export</button>
-    </div>
+ <div style="margin-bottom:15px; display:flex; gap:10px;">
+  <button class="btn btn-primary" id="generateBtn">Generate Report</button>
+  <button class="btn btn-primary" id="exportBtn">Export</button>
+</div>
+
+<div id="reportArea" style="border:1px solid #ccc; padding:10px; margin-top:10px;"></div>
 
     <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
       <input type="text" placeholder="🔍 Search employees..." 
@@ -861,6 +863,9 @@
       const searchInput = document.querySelector('.search-filter input');
       const departmentSelect = document.querySelector('.search-filter select');
       const tableRows = document.querySelectorAll('.activity-table tbody tr');
+      const generateBtn = document.getElementById('generateBtn');
+      const exportBtn = document.getElementById('exportBtn');
+      const reportArea = document.getElementById('reportArea');
 
       function filterTable() {
         const searchValue = searchInput.value.toLowerCase();
@@ -883,7 +888,33 @@
       searchInput.addEventListener('keyup', filterTable);
       departmentSelect.addEventListener('change', filterTable);
 
+ let reportContent = '';
 
+  generateBtn.addEventListener('click', () => {
+    reportContent = `
+      Report Generated: ${new Date().toLocaleString()}
+      ----------------------------------------
+      Item 1: Example data
+      Item 2: More example data
+      Item 3: Summary here
+    `;
+    reportArea.textContent = reportContent;
+  });
+
+  exportBtn.addEventListener('click', () => {
+    if (!reportContent) {
+      alert('Please generate a report first!');
+      return;
+    }
+
+    const blob = new Blob([reportContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
       let currentRow = null;
 
       function openModal(id) { document.getElementById(id).style.display = 'flex'; }
