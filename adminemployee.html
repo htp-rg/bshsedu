@@ -756,7 +756,16 @@
   <button class="btn btn-primary" id="exportBtn">Export</button>
 </div>
 
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true"> <div class="modal-dialog modal-lg"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title" id="reportModalLabel">Generated Report</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea id="reportArea" style="width:100%; height:300px; font-family: monospace;"></textarea> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <button type="button" class="btn btn-primary" id="modalExportBtn">Export</button> </div> </div> </div> </div
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <h2>Generated Report</h2>
+    <textarea id="reportArea" style="width:100%; height:300px; font-family: monospace;"></textarea>
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
+      <button type="button" class="btn-primary" id="modalExportBtn">Export</button>
+    </div>
+  </div>
+</div>
 </div>
     <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
       <input type="text" placeholder="🔍 Search employees..." 
@@ -876,16 +885,10 @@
       const searchInput = document.querySelector('.search-filter input');
       const departmentSelect = document.querySelector('.search-filter select');
       const tableRows = document.querySelectorAll('.activity-table tbody tr');
-     const generateBtn = document.getElementById('generateBtn');
-     const exportBtn = document.getElementById('exportBtn');
-     const modalExportBtn = document.getElementById('modalExportBtn');
-     const reportArea = document.getElementById('reportArea');
-
-  const reportModalEl = document.getElementById('reportModal');
-const reportModal = new bootstrap.Modal(reportModalEl, {
-  backdrop: true, 
-  keyboard: true
-});
+   const generateBtn = document.getElementById('generateBtn');
+const modalExportBtn = document.getElementById('modalExportBtn');
+const reportArea = document.getElementById('reportArea');
+const reportModal = document.getElementById('reportModal');
 
 reportModalEl.addEventListener('click', (e) => {
   if (e.target === reportModalEl) {
@@ -919,8 +922,7 @@ generateBtn.addEventListener('click', () => {
       searchInput.addEventListener('keyup', filterTable);
       departmentSelect.addEventListener('change', filterTable);
 
- const sampleReport = () => {
-    return `
+const sampleReport = () => `
 Company: ABC Corporation
 Department: Sales
 Report Date: ${new Date().toLocaleDateString()}
@@ -941,49 +943,47 @@ All targets for the month are on track. Focus on increasing new client acquisiti
 ----------------------------------------
 Generated on: ${new Date().toLocaleString()}
 `;
-  };
 
+// Open modal and populate report
+generateBtn.addEventListener('click', () => {
+  reportArea.value = sampleReport();
+  openModal('reportModal');
+});
 
-  generateBtn.addEventListener('click', () => {
-    reportArea.value = sampleReport();
-    reportModal.show();
-  });
+// Export functionality
+modalExportBtn.addEventListener('click', () => {
+  const content = reportArea.value.trim();
+  if (!content) {
+    alert('Report is empty!');
+    return;
+  }
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+});
 
+// Modal open/close functions
+function openModal(id) {
+  const modal = document.getElementById(id);
+  modal.style.display = 'flex';
 
-  function exportReport() {
-    const content = reportArea.value.trim();
-    if (!content) {
-      alert('Report is empty!');
-      return;
+  // Exit on backdrop click
+  modal.addEventListener('click', function onClickOutside(event) {
+    if (event.target === modal) {
+      closeModal(id);
+      modal.removeEventListener('click', onClickOutside);
     }
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'report.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  });
+}
 
-  exportBtn.addEventListener('click', exportReport);
-  modalExportBtn.addEventListener('click', exportReport);
-      let currentRow = null;
-
-      function openModal(id) {
-    const modal = document.getElementById(id);
-    modal.style.display = 'flex';
-    
-    modal.addEventListener('click', function(event) {
-      if (event.target === modal) {
-        closeModal(id);
-      }
-    });
-  }
-
-  function closeModal(id) {
-    const modal = document.getElementById(id);
-    modal.style.display = 'none';
-  }
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  modal.style.display = 'none';
+}
 
   document.getElementById('generateBtn').addEventListener('click', () => {
     document.getElementById('reportArea').value = "Generated Report Content...";
