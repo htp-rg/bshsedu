@@ -274,13 +274,17 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Lucide icons
+  if(window.lucide) lucide.createIcons({ width: 20, height: 20 });
 
-  // Lucide icons
-  if(window.lucide) lucide.createIcons();
-
-  // Sidebar toggle (if you have a toggle button)
-  const backButton = document.getElementById('backButton');
-  backButton.addEventListener('click', e => { e.preventDefault(); window.history.back(); });
+  // Sidebar toggle
+  const toggleBtn = document.getElementById('sidebarToggle');
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('sidebar-collapsed');
+    toggleBtn.querySelector('.icon-close').style.display = document.body.classList.contains('sidebar-collapsed') ? 'none' : 'block';
+    toggleBtn.querySelector('.icon-open').style.display = document.body.classList.contains('sidebar-collapsed') ? 'block' : 'none';
+  });
+});
 
   // GSAP animations
   gsap.from(".content-header h1", {duration:0.6, opacity:0, x:-30, ease:"power2.out"});
