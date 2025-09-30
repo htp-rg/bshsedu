@@ -743,10 +743,23 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleButton?.addEventListener('click', () => {
         body.classList.toggle('sidebar-collapsed');
     });
-    
+
     gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
     gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
     gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
+
+    const mainContent = document.querySelector('.main-content');
+
+    mainContent.addEventListener('dblclick', () => {
+        mainContent.setAttribute('contenteditable', 'true');
+        mainContent.focus();
+    });
+
+    mainContent.addEventListener('blur', () => {
+        mainContent.removeAttribute('contenteditable');
+        localStorage.setItem('dashboardContent', mainContent.innerHTML);
+        alert('Changes saved!');
+    });
 });
 </script>
 </body>
