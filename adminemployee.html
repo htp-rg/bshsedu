@@ -872,495 +872,47 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Information & Records Management</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: #f8f9fa;
-      transition: margin-left 0.3s ease-in-out;
-    }
-
-    :root {
-      --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
-      --saas-primary: #ec4899;
-    }
-
-    .main-sidebar {
-      width: 260px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      background-color: #2d3748;
-      color: #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      transition: width 0.3s ease-in-out;
-    }
-
-    .sidebar-header {
-      padding: 0 25px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid #4a5568;
-      flex-shrink: 0;
-    }
-
-    .sidebar-header h1 {
-      margin: 0;
-      font-size: 1.5em;
-      color: #ffffff;
-      font-weight: 600;
-      white-space: nowrap;
-      opacity: 1;
-      transition: opacity 0.3s ease-in-out;
-    }
-
-    .sidebar-header h1 a {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .sidebar-links {
-      flex-grow: 1;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }
-    .sidebar-links::-webkit-scrollbar {
-      display: none;
-    }
-
-    .sidebar-heading {
-      display: block;
-      padding: 10px 25px;
-      margin-top: 15px;
-      font-size: 0.75rem;
-      color: #a0aec0;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      white-space: nowrap;
-      opacity: 1;
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    .sidebar-links .sidebar-heading:first-child {
-      margin-top: 0;
-    }
-
-    .main-sidebar a {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      color: #cbd5e0;
-      text-decoration: none;
-      padding: 12px 25px 12px 35px;
-      margin: 2px 0;
-      font-size: 15px;
-      font-weight: 500;
-      position: relative;
-      z-index: 2;
-      white-space: nowrap;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .main-sidebar a:hover {
-      background-color: #4a5568;
-      color: #ffffff;
-    }
-
-    .main-sidebar a.active {
-      background-color: transparent;
-      color: var(--saas-primary);
-      font-weight: 600;
-    }
-
-    .main-sidebar a.active::before {
-      content: '';
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 24px;
-      background-image: var(--saas-gradient);
-      border-radius: 2px;
-      animation: pulse-indicator-open 2.5s infinite;
-    }
-
-    .notification-badge {
-      background-color: #ef4444;
-      color: white;
-      border-radius: 12px;
-      padding: 2px 8px;
-      font-size: 0.8em;
-      font-weight: bold;
-      margin-left: auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .main-sidebar a.active .notification-badge {
-      background-color: #ffffff;
-      color: #4f46e5;
-      font-weight: bold;
-    }
-
-    .main-sidebar a.nav-alert {
-      color: #f56565;
-      font-weight: 600;
-    }
-
-    .main-sidebar a.nav-alert:hover {
-      color: #fff;
-      background-color: #dc2626;
-    }
-
-    .main-sidebar a.nav-alert.active {
-      background-color: transparent;
-      color: #ef4444;
-    }
-
-    .sidebar-footer {
-      padding: 20px 0 10px 0;
-      border-top: 1px solid #4a5568;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-    }
-
-    .main-content {
-      margin-left: 260px;
-      padding: 0;
-      transition: margin-left 0.3s ease-in-out;
-    }
-
-    .content-header {
-      height: 80px;
-      background-color: #ffffff;
-      padding: 0 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e2e8f0;
-      flex-shrink: 0;
-    }
-
-    .header-title-section h1 {
-      margin: 0 0 4px 0;
-      font-size: 28px;
-      font-weight: 700;
-      color: #1a202c;
-    }
-
-    .content-wrapper {
-      padding: 30px;
-    }
-
-    .btn-primary {
-      background-image: var(--saas-gradient);
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 10px 24px;
-      border-radius: 8px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      color: white;
-    }
-
-    .dashboard-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 30px;
-    }
-
-    .stat-card {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 25px;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      border-color: var(--saas-primary);
-    }
-
-    .stat-card-info h3 {
-      font-size: 3.5rem;
-      margin: 0 0 10px 0;
-      color: #1a202c;
-      font-weight: 700;
-    }
-
-    .stat-card-info p {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 500;
-      color: #718096;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      align-items: center; justify-content: center;
-    }
-
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      width: 400px;
-      max-width: 90%;
-    }
-
-    .modal-actions {
-      margin-top: 15px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .btn-secondary {
-      background: #e2e8f0;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    @media (max-width: 992px) {
-      .dashboard-main-content {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-  <nav class="main-sidebar">
-    <div class="sidebar-header">
-      <h1><a href="#">Admin Panel</a></h1>
-    </div>
-    <div class="sidebar-links">
-      <span class="sidebar-heading">MAIN</span>
-      <a href="admindashboard.html">Dashboard</a>
-
-      <span class="sidebar-heading">MODULE</span>
-      <a href="adminemployee.html" class="active">Employee Information & Records Management</a>
-      <a href="adminrecruitment.html">Recruitment and Hiring</a>
-      <a href="admintime.html">Time & Attendance Monitoring</a>
-      <a href="adminleave.html">Leave & Overtime Management</a>
-
-      <span class="sidebar-heading">SUPERVISION</span>
-      <a href="adminpayroll.html">Payroll & Compensation</a>
-      <a href="adminperformance.html">Performance Evaluation System</a>
-      <a href="admintraining.html">Training & Development</a>
-      <a href="adminbenefits.html">Employee Benefits & Welfare</a>
-      <a href="adminlogs.html">System Logs</a>
-    </div>
-
-    <div class="sidebar-footer">
-      <a href="adminprofile.html">My Profile</a>
-      <a href="main.html" class="nav-alert">Logout</a>
-    </div>
-  </nav>
-
-  <main class="main-content">
-    <div class="content-header">
-      <div class="header-title-section">
-        <h1>Employee Information & Records Management</h1>
-      </div>
-      <div class="header-actions-section">
-        <a href="javascript:void(0)" id="backButton" class="btn btn-primary">Back</a>
-      </div>
-    </div>
-
-    <div class="content-wrapper">
-      <div class="dashboard-container">
-        <div class="stat-card">
-          <div class="stat-card-info">
-            <h3>120</h3>
-            <p>Total Employees</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-info">
-            <h3>Active</h3>
-            <p>Employees</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-info">
-            <h3>5</h3>
-            <p>Onboarding</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-info">
-            <h3>12</h3>
-            <p>Avg. Rating</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="content-block" style="margin-top:30px;">
-        <h2>Employee Records</h2>
-
-        <div style="margin-bottom:15px; display:flex; gap:10px;">
-          <button class="btn btn-primary" id="generateBtn">Generate Report</button>
-          <button class="btn btn-primary" id="exportBtn">Export</button>
-        </div>
-
-        <div class="modal fade" id="reportModal">
-          <div class="modal-content">
-            <textarea id="reportArea" style="width:100%; height:300px; font-family: monospace;"></textarea>
-            <div class="modal-actions">
-              <button class="btn btn-secondary" onclick="document.getElementById('reportModal').style.display='none'">Close</button>
-              <button class="btn btn-primary" id="modalExportBtn">Export</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
-
-        <table class="activity-table">
-          <thead>
-            <tr>
-              <th>Employee Name</th>
-              <th>Position</th>
-              <th>Department</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Juan Dela Cruz</td>
-              <td>Teacher</td>
-              <td>Academics</td>
-              <td>Active</td>
-              <td><button class="btn-primary edit-btn">Edit</button> <button class="btn-primary delete-btn">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Maria Santos</td>
-              <td>Admin Staff</td>
-              <td>HR</td>
-              <td>Inactive</td>
-              <td><button class="btn-primary edit-btn">Edit</button> <button class="btn-primary delete-btn">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Jose Reyes</td>
-              <td>Librarian</td>
-              <td>Library</td>
-              <td>Onboarding</td>
-              <td><button class="btn-primary edit-btn">Edit</button> <button class="btn-primary delete-btn">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Ana Lopez</td>
-              <td>Teacher</td>
-              <td>Academics</td>
-              <td>Active</td>
-              <td><button class="btn-primary edit-btn">Edit</button> <button class="btn-primary delete-btn">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Edit Modal -->
-      <div id="editModal" class="modal">
-        <div class="modal-content">
-          <h2>Edit Employee</h2>
-          <form id="editForm">
-            <label>Name:</label>
-            <input type="text" id="editName" required>
-            <label>Position:</label>
-            <input type="text" id="editPosition" required>
-            <label>Department:</label>
-            <input type="text" id="editDepartment" required>
-            <label>Status:</label>
-            <select id="editStatus">
-              <option>Active</option>
-              <option>Inactive</option>
-              <option>Onboarding</option>
-            </select>
-            <div class="modal-actions">
-              <button type="button" id="saveEdit" class="btn-primary">Save</button>
-              <button type="button" class="btn-secondary" onclick="closeModal('editModal')">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Delete Modal -->
-      <div id="deleteModal" class="modal">
-        <div class="modal-content">
-          <h2>Confirm Delete</h2>
-          <p>Are you sure you want to delete this employee?</p>
-          <div class="modal-actions">
-            <button id="confirmDelete" class="btn-primary">Yes, Delete</button>
-            <button type="button" class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.querySelector('.search-filter input');
-      const departmentSelect = document.querySelector('.search-filter select');
-      const tableRows = document.querySelectorAll('.activity-table tbody tr');
-      const generateBtn = document.getElementById('generateBtn');
-      const exportBtn = document.getElementById('exportBtn');
-      const modalExportBtn = document.getElementById('modalExportBtn');
-      const reportArea = document.getElementById('reportArea');
-      let currentRow = null;
+      if (window.lucide) lucide.createIcons();
 
-      document.getElementById('backButton').addEventListener('click', e => {
+      document.getElementById('backButton')?.addEventListener('click', e => {
         e.preventDefault();
         window.history.back();
       });
+
+      document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+        document.body.classList.toggle('sidebar-collapsed');
+      });
+
+      gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
+      gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
+      gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
+
+      const searchInput = document.querySelector('.search-filter input');
+      const departmentSelect = document.querySelector('.search-filter select');
+      const tableRows = document.querySelectorAll('.activity-table tbody tr');
+     const generateBtn = document.getElementById('generateBtn');
+     const exportBtn = document.getElementById('exportBtn');
+     const modalExportBtn = document.getElementById('modalExportBtn');
+     const reportArea = document.getElementById('reportArea');
+
+  const reportModalEl = document.getElementById('reportModal');
+const reportModal = new bootstrap.Modal(reportModalEl, {
+  backdrop: true, 
+  keyboard: true
+});
+
+reportModalEl.addEventListener('click', (e) => {
+  if (e.target === reportModalEl) {
+    reportModal.hide();
+  }
+});
+
+generateBtn.addEventListener('click', () => {
+  reportArea.value = sampleReport();
+  reportModal.show();
+});
 
       function filterTable() {
         const searchValue = searchInput.value.toLowerCase();
@@ -1383,8 +935,8 @@
       searchInput.addEventListener('keyup', filterTable);
       departmentSelect.addEventListener('change', filterTable);
 
-      function sampleReport() {
-        return `
+ const sampleReport = () => {
+    return `
 Company: ABC Corporation
 Department: Sales
 Report Date: ${new Date().toLocaleDateString()}
@@ -1405,27 +957,33 @@ All targets for the month are on track. Focus on increasing new client acquisiti
 ----------------------------------------
 Generated on: ${new Date().toLocaleString()}
 `;
-      }
+  };
 
-      generateBtn.addEventListener('click', () => {
-        reportArea.value = sampleReport();
-        document.getElementById('reportModal').style.display = 'flex';
-      });
 
-      function exportReport() {
-        const content = reportArea.value.trim();
-        if (!content) { alert('Report is empty!'); return; }
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'report.txt';
-        a.click();
-        URL.revokeObjectURL(url);
-      }
+  generateBtn.addEventListener('click', () => {
+    reportArea.value = sampleReport();
+    reportModal.show();
+  });
 
-      exportBtn.addEventListener('click', exportReport);
-      modalExportBtn.addEventListener('click', exportReport);
+
+  function exportReport() {
+    const content = reportArea.value.trim();
+    if (!content) {
+      alert('Report is empty!');
+      return;
+    }
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  exportBtn.addEventListener('click', exportReport);
+  modalExportBtn.addEventListener('click', exportReport);
+      let currentRow = null;
 
       function openModal(id) { document.getElementById(id).style.display = 'flex'; }
       function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -1435,10 +993,12 @@ Generated on: ${new Date().toLocaleString()}
         btn.addEventListener('click', () => {
           currentRow = tableRows[index];
           const cells = currentRow.querySelectorAll('td');
+
           document.getElementById('editName').value = cells[0].innerText;
           document.getElementById('editPosition').value = cells[1].innerText;
           document.getElementById('editDepartment').value = cells[2].innerText;
           document.getElementById('editStatus').value = cells[3].innerText;
+
           openModal('editModal');
         });
       });
@@ -1461,11 +1021,13 @@ Generated on: ${new Date().toLocaleString()}
       });
 
       document.getElementById('confirmDelete').addEventListener('click', () => {
-        if (currentRow) { currentRow.remove(); currentRow = null; }
+        if (currentRow) {
+          currentRow.remove();
+          currentRow = null;
+        }
         closeModal('deleteModal');
       });
     });
   </script>
 </body>
 </html>
-
