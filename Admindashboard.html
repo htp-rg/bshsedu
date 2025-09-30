@@ -64,10 +64,12 @@
 
   .sidebar-links {
     flex-grow: 1;
-    overflow-y: auto;
-    margin-top: 20px;
-    position: relative;
-  }
+    overflow-y: auto;           
+    scrollbar-width: none;      
+}
+.sidebar-links::-webkit-scrollbar 
+    display: none;
+}
 
   .sidebar-heading {
     display: block;
