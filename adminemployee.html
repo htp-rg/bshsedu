@@ -771,32 +771,32 @@
           <td>Teacher</td>
           <td>Academics</td>
           <td>Active</td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Delete</button></td>
+          <td><button class="btn-primary edit-btn">Edit</button></td>
+          <td><button class="btn-primary delete-btn">Delete</button></td>
         </tr>
         <tr>
           <td>Maria Santos</td>
           <td>Admin Staff</td>
           <td>HR</td>
           <td>Inactive</td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Delete</button></td>
+        <td><button class="btn-primary edit-btn">Edit</button></td>
+        <td><button class="btn-primary delete-btn">Delete</button></td>
         </tr>
         <tr>
           <td>Jose Reyes</td>
           <td>Librarian</td>
           <td>Library</td>
           <td>Onboarding</td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Delete</button></td>
+         <td><button class="btn-primary edit-btn">Edit</button></td>
+         <td><button class="btn-primary delete-btn">Delete</button></td>
         </tr>
         <tr>
           <td>Ana Lopez</td>
           <td>Teacher</td>
           <td>Academics</td>
           <td>Active</td>
-          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-           <td><button class="btn-primary" style="padding:6px 12px;">Delete</button></td>
+        <td><button class="btn-primary edit-btn">Edit</button></td>
+        <td><button class="btn-primary delete-btn">Delete</button></td>
         </tr>
       </tbody>
     </table>
@@ -843,7 +843,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  if (window.lucide) lucide.createIcons();
+  if (window.lucide) {
+  lucide.createIcons();
+}
 
   const backBtn = document.getElementById('backButton');
   backBtn?.addEventListener('click', e => {
@@ -893,39 +895,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const deleteModal = document.getElementById('deleteModal');
   let currentRow = null;
 
-  document.querySelectorAll('.activity-table button:nth-child(1)').forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      currentRow = tableRows[index];
-      const cells = currentRow.querySelectorAll('td');
-      document.getElementById('editName').value = cells[0].innerText;
-      document.getElementById('editPosition').value = cells[1].innerText;
-      document.getElementById('editDepartment').value = cells[2].innerText;
-      document.getElementById('editStatus').value = cells[3].innerText;
-      openModal('editModal');
-    });
-  });
-
-  document.getElementById('editForm').addEventListener('submit', e => {
-    e.preventDefault();
+ document.querySelectorAll('.edit-btn').forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    currentRow = tableRows[index];
     const cells = currentRow.querySelectorAll('td');
-    cells[0].innerText = document.getElementById('editName').value;
-    cells[1].innerText = document.getElementById('editPosition').value;
-    cells[2].innerText = document.getElementById('editDepartment').value;
-    cells[3].innerText = document.getElementById('editStatus').value;
-    closeModal('editModal');
+    document.getElementById('editName').value = cells[0].innerText;
+    document.getElementById('editPosition').value = cells[1].innerText;
+    document.getElementById('editDepartment').value = cells[2].innerText;
+    document.getElementById('editStatus').value = cells[3].innerText;
+    openModal('editModal');
   });
+});
 
-  document.querySelectorAll('.activity-table button:nth-child(2)').forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      currentRow = tableRows[index];
-      openModal('deleteModal');
-    });
+document.querySelectorAll('.delete-btn').forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    currentRow = tableRows[index];
+    openModal('deleteModal');
   });
-
-  document.getElementById('confirmDelete').addEventListener('click', () => {
-    currentRow.remove();
-    closeModal('deleteModal');
-  });
+});
 
   window.openModal = id => document.getElementById(id).style.display = "flex";
   window.closeModal = id => document.getElementById(id).style.display = "none";
