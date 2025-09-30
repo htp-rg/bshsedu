@@ -672,9 +672,10 @@
                     <span>Dashboard</span>
                 </div>
             </div>
-            <div class="header-actions-section">
-                 <a href="#" class="btn btn-primary"><i data-lucide="plus" class="icon"></i> Add New Book</a>
-            </div>
+          <div class="header-actions-section">
+  <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
+    <i data-lucide="arrow-left" class="icon"></i> Back
+  </a>
         </div>
 
         <div class="content-wrapper">
@@ -736,7 +737,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.lucide) {
         lucide.createIcons();
     }
-
+  
+const backBtn = document.getElementById('backButton');
+    backBtn?.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.history.back();
+    });
+  
     const toggleButton = document.getElementById('sidebarToggle');
     const body = document.body;
     toggleButton?.addEventListener('click', () => {
