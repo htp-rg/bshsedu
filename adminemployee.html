@@ -672,66 +672,102 @@
       </a>
     </div>
   </div>  
-    <div class="content-block" style="margin-top:30px;">
-      <h2>Employee Records</h2>
-       <button class="btn btn-primary">Generate Report</button>
-      <button class="btn btn-primary">Export</button>
-      <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-        <input type="text" placeholder="🔍 Search employees..." 
-               style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-        <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <option>Department</option>
-          <option>Academics</option>
-          <option>HR</option>
-          <option>Library</option>
-        </select>
+<div class="content-wrapper">
+    <div class="dashboard-container">
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>120</h3>
+          <p>Total Employees</p>
+        </div>
+        <i data-lucide="user" class="stat-card-icon icon-books"></i>
       </div>
 
-      <table class="activity-table">
-        <thead>
-          <tr>
-            <th>Employee Name</th>
-            <th>Position</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Juan Dela Cruz</td>
-            <td>Teacher</td>
-            <td>Academics</td>
-            <td>Active</td>
-            <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          </tr>
-          <tr>
-            <td>Maria Santos</td>
-            <td>Admin Staff</td>
-            <td>HR</td>
-            <td>Inactive</td>
-            <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          </tr>
-          <tr>
-            <td>Jose Reyes</td>
-            <td>Librarian</td>
-            <td>Library</td>
-            <td>Onboarding</td>
-            <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          </tr>
-          <tr>
-            <td>Ana Lopez</td>
-            <td>Teacher</td>
-            <td>Academics</td>
-            <td>Active</td>
-            <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>Active</h3>
+          <p>Employees</p>
+        </div>
+        <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>5</h3>
+          <p>Onboarding</p>
+        </div>
+        <i data-lucide="check-circle" class="stat-card-icon icon-loan"></i>
+      </div>
+
+      <div class="stat-card alert">
+        <div class="stat-card-info">
+          <h3>12</h3>
+          <p>Avg. Rating</p>
+        </div>
+        <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
+      </div>
     </div>
+  <div class="content-block" style="margin-top:30px;">
+    <h2>Employee Records</h2>
+
+    <div style="margin-bottom:15px; display:flex; gap:10px;">
+      <button class="btn btn-primary">Generate Report</button>
+      <button class="btn btn-primary">Export</button>
+    </div>
+
+    <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
+      <input type="text" placeholder="🔍 Search employees..." 
+             style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+        <option>Department</option>
+        <option>Academics</option>
+        <option>HR</option>
+        <option>Library</option>
+      </select>
+    </div>
+
+    <table class="activity-table">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Position</th>
+          <th>Department</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Juan Dela Cruz</td>
+          <td>Teacher</td>
+          <td>Academics</td>
+          <td>Active</td>
+          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Maria Santos</td>
+          <td>Admin Staff</td>
+          <td>HR</td>
+          <td>Inactive</td>
+          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Jose Reyes</td>
+          <td>Librarian</td>
+          <td>Library</td>
+          <td>Onboarding</td>
+          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Ana Lopez</td>
+          <td>Teacher</td>
+          <td>Academics</td>
+          <td>Active</td>
+          <td><button class="btn-primary" style="padding:6px 12px;">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </main>
-  
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
