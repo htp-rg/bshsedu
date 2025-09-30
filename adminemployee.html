@@ -885,7 +885,22 @@
      const modalExportBtn = document.getElementById('modalExportBtn');
      const reportArea = document.getElementById('reportArea');
 
-  const reportModal = new bootstrap.Modal(document.getElementById('reportModal'));
+  const reportModalEl = document.getElementById('reportModal');
+const reportModal = new bootstrap.Modal(reportModalEl, {
+  backdrop: true, 
+  keyboard: true
+});
+
+reportModalEl.addEventListener('click', (e) => {
+  if (e.target === reportModalEl) {
+    reportModal.hide();
+  }
+});
+
+generateBtn.addEventListener('click', () => {
+  reportArea.value = sampleReport();
+  reportModal.show();
+});
 
       function filterTable() {
         const searchValue = searchInput.value.toLowerCase();
