@@ -1000,7 +1000,13 @@
 <script>
 lucide.createIcons();
 
+// ------------------ Selectors ------------------
 const tbody = document.querySelector(".activity-table tbody");
+const addBtn = document.getElementById("addBtn");
+const closeAdd = document.getElementById("closeAdd");
+const saveAdd = document.getElementById("saveAdd");
+const exportBtn = document.getElementById("exportBtn"); // Make sure this exists
+
 let editRow = null;
 
 // ------------------ LocalStorage Functions ------------------
@@ -1019,7 +1025,10 @@ function saveTableToLocalStorage() {
 
 function loadTableFromLocalStorage() {
   const data = JSON.parse(localStorage.getItem("recruitmentRecords") || "[]");
+  console.log("Loaded data:", data); // Debug
+
   tbody.innerHTML = "";
+
   data.forEach(record => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -1036,87 +1045,13 @@ function loadTableFromLocalStorage() {
       </td>
     `;
     tbody.appendChild(tr);
-    lucide.createIcons();
     attachRowEvents(tr);
   });
-}
 
-// Load table on page load
-window.addEventListener("load", loadTableFromLocalStorage);
-
-// ------------------ Modal Functions ------------------
-function openModal(modalId) {
-  document.getElementById(modalId).style.display = 'flex';
-}
-
-function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
-}
-
-// ------------------ Add Record ------------------
-const addBtn = document.getElementById("addBtn");
-const closeAdd = document.getElementById("closeAdd");
-const saveAdd = document.getElementById("saveAdd");
-
-addBtn.addEventListener("click", () => openModal("addModal"));
-closeAdd.addEventListener("click", () => closeModal("addModal"));
-
-saveAdd.addEventListener("click", () => {
-  const name = document.getElementById("addName").value.trim();
-  const dept = document.getElementById("addDept").value;
-  const pos = document.getElementById("addPosition").value.trim();
-  const date = document.getElementById("addDate").value;
-  const status = document.getElementById("addStatus").value;
-  const result = document.getElementById("addResult").value;
-
-  if (!name || !pos) return alert("Fill all fields!");
-
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${dept}</td>
-    <td>${name}</td>
-    <td>${pos}</td>
-    <td>${date}</td>
-    <td>${status}</td>
-    <td>${result}</td>
-    <td>
-      <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-      <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-      <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-    </td>
-  `;
-  tbody.appendChild(tr);
   lucide.createIcons();
-  attachRowEvents(tr);
-  saveTableToLocalStorage(); // Save to localStorage
+}
 
-  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
-  closeModal("addModal");
-});
-
-// ------------------ Edit Record ------------------
-const closeEdit = document.getElementById("closeEdit");
-const saveEdit = document.getElementById("saveEdit");
-
-closeEdit.addEventListener("click", () => closeModal("editModal"));
-
-saveEdit.addEventListener("click", () => {
-  if (!editRow) return;
-  editRow.children[0].innerText = document.getElementById("editDept").value;
-  editRow.children[1].innerText = document.getElementById("editName").value;
-  editRow.children[2].innerText = document.getElementById("editPosition").value;
-  editRow.children[3].innerText = document.getElementById("editDate").value;
-  editRow.children[4].innerText = document.getElementById("editStatus").value;
-  editRow.children[5].innerText = document.getElementById("editResult").value;
-  saveTableToLocalStorage(); // Save to localStorage
-  closeModal("editModal");
-});
-
-// ------------------ View Record ------------------
-const closeView = document.getElementById("closeView");
-closeView.addEventListener("click", () => closeModal("viewModal"));
-
-// ------------------ Attach Row Events ------------------
+// ------------------ Row Event Attachments ------------------
 function attachRowEvents(row) {
   const viewBtn = row.querySelector(".view-btn");
   const editBtn = row.querySelector(".edit-btn");
@@ -1146,33 +1081,70 @@ function attachRowEvents(row) {
   deleteBtn.addEventListener("click", () => {
     if (confirm("Delete this record?")) {
       row.remove();
-      saveTableToLocalStorage(); // Save to localStorage
+      saveTableToLocalStorage();
     }
   });
 }
 
-document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
-
-// ------------------ Search & Filter ------------------
-const searchInput = document.querySelector('.search-filter input');
-const deptSelect = document.querySelector('.search-filter select');
-
-function filterTable() {
-  const searchText = searchInput.value.toLowerCase();
-  const selectedDept = deptSelect.value;
-
-  tbody.querySelectorAll('tr').forEach(row => {
-    const name = row.children[1].innerText.toLowerCase();
-    const dept = row.children[0].innerText;
-    const matchesSearch = name.includes(searchText);
-    const matchesDept = selectedDept === "Department" || dept === selectedDept;
-
-    row.style.display = matchesSearch && matchesDept ? "" : "none";
-  });
+// ------------------ Modal Helpers ------------------
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'flex';
+}
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
 }
 
-searchInput.addEventListener('input', filterTable);
-deptSelect.addEventListener('change', filterTable);
+// ------------------ Add Record ------------------
+addBtn.addEventListener("click", () => openModal("addModal"));
+closeAdd.addEventListener("click", () => closeModal("addModal"));
+
+saveAdd.addEventListener("click", () => {
+  const name = document.getElementById("addName").value.trim();
+  const dept = document.getElementById("addDept").value;
+  const pos = document.getElementById("addPosition").value.trim();
+  const date = document.getElementById("addDate").value;
+  const status = document.getElementById("addStatus").value;
+  const result = document.getElementById("addResult").value;
+
+  if (!name || !pos) return alert("Fill all fields!");
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${dept}</td>
+    <td>${name}</td>
+    <td>${pos}</td>
+    <td>${date}</td>
+    <td>${status}</td>
+    <td>${result}</td>
+    <td>
+      <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+      <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+      <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+    </td>
+  `;
+  tbody.appendChild(tr);
+  attachRowEvents(tr);
+  lucide.createIcons();
+  saveTableToLocalStorage();
+
+  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
+  closeModal("addModal");
+});
+
+// ------------------ Edit Record ------------------
+document.getElementById("saveEdit").addEventListener("click", () => {
+  if (!editRow) return;
+  editRow.children[0].innerText = document.getElementById("editDept").value;
+  editRow.children[1].innerText = document.getElementById("editName").value;
+  editRow.children[2].innerText = document.getElementById("editPosition").value;
+  editRow.children[3].innerText = document.getElementById("editDate").value;
+  editRow.children[4].innerText = document.getElementById("editStatus").value;
+  editRow.children[5].innerText = document.getElementById("editResult").value;
+  saveTableToLocalStorage();
+  closeModal("editModal");
+});
+
+document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 
 // ------------------ Export CSV ------------------
 exportBtn.addEventListener("click", () => {
@@ -1189,83 +1161,11 @@ exportBtn.addEventListener("click", () => {
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", "recruitment_records.csv");
-  document.body.appendChild(link); // Required for Firefox
+  document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link); // Clean up
-});
-  
-// ------------------ Job Modal LocalStorage ------------------
-function saveJobToLocalStorage() {
-  const title = document.getElementById("jobTitle").value;
-  const description = document.getElementById("jobDescription").value;
-  const location = document.getElementById("jobLocation").value;
-  const salary = document.getElementById("jobSalary").value;
-  const requirements = [...document.querySelectorAll(".requirementInput")]
-                        .map(i => i.value)
-                        .filter(v => v.trim() !== "");
-
-  const jobData = { title, description, location, salary, requirements };
-  localStorage.setItem("jobFormData", JSON.stringify(jobData));
-}
-
-function loadJobFromLocalStorage() {
-  const jobData = JSON.parse(localStorage.getItem("jobFormData") || "{}");
-  if (!jobData.title) return;
-
-  document.getElementById("jobTitle").value = jobData.title || "";
-  document.getElementById("jobDescription").value = jobData.description || "";
-  document.getElementById("jobLocation").value = jobData.location || "";
-  document.getElementById("jobSalary").value = jobData.salary || "";
-
-  // Clear current requirements list
-  reqList.innerHTML = "";
-  if (jobData.requirements && jobData.requirements.length) {
-    jobData.requirements.forEach(req => addRequirementItem(req));
-  }
-}
-
-// Load job form data on page load
-window.addEventListener("load", loadJobFromLocalStorage);
-
-// ------------------ Job Modal Events ------------------
-addReqBtn.addEventListener("click", () => {
-  addRequirementItem();
-  saveJobToLocalStorage(); // save after adding input
+  document.body.removeChild(link);
 });
 
-// Save job data
-document.getElementById("saveJobBtn").addEventListener("click", () => {
-  const title = document.getElementById("jobTitle").value;
-  const description = document.getElementById("jobDescription").value;
-  const location = document.getElementById("jobLocation").value;
-  const salary = document.getElementById("jobSalary").value;
-  const requirements = [...document.querySelectorAll(".requirementInput")]
-                        .map(i => i.value).filter(v => v.trim() !== "");
-  console.log({ title, description, location, salary, requirements });
-  closeModal("jobModal");
-
-  // Clear localStorage after saving if you want to reset
-  localStorage.removeItem("jobFormData");
-
-  document.getElementById("jobTitle").value = "";
-  document.getElementById("jobDescription").value = "";
-  document.getElementById("jobLocation").value = "";
-  document.getElementById("jobSalary").value = "";
-  reqList.innerHTML = "";
-});
-
-// Update localStorage whenever input changes
-document.getElementById("jobTitle").addEventListener("input", saveJobToLocalStorage);
-document.getElementById("jobDescription").addEventListener("input", saveJobToLocalStorage);
-document.getElementById("jobLocation").addEventListener("input", saveJobToLocalStorage);
-document.getElementById("jobSalary").addEventListener("input", saveJobToLocalStorage);
-reqList.addEventListener("input", saveJobToLocalStorage);
-  
-// ------------------ Sidebar Toggle ------------------
-const sidebarToggle = document.getElementById("sidebarToggle");
-const body = document.body;
-
-sidebarToggle.addEventListener("click", () => {
-  body.classList.toggle("sidebar-collapsed");
-});
+// ------------------ Initialize ------------------
+window.addEventListener("load", loadTableFromLocalStorage);
 </script>
