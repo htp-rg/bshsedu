@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1003,9 +1004,15 @@ lucide.createIcons();
 const tbody = document.querySelector(".activity-table tbody");
 let editRow = null;
 
-// --- LOCAL STORAGE ---
-function saveTableToStorage() {
-  const rows = [...tbody.querySelectorAll("tr")].map(row => ({
+// Load data from localStorage
+function loadData() {
+  const data = JSON.parse(localStorage.getItem("recruitmentRecords") || "[]");
+  tbody.innerHTML = "";
+  data.forEach(record => addRow(record));
+}
+
+function saveData() {
+  const records = [...tbody.querySelectorAll("tr")].map(row => ({
     dept: row.children[0].innerText,
     name: row.children[1].innerText,
     position: row.children[2].innerText,
@@ -1013,24 +1020,18 @@ function saveTableToStorage() {
     status: row.children[4].innerText,
     result: row.children[5].innerText
   }));
-  localStorage.setItem("activityTableData", JSON.stringify(rows));
+  localStorage.setItem("recruitmentRecords", JSON.stringify(records));
 }
 
-function loadTableFromStorage() {
-  const data = JSON.parse(localStorage.getItem("activityTableData") || "[]");
-  data.forEach(item => addRow(item));
-}
-
-// --- ADD ROW ---
-function addRow(item) {
+function addRow({ dept, name, position, date, status, result }) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <td>${item.dept}</td>
-    <td>${item.name}</td>
-    <td>${item.position}</td>
-    <td>${item.date}</td>
-    <td>${item.status}</td>
-    <td>${item.result}</td>
+    <td>${dept}</td>
+    <td>${name}</td>
+    <td>${position}</td>
+    <td>${date}</td>
+    <td>${status}</td>
+    <td>${result}</td>
     <td>
       <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
       <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
@@ -1040,28 +1041,22 @@ function addRow(item) {
   tbody.appendChild(tr);
   lucide.createIcons();
   attachRowEvents(tr);
-  gsap.from(tr, { opacity: 0, y: -20, duration: 0.4 });
+  saveData();
 }
 
-// --- MODAL ---
-function openModal(id) {
-  const modal = document.getElementById(id);
-  modal.style.display = "flex";
-  gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-}
+// Modal functions
+function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => {
-    modal.style.display = "none";
-    if (id === "editModal") editRow = null;
-  }});
-}
+// Add New Recruit
+const addBtn = document.getElementById("addBtn");
+const closeAdd = document.getElementById("closeAdd");
+const saveAdd = document.getElementById("saveAdd");
 
-// --- ADD RECORD ---
-document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
-document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
-document.getElementById("saveAdd").addEventListener("click", () => {
+addBtn.addEventListener("click", () => openModal("addModal"));
+closeAdd.addEventListener("click", () => closeModal("addModal"));
+
+saveAdd.addEventListener("click", () => {
   const name = document.getElementById("addName").value.trim();
   const dept = document.getElementById("addDept").value;
   const pos = document.getElementById("addPosition").value.trim();
@@ -1071,15 +1066,17 @@ document.getElementById("saveAdd").addEventListener("click", () => {
 
   if (!name || !pos) return alert("Fill all fields!");
   addRow({ dept, name, position: pos, date, status, result });
-  saveTableToStorage();
 
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
 
-// --- EDIT RECORD ---
-document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
-document.getElementById("saveEdit").addEventListener("click", () => {
+// Edit Recruit
+const closeEdit = document.getElementById("closeEdit");
+const saveEdit = document.getElementById("saveEdit");
+closeEdit.addEventListener("click", () => closeModal("editModal"));
+
+saveEdit.addEventListener("click", () => {
   if (!editRow) return;
   editRow.children[0].innerText = document.getElementById("editDept").value;
   editRow.children[1].innerText = document.getElementById("editName").value;
@@ -1087,16 +1084,21 @@ document.getElementById("saveEdit").addEventListener("click", () => {
   editRow.children[3].innerText = document.getElementById("editDate").value;
   editRow.children[4].innerText = document.getElementById("editStatus").value;
   editRow.children[5].innerText = document.getElementById("editResult").value;
-  saveTableToStorage();
+  saveData();
   closeModal("editModal");
 });
 
-// --- VIEW RECORD ---
-document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
+// View Recruit
+const closeView = document.getElementById("closeView");
+closeView.addEventListener("click", () => closeModal("viewModal"));
 
-// --- ATTACH EVENTS ---
+// Row Events
 function attachRowEvents(row) {
-  row.querySelector(".view-btn").addEventListener("click", () => {
+  const viewBtn = row.querySelector(".view-btn");
+  const editBtn = row.querySelector(".edit-btn");
+  const deleteBtn = row.querySelector(".delete-btn");
+
+  viewBtn.addEventListener("click", () => {
     document.getElementById("viewDept").innerText = row.children[0].innerText;
     document.getElementById("viewName").innerText = row.children[1].innerText;
     document.getElementById("viewPosition").innerText = row.children[2].innerText;
@@ -1106,7 +1108,7 @@ function attachRowEvents(row) {
     openModal("viewModal");
   });
 
-  row.querySelector(".edit-btn").addEventListener("click", () => {
+  editBtn.addEventListener("click", () => {
     editRow = row;
     document.getElementById("editDept").value = row.children[0].innerText;
     document.getElementById("editName").value = row.children[1].innerText;
@@ -1117,50 +1119,100 @@ function attachRowEvents(row) {
     openModal("editModal");
   });
 
-  row.querySelector(".delete-btn").addEventListener("click", () => {
-    if (!confirm("Delete this record?")) return;
-    gsap.to(row, { opacity: 0, y: 20, duration: 0.3, onComplete: () => {
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Delete this record?")) {
       row.remove();
-      saveTableToStorage();
-    }});
+      saveData();
+    }
   });
 }
 
-// --- SEARCH & FILTER ---
+// Filter functionality
 const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
+
 function filterTable() {
   const searchText = searchInput.value.toLowerCase();
-  const selectedDept = deptSelect.value.toLowerCase();
-  tbody.querySelectorAll("tr").forEach(row => {
+  const selectedDept = deptSelect.value;
+
+  tbody.querySelectorAll('tr').forEach(row => {
     const name = row.children[1].innerText.toLowerCase();
-    const dept = row.children[0].innerText.toLowerCase();
-    const show = name.includes(searchText) && (selectedDept === "department" || dept === selectedDept);
-    row.style.display = show ? "" : "none";
+    const dept = row.children[0].innerText;
+    const matchesSearch = name.includes(searchText);
+    const matchesDept = selectedDept === "Department" || dept === selectedDept;
+    row.style.display = matchesSearch && matchesDept ? "" : "none";
   });
 }
-searchInput.addEventListener("input", filterTable);
-deptSelect.addEventListener("change", filterTable);
 
-// --- EXPORT CSV ---
-document.getElementById("exportBtn").addEventListener("click", () => {
-  let csv = "data:text/csv;charset=utf-8,";
-  tbody.querySelectorAll("tr:not([style*='display: none'])").forEach(row => {
-    const cols = row.querySelectorAll("td");
-    csv += Array.from(cols).map(c => `"${c.innerText}"`).join(",") + "\r\n";
+searchInput.addEventListener('input', filterTable);
+deptSelect.addEventListener('change', filterTable);
+
+// Job Position modal
+const generateBtn = document.getElementById("generateBtn");
+generateBtn.addEventListener("click", () => openModal("jobModal"));
+
+const addReqBtn = document.getElementById("addReqBtn");
+const reqList = document.getElementById("requirementsList");
+
+function addRequirementItem(value = "") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "requirement-item";
+  wrapper.style.display = "flex";
+  wrapper.style.gap = "8px";
+  wrapper.style.marginBottom = "5px";
+  wrapper.innerHTML = `
+    <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement" value="${value}">
+    <button type="button" class="btn-secondary removeReqBtn">✖</button>
+  `;
+  wrapper.querySelector(".removeReqBtn").addEventListener("click", () => wrapper.remove());
+  reqList.appendChild(wrapper);
+}
+addReqBtn.addEventListener("click", () => addRequirementItem());
+
+document.getElementById("saveJobBtn").addEventListener("click", () => {
+  const title = document.getElementById("jobTitle").value;
+  const description = document.getElementById("jobDescription").value;
+  const location = document.getElementById("jobLocation").value;
+  const salary = document.getElementById("jobSalary").value;
+  const requirements = [...document.querySelectorAll(".requirementInput")].map(i => i.value).filter(v => v.trim() !== "");
+  console.log({ title, description, location, salary, requirements });
+  closeModal("jobModal");
+
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("jobDescription").value = "";
+  document.getElementById("jobLocation").value = "";
+  document.getElementById("jobSalary").value = "";
+  reqList.innerHTML = "";
+});
+
+// Export CSV
+const exportBtn = document.getElementById("exportBtn");
+exportBtn.addEventListener("click", () => {
+  let csvContent = "data:text/csv;charset=utf-8,";
+  const rows = document.querySelectorAll(".activity-table tr");
+  rows.forEach(row => {
+      const cols = row.querySelectorAll("td, th");
+      const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
+      csvContent += rowData + "\r\n";
   });
+  const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
-  link.setAttribute("href", encodeURI(csv));
+  link.setAttribute("href", encodedUri);
   link.setAttribute("download", "recruitment_records.csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 
-// --- SIDEBAR & BACK ---
-document.getElementById("sidebarToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
+// Sidebar toggle
+const sidebarToggle = document.getElementById("sidebarToggle");
+const body = document.body;
+sidebarToggle.addEventListener("click", () => {
+  body.classList.toggle("sidebar-collapsed");
+});
+
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
-// --- INITIALIZE ---
-loadTableFromStorage();
+// Load localStorage data on page load
+loadData();
 </script>
