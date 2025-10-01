@@ -863,65 +863,54 @@
     </div>
   </main>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) lucide.createIcons();
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.lucide) lucide.createIcons();
 
-      document.getElementById('backButton')?.addEventListener('click', e => {
-        e.preventDefault();
-        window.history.back();
-      });
+  document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+    document.body.classList.toggle('sidebar-collapsed');
+  });
 
-      document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-        document.body.classList.toggle('sidebar-collapsed');
-      });
+  document.getElementById('backButton')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.history.back();
+  });
 
-      gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
-      gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
-      gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
+  gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
+  gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
+  gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
 
-      const searchInput = document.querySelector('.search-filter input');
-      const departmentSelect = document.querySelector('.search-filter select');
-      const tableRows = document.querySelectorAll('.activity-table tbody tr');
-   const generateBtn = document.getElementById('generateBtn');
-const modalExportBtn = document.getElementById('modalExportBtn');
-const reportArea = document.getElementById('reportArea');
-const reportModal = document.getElementById('reportModal');
+  const searchInput = document.querySelector('.search-filter input');
+  const departmentSelect = document.querySelector('.search-filter select');
+  const tableRows = document.querySelectorAll('.activity-table tbody tr');
 
-reportModalEl.addEventListener('click', (e) => {
-  if (e.target === reportModalEl) {
-    reportModal.hide();
+  function filterTable() {
+    const searchValue = searchInput.value.toLowerCase();
+    const departmentValue = departmentSelect.value;
+
+    tableRows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      const name = cells[0].innerText.toLowerCase();
+      const position = cells[1].innerText.toLowerCase();
+      const department = cells[2].innerText;
+      const status = cells[3].innerText.toLowerCase();
+
+      const matchesSearch = name.includes(searchValue) || position.includes(searchValue) || department.toLowerCase().includes(searchValue) || status.includes(searchValue);
+      const matchesDepartment = departmentValue === "Department" || department === departmentValue;
+
+      row.style.display = (matchesSearch && matchesDepartment) ? "" : "none";
+    });
   }
-});
 
-generateBtn.addEventListener('click', () => {
-  reportArea.value = sampleReport();
-  reportModal.show();
-});
+  searchInput.addEventListener('keyup', filterTable);
+  departmentSelect.addEventListener('change', filterTable);
 
-      function filterTable() {
-        const searchValue = searchInput.value.toLowerCase();
-        const departmentValue = departmentSelect.value;
+  const generateBtn = document.getElementById('generateBtn');
+  const modalExportBtn = document.getElementById('modalExportBtn');
+  const reportArea = document.getElementById('reportArea');
 
-        tableRows.forEach(row => {
-          const cells = row.querySelectorAll('td');
-          const name = cells[0].innerText.toLowerCase();
-          const position = cells[1].innerText.toLowerCase();
-          const department = cells[2].innerText;
-          const status = cells[3].innerText.toLowerCase();
-
-          const matchesSearch = name.includes(searchValue) || position.includes(searchValue) || department.toLowerCase().includes(searchValue) || status.includes(searchValue);
-          const matchesDepartment = departmentValue === "Department" || department === departmentValue;
-
-          row.style.display = (matchesSearch && matchesDepartment) ? "" : "none";
-        });
-      }
-
-      searchInput.addEventListener('keyup', filterTable);
-      departmentSelect.addEventListener('change', filterTable);
-
-const sampleReport = () => `
+  const sampleReport = () => `
 Company: ABC Corporation
 Department: Sales
 Report Date: ${new Date().toLocaleDateString()}
@@ -943,91 +932,39 @@ All targets for the month are on track. Focus on increasing new client acquisiti
 Generated on: ${new Date().toLocaleString()}
 `;
 
-// Open modal and populate report
-generateBtn.addEventListener('click', () => {
-  reportArea.value = sampleReport();
-  openModal('reportModal');
-});
-
-// Export functionality
-modalExportBtn.addEventListener('click', () => {
-  const content = reportArea.value.trim();
-  if (!content) {
-    alert('Report is empty!');
-    return;
-  }
-  const blob = new Blob([content], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'report.txt';
-  a.click();
-  URL.revokeObjectURL(url);
-});
-
-// Modal open/close functions
-function openModal(id) {
-  const modal = document.getElementById(id);
-  modal.style.display = 'flex';
-
-  // Exit on backdrop click
-  modal.addEventListener('click', function onClickOutside(event) {
-    if (event.target === modal) {
-      closeModal(id);
-      modal.removeEventListener('click', onClickOutside);
-    }
-  });
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  modal.style.display = 'none';
-}
-
-  document.getElementById('generateBtn').addEventListener('click', () => {
-    document.getElementById('reportArea').value = "Generated Report Content...";
+  generateBtn.addEventListener('click', () => {
+    reportArea.value = sampleReport();
     openModal('reportModal');
   });
 
-      document.querySelectorAll('.edit-btn').forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-          currentRow = tableRows[index];
-          const cells = currentRow.querySelectorAll('td');
+  modalExportBtn.addEventListener('click', () => {
+    const content = reportArea.value.trim();
+    if (!content) {
+      alert('Report is empty!');
+      return;
+    }
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 
-          document.getElementById('editName').value = cells[0].innerText;
-          document.getElementById('editPosition').value = cells[1].innerText;
-          document.getElementById('editDepartment').value = cells[2].innerText;
-          document.getElementById('editStatus').value = cells[3].innerText;
-
-          openModal('editModal');
-        });
-      });
-
-      document.querySelectorAll('.delete-btn').forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-          currentRow = tableRows[index];
-          openModal('deleteModal');
-        });
-      });
-
-      document.getElementById('saveEdit').addEventListener('click', () => {
-        if (currentRow) {
-          currentRow.querySelectorAll('td')[0].innerText = document.getElementById('editName').value;
-          currentRow.querySelectorAll('td')[1].innerText = document.getElementById('editPosition').value;
-          currentRow.querySelectorAll('td')[2].innerText = document.getElementById('editDepartment').value;
-          currentRow.querySelectorAll('td')[3].innerText = document.getElementById('editStatus').value;
-        }
-        closeModal('editModal');
-      });
-
-      document.getElementById('confirmDelete').addEventListener('click', () => {
-        if (currentRow) {
-          currentRow.remove();
-          currentRow = null;
-        }
-        closeModal('deleteModal');
-      });
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = 'flex';
+    modal.addEventListener('click', function onBackdrop(e) {
+      if (e.target === modal) {
+        closeModal(id);
+        modal.removeEventListener('click', onBackdrop);
+      }
     });
-  </script>
-</body>
-</html>
+  }
+  window.closeModal = function(id) {
+    document.getElementById(id).style.display = 'none';
+  };
+
+});
+</script>
