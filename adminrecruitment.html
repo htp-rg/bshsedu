@@ -883,15 +883,22 @@
 
     <label>Status</label>
     <select id="empStatus">
-      <option>Pending</option>
+      <option>Pending Review</option>
+      <option>Application Review</option>
       <option>Interviewing</option>
+      <option>Interview Completed</option>
+    </select>
+
+    <label>Result</label>
+    <select id="empResult">
+      <option>Pending</option>
       <option>Accepted</option>
       <option>Rejected</option>
     </select>
 
     <div class="modal-actions">
       <button class="btn-secondary" id="closeModal">Cancel</button>
-      <button class="btn-primary" id="saveEmployee">Save</button>
+      <button class="btn btn-primary" id="saveRecruit">Save</button>
     </div>
   </div>
 </div>
@@ -959,243 +966,63 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.back();
   });
 
-  gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
-  gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
-  gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
+  const addModal = document.getElementById("addModal");
+  const addBtn = document.getElementById("addBtn");
+  const closeModal = document.getElementById("closeModal");
+  const saveRecruit = document.getElementById("saveRecruit");
+  const tableBody = document.querySelector(".activity-table tbody");
 
-  const searchInput = document.querySelector('.search-filter input');
-  const departmentSelect = document.querySelector('.search-filter select');
-  const tbody = document.querySelector('.activity-table tbody');
-
-  function saveTable() {
-    const data = [];
-    tbody.querySelectorAll('tr').forEach(tr => {
-      const tds = tr.querySelectorAll('td');
-      data.push({
-        name: tds[0].innerText,
-        position: tds[1].innerText,
-        department: tds[2].innerText,
-        status: tds[3].innerText
-      });
-    });
-    localStorage.setItem("employeeData", JSON.stringify(data));
-  }
-if (!localStorage.getItem("employeeData")) {
-  const defaultData = [
-    { name: "Juan Dela Cruz", position: "Teacher", department: "Academics", status: "Active" },
-    { name: "Maria Santos", position: "Admin Staff", department: "HR", status: "Inactive" },
-    { name: "Jose Reyes", position: "Librarian", department: "Library", status: "Onboarding" },
-    { name: "Ana Lopez", position: "Teacher", department: "Academics", status: "Active" }
-  ];
-  localStorage.setItem("employeeData", JSON.stringify(defaultData));
-}
-  function loadTable() {
-    const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
-    tbody.innerHTML = "";
-    data.forEach(emp => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${emp.name}</td>
-        <td>${emp.position}</td>
-        <td>${emp.department}</td>
-        <td>${emp.status}</td>
-        <td>
-          <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button>
-          <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-    attachRowEvents();
-    if (window.lucide) lucide.createIcons();
-  }
-
-  function filterTable() {
-    const searchValue = searchInput.value.toLowerCase();
-    const departmentValue = departmentSelect.value;
-    const rows = tbody.querySelectorAll('tr');
-
-    rows.forEach(row => {
-      const cells = row.querySelectorAll('td');
-      const name = cells[0].innerText.toLowerCase();
-      const position = cells[1].innerText.toLowerCase();
-      const department = cells[2].innerText;
-      const status = cells[3].innerText.toLowerCase();
-
-      const matchesSearch = name.includes(searchValue) || position.includes(searchValue) || department.toLowerCase().includes(searchValue) || status.includes(searchValue);
-      const matchesDepartment = departmentValue === "Department" || department === departmentValue;
-
-      row.style.display = (matchesSearch && matchesDepartment) ? "" : "none";
-    });
-  }
-
-  searchInput.addEventListener('keyup', filterTable);
-  departmentSelect.addEventListener('change', filterTable);
-
-  const generateBtn = document.getElementById('generateBtn');
-  const modalExportBtn = document.getElementById('modalExportBtn');
-  const reportArea = document.getElementById('reportArea');
-
-  const sampleReport = () => `
-Company: ABC Corporation
-Department: Sales
-Report Date: ${new Date().toLocaleDateString()}
-
-Sales Summary:
-----------------------------------------
-1. Total Sales: $12,450
-2. New Clients: 5
-3. Pending Orders: 3
-
-Top Performers:
-- John Doe: $4,500
-- Jane Smith: $3,200
-- Mike Johnson: $2,750
-
-Remarks:
-All targets for the month are on track. Focus on increasing new client acquisition for next month.
-----------------------------------------
-Generated on: ${new Date().toLocaleString()}
-`;
-
-  generateBtn.addEventListener('click', () => {
-    reportArea.value = sampleReport();
-    openModal('reportModal');
-  });
-
-  modalExportBtn.addEventListener('click', () => {
-    const content = reportArea.value.trim();
-    if (!content) {
-      alert('Report is empty!');
-      return;
-    }
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'report.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  let currentRow = null;
-
-  function attachRowEvents() {
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.onclick = () => {
-        currentRow = btn.closest('tr');
-        document.getElementById('editName').value = currentRow.children[0].innerText;
-        document.getElementById('editPosition').value = currentRow.children[1].innerText;
-        document.getElementById('editDepartment').value = currentRow.children[2].innerText;
-        document.getElementById('editStatus').value = currentRow.children[3].innerText;
-        openModal('editModal');
-      };
-    });
-
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.onclick = () => {
-        currentRow = btn.closest('tr');
-        openModal('deleteModal');
-      };
-    });
-  }
-
-  document.getElementById('saveEdit').addEventListener('click', () => {
-    if (currentRow) {
-      currentRow.children[0].innerText = document.getElementById('editName').value;
-      currentRow.children[1].innerText = document.getElementById('editPosition').value;
-      currentRow.children[2].innerText = document.getElementById('editDepartment').value;
-      currentRow.children[3].innerText = document.getElementById('editStatus').value;
-      saveTable();
-      closeModal('editModal');
-    }
-  });
-
-  document.getElementById('confirmDelete').addEventListener('click', () => {
-    if (currentRow) {
-      currentRow.remove();
-      saveTable();
-      currentRow = null;
-      closeModal('deleteModal');
-    }
-  });
-
-  document.getElementById('exportBtn').addEventListener('click', () => {
-    let csv = [];
-    const rows = document.querySelectorAll(".activity-table tr");
-    rows.forEach(row => {
-      let cols = row.querySelectorAll("td, th");
-      let rowData = [];
-      cols.forEach(col => rowData.push(col.innerText));
-      csv.push(rowData.join(","));
-    });
-
-    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "employees.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  function openModal(id) {
-    const modal = document.getElementById(id);
-    modal.style.display = 'flex';
-    modal.addEventListener('click', function onBackdrop(e) {
-      if (e.target === modal) {
-        closeModal(id);
-        modal.removeEventListener('click', onBackdrop);
-      }
-    });
-  }
-
-  window.closeModal = function(id) {
-    document.getElementById(id).style.display = 'none';
+  // Open modal
+  addBtn.onclick = () => {
+    addModal.style.display = "flex";
   };
 
-  loadTable();
-const addEmployeeBtn = document.getElementById('addBtn');
-  const saveAddBtn = document.getElementById('saveAdd');
+  // Close modal
+  closeModal.onclick = () => {
+    addModal.style.display = "none";
+  };
 
-  addEmployeeBtn.addEventListener('click', () => {
-    openModal('addModal');
-  });
+  // Save recruit to table
+  saveRecruit.onclick = () => {
+    const name = document.getElementById("empName").value;
+    const dept = document.getElementById("empDept").value;
+    const pos = document.getElementById("empPosition").value;
+    const status = document.getElementById("empStatus").value;
+    const result = document.getElementById("empResult").value;
 
-  saveAddBtn.addEventListener('click', () => {
-    const name = document.getElementById('addName').value.trim();
-    const position = document.getElementById('addPosition').value.trim();
-    const department = document.getElementById('addDepartment').value.trim();
-    const status = document.getElementById('addStatus').value;
-
-    if (!name || !position || !department) {
-      alert("Please fill in all fields!");
+    if (!name || !pos) {
+      alert("Please complete the form!");
       return;
     }
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${position}</td>
-      <td>${department}</td>
-      <td>${status}</td>
-      <td>
-        <button class="edit-btn"><i data-lucide="edit"></i></button>
-        <button class="delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
+    const today = new Date().toLocaleDateString();
+
+    const newRow = `
+      <tr>
+        <td>${dept}</td>
+        <td>${name}</td>
+        <td>${pos}</td>
+        <td>${today}</td>
+        <td>${status}</td>
+        <td>${result}</td>
+        <td>
+          <button class="btn btn-primary view-btn">View</button>
+          <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+          <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+        </td>
+      </tr>
     `;
-    document.querySelector('.activity-table tbody').appendChild(tr);
 
+    tableBody.insertAdjacentHTML("beforeend", newRow);
+    lucide.createIcons(); // refresh icons
 
-    document.getElementById('addName').value = "";
-    document.getElementById('addPosition').value = "";
-    document.getElementById('addDepartment').value = "";
-    document.getElementById('addStatus').value = "Active";
+    addModal.style.display = "none"; // close modal
+  };
 
-    attachRowEvents();  
-    saveTable();        
-    if (window.lucide) lucide.createIcons();
-    closeModal('addModal');
-  });
-});
+  // Close modal when clicking outside
+  window.onclick = (e) => {
+    if (e.target == addModal) {
+      addModal.style.display = "none";
+    }
+  };
 </script>
