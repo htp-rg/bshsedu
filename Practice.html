@@ -1192,7 +1192,74 @@ exportBtn.addEventListener("click", () => {
   link.click();
   document.body.removeChild(link);
 });
+<script>
+// ------------------ Job Modal LocalStorage ------------------
+function saveJobToLocalStorage() {
+  const title = document.getElementById("jobTitle").value;
+  const description = document.getElementById("jobDescription").value;
+  const location = document.getElementById("jobLocation").value;
+  const salary = document.getElementById("jobSalary").value;
+  const requirements = [...document.querySelectorAll(".requirementInput")]
+                        .map(i => i.value)
+                        .filter(v => v.trim() !== "");
 
+  const jobData = { title, description, location, salary, requirements };
+  localStorage.setItem("jobFormData", JSON.stringify(jobData));
+}
+
+function loadJobFromLocalStorage() {
+  const jobData = JSON.parse(localStorage.getItem("jobFormData") || "{}");
+  if (!jobData.title) return;
+
+  document.getElementById("jobTitle").value = jobData.title || "";
+  document.getElementById("jobDescription").value = jobData.description || "";
+  document.getElementById("jobLocation").value = jobData.location || "";
+  document.getElementById("jobSalary").value = jobData.salary || "";
+
+  // Clear current requirements list
+  reqList.innerHTML = "";
+  if (jobData.requirements && jobData.requirements.length) {
+    jobData.requirements.forEach(req => addRequirementItem(req));
+  }
+}
+
+// Load job form data on page load
+window.addEventListener("load", loadJobFromLocalStorage);
+
+// ------------------ Job Modal Events ------------------
+addReqBtn.addEventListener("click", () => {
+  addRequirementItem();
+  saveJobToLocalStorage(); // save after adding input
+});
+
+// Save job data
+document.getElementById("saveJobBtn").addEventListener("click", () => {
+  const title = document.getElementById("jobTitle").value;
+  const description = document.getElementById("jobDescription").value;
+  const location = document.getElementById("jobLocation").value;
+  const salary = document.getElementById("jobSalary").value;
+  const requirements = [...document.querySelectorAll(".requirementInput")]
+                        .map(i => i.value).filter(v => v.trim() !== "");
+  console.log({ title, description, location, salary, requirements });
+  closeModal("jobModal");
+
+  // Clear localStorage after saving if you want to reset
+  localStorage.removeItem("jobFormData");
+
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("jobDescription").value = "";
+  document.getElementById("jobLocation").value = "";
+  document.getElementById("jobSalary").value = "";
+  reqList.innerHTML = "";
+});
+
+// Update localStorage whenever input changes
+document.getElementById("jobTitle").addEventListener("input", saveJobToLocalStorage);
+document.getElementById("jobDescription").addEventListener("input", saveJobToLocalStorage);
+document.getElementById("jobLocation").addEventListener("input", saveJobToLocalStorage);
+document.getElementById("jobSalary").addEventListener("input", saveJobToLocalStorage);
+reqList.addEventListener("input", saveJobToLocalStorage);
+  
 // ------------------ Sidebar Toggle ------------------
 const sidebarToggle = document.getElementById("sidebarToggle");
 const body = document.body;
