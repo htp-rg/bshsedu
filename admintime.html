@@ -953,9 +953,20 @@ lucide.createIcons();
 const tbody = document.querySelector(".activity-table tbody");
 let editRowIndex = null;
 
-// Load saved data from localStorage
-let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || "[]");
+// Initial data (can be saved in localStorage)
+let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || `[
+  { "name": "Juan Dela Cruz", "date": "Sep 8", "checkIn": "8:10 AM", "checkOut": "5:30 PM", "status": "On Time" },
+  { "name": "Maria Santos", "date": "Sep 9", "checkIn": "8:00 AM", "checkOut": "5:45 PM", "status": "On Time" },
+  { "name": "Jose Reyes", "date": "Sep 10", "checkIn": "8:30 AM", "checkOut": "5:15 PM", "status": "Late" },
+  { "name": "Ana Lopez", "date": "Sep 11", "checkIn": "8:15 AM", "checkOut": "5:25 PM", "status": "Pending" }
+]`);
 
+// Save to localStorage
+function saveData() {
+  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
+}
+
+// Render table dynamically
 function renderTable() {
   tbody.innerHTML = "";
   attendanceData.forEach((record, index) => {
@@ -978,15 +989,11 @@ function renderTable() {
   });
 }
 
-function saveData() {
-  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
-}
+// Modal helpers
+function openModal(id) { document.getElementById(id).style.display = "flex"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-// Modal functions
-function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
-
-// Add Modal
+// Add New Record
 document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
 document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
 
@@ -998,7 +1005,6 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   const status = document.getElementById("addStatus").value;
 
   if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
-
   attendanceData.push({ name, date, checkIn, checkOut, status });
   saveData();
   renderTable();
@@ -1007,9 +1013,8 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   closeModal("addModal");
 });
 
-// Edit Modal
+// Edit Record
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
-
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (editRowIndex === null) return;
   attendanceData[editRowIndex] = {
@@ -1021,13 +1026,14 @@ document.getElementById("saveEdit").addEventListener("click", () => {
   };
   saveData();
   renderTable();
-  closeModal("editModal");
   editRowIndex = null;
+  closeModal("editModal");
 });
 
-// View Modal
+// View Record
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
+// Attach buttons to each row
 function attachRowEvents(row, index) {
   const viewBtn = row.querySelector(".view-btn");
   const editBtn = row.querySelector(".edit-btn");
