@@ -1004,7 +1004,6 @@ lucide.createIcons();
 const tbody = document.querySelector(".activity-table tbody");
 let editRow = null;
 
-// ------------------- ADD RECRUIT -------------------
 const addBtn = document.getElementById("addBtn");
 const closeAdd = document.getElementById("closeAdd");
 const saveAdd = document.getElementById("saveAdd");
@@ -1043,7 +1042,6 @@ saveAdd.addEventListener("click", () => {
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
 });
 
-// ------------------- EDIT RECRUIT -------------------
 const closeEdit = document.getElementById("closeEdit");
 const saveEdit = document.getElementById("saveEdit");
 
@@ -1059,7 +1057,6 @@ saveEdit.addEventListener("click", () => {
   closeModal("editModal");
 });
 
-// ------------------- VIEW RECRUIT -------------------
 const closeView = document.getElementById("closeView");
 closeView.addEventListener("click", () => closeModal("viewModal"));
 
@@ -1091,12 +1088,13 @@ document.getElementById("saveJobBtn").addEventListener("click", () => {
   const location = document.getElementById("jobLocation").value;
   const salary = document.getElementById("jobSalary").value;
   const requirements = [...document.querySelectorAll(".requirementInput")].map(i => i.value).filter(v => v.trim() !== "");
+  const closeEdit = document.getElementById("closeEdit");
+  const saveEdit = document.getElementById("saveEdit");
 
   console.log({ title, description, location, salary, requirements });
   closeModal("jobModal");
 });
 
-// ------------------- ROW BUTTON EVENTS -------------------
 function attachRowEvents(row) {
   const viewBtn = row.querySelector(".view-btn");
   const editBtn = row.querySelector(".edit-btn");
@@ -1128,12 +1126,10 @@ function attachRowEvents(row) {
   });
 }
 
-// Attach events to all existing rows
 document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
   const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
 
-// Filter function
 function filterTable() {
   const searchText = searchInput.value.toLowerCase();
   const selectedDept = deptSelect.value;
@@ -1153,21 +1149,18 @@ function filterTable() {
   });
 }
 
-// Attach events
 searchInput.addEventListener('input', filterTable);
 deptSelect.addEventListener('change', filterTable);
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
   }
 
-  // Close modal
   function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
   }
   const generateBtn = document.getElementById("generateBtn");
 generateBtn.addEventListener("click", () => openModal("jobModal"));
 
-// Export table to CSV
 const exportBtn = document.getElementById("exportBtn");
 exportBtn.addEventListener("click", () => {
     let csvContent = "data:text/csv;charset=utf-8,";
