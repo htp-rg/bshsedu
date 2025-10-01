@@ -1190,9 +1190,9 @@ exportBtn.addEventListener("click", () => {
   link.setAttribute("download", "recruitment_records.csv");
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
+  document.body.removeChild(link); // <-- completed
 });
-<script>
+  
 // ------------------ Job Modal LocalStorage ------------------
 function saveJobToLocalStorage() {
   const title = document.getElementById("jobTitle").value;
