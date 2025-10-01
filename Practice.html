@@ -998,54 +998,21 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-lucide.createIcons();
+         lucide.createIcons();
 
-const tbody = document.querySelector(".activity-table");
+const tbody = document.querySelector(".activity-table tbody");
 let editRow = null;
 
-// ------------------ LocalStorage Functions ------------------
-function saveTableToLocalStorage() {
-  const rows = [...tbody.querySelectorAll("tr")];
-  const data = rows.map(row => ({
-    dept: row.children[0].innerText,
-    name: row.children[1].innerText,
-    pos: row.children[2].innerText,
-    date: row.children[3].innerText,
-    status: row.children[4].innerText,
-    result: row.children[5].innerText
-  }));
-  localStorage.setItem("recruitmentRecords", JSON.stringify(data));
+
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'flex';
 }
 
-function loadTableFromLocalStorage() {
-  const data = JSON.parse(localStorage.getItem("recruitmentRecords") || "[]");
-  tbody.innerHTML = "";
-  data.forEach(record => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${record.dept}</td>
-      <td>${record.name}</td>
-      <td>${record.pos}</td>
-      <td>${record.date}</td>
-      <td>${record.status}</td>
-      <td>${record.result}</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-    attachRowEvents(tr);
-  });
-  lucide.createIcons();
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
 }
 
-// ------------------ Modal Functions ------------------
-function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
-// ------------------ Add Record ------------------
 const addBtn = document.getElementById("addBtn");
 const closeAdd = document.getElementById("closeAdd");
 const saveAdd = document.getElementById("saveAdd");
@@ -1080,13 +1047,11 @@ saveAdd.addEventListener("click", () => {
   tbody.appendChild(tr);
   lucide.createIcons();
   attachRowEvents(tr);
-  saveTableToLocalStorage(); // ✅ Save to localStorage
 
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
 
-// ------------------ Edit Record ------------------
 const closeEdit = document.getElementById("closeEdit");
 const saveEdit = document.getElementById("saveEdit");
 
@@ -1100,15 +1065,13 @@ saveEdit.addEventListener("click", () => {
   editRow.children[3].innerText = document.getElementById("editDate").value;
   editRow.children[4].innerText = document.getElementById("editStatus").value;
   editRow.children[5].innerText = document.getElementById("editResult").value;
-  saveTableToLocalStorage(); // ✅ Save changes
   closeModal("editModal");
 });
 
-// ------------------ View Record ------------------
 const closeView = document.getElementById("closeView");
 closeView.addEventListener("click", () => closeModal("viewModal"));
 
-// ------------------ Row Events ------------------
+
 function attachRowEvents(row) {
   const viewBtn = row.querySelector(".view-btn");
   const editBtn = row.querySelector(".edit-btn");
@@ -1136,14 +1099,12 @@ function attachRowEvents(row) {
   });
 
   deleteBtn.addEventListener("click", () => {
-    if (confirm("Delete this record?")) {
-      row.remove();
-      saveTableToLocalStorage(); // ✅ Save deletion
-    }
+    if (confirm("Delete this record?")) row.remove();
   });
 }
 
-// ------------------ Search & Filter ------------------
+document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
+
 const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
 
@@ -1164,7 +1125,6 @@ function filterTable() {
 searchInput.addEventListener('input', filterTable);
 deptSelect.addEventListener('change', filterTable);
 
-// ------------------ Job Modal ------------------
 const generateBtn = document.getElementById("generateBtn");
 generateBtn.addEventListener("click", () => openModal("jobModal"));
 
@@ -1197,6 +1157,7 @@ document.getElementById("saveJobBtn").addEventListener("click", () => {
   console.log({ title, description, location, salary, requirements });
   closeModal("jobModal");
 
+
   document.getElementById("jobTitle").value = "";
   document.getElementById("jobDescription").value = "";
   document.getElementById("jobLocation").value = "";
@@ -1204,7 +1165,6 @@ document.getElementById("saveJobBtn").addEventListener("click", () => {
   reqList.innerHTML = "";
 });
 
-// ------------------ Export CSV ------------------
 const exportBtn = document.getElementById("exportBtn");
 exportBtn.addEventListener("click", () => {
   let csvContent = "data:text/csv;charset=utf-8,";
@@ -1223,13 +1183,12 @@ exportBtn.addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
-// ------------------ Sidebar & Back ------------------
 const sidebarToggle = document.getElementById("sidebarToggle");
 const body = document.body;
-sidebarToggle.addEventListener("click", () => { body.classList.toggle("sidebar-collapsed"); });
+
+sidebarToggle.addEventListener("click", () => {
+  body.classList.toggle("sidebar-collapsed");
+});
 
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
-
-// ------------------ Initialize Table ------------------
-window.addEventListener("load", loadTableFromLocalStorage);
 </script>
