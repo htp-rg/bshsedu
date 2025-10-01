@@ -998,20 +998,31 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-         lucide.createIcons();
+lucide.createIcons();
 
 const tbody = document.querySelector(".activity-table tbody");
 let editRow = null;
 
-
-function openModal(modalId) {
-  document.getElementById(modalId).style.display = 'flex';
+function loadFromStorage() {
+  const recruits = JSON.parse(localStorage.getItem("recruitRecords")) || [];
+  tbody.innerHTML = "";
+  recruits.forEach(data => addRow(data, false));
 }
 
-function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
+function saveToStorage() {
+  const data = [...tbody.querySelectorAll("tr")].map(row => ({
+    dept: row.children[0].innerText,
+    name: row.children[1].innerText,
+    position: row.children[2].innerText,
+    date: row.children[3].innerText,
+    status: row.children[4].innerText,
+    result: row.children[5].innerText
+  }));
+  localStorage.setItem("recruitRecords", JSON.stringify(data));
 }
 
+function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
 const addBtn = document.getElementById("addBtn");
 const closeAdd = document.getElementById("closeAdd");
@@ -1020,21 +1031,12 @@ const saveAdd = document.getElementById("saveAdd");
 addBtn.addEventListener("click", () => openModal("addModal"));
 closeAdd.addEventListener("click", () => closeModal("addModal"));
 
-saveAdd.addEventListener("click", () => {
-  const name = document.getElementById("addName").value.trim();
-  const dept = document.getElementById("addDept").value;
-  const pos = document.getElementById("addPosition").value.trim();
-  const date = document.getElementById("addDate").value;
-  const status = document.getElementById("addStatus").value;
-  const result = document.getElementById("addResult").value;
-
-  if (!name || !pos) return alert("Fill all fields!");
-
+function addRow({dept, name, position, date, status, result}, save = true) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td>${dept}</td>
     <td>${name}</td>
-    <td>${pos}</td>
+    <td>${position}</td>
     <td>${date}</td>
     <td>${status}</td>
     <td>${result}</td>
@@ -1047,18 +1049,30 @@ saveAdd.addEventListener("click", () => {
   tbody.appendChild(tr);
   lucide.createIcons();
   attachRowEvents(tr);
+  if(save) saveToStorage();
+}
 
+saveAdd.addEventListener("click", () => {
+  const data = {
+    name: document.getElementById("addName").value.trim(),
+    dept: document.getElementById("addDept").value,
+    position: document.getElementById("addPosition").value.trim(),
+    date: document.getElementById("addDate").value,
+    status: document.getElementById("addStatus").value,
+    result: document.getElementById("addResult").value
+  };
+  if(!data.name || !data.position) return alert("Fill all fields!");
+  addRow(data);
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
 
 const closeEdit = document.getElementById("closeEdit");
 const saveEdit = document.getElementById("saveEdit");
-
 closeEdit.addEventListener("click", () => closeModal("editModal"));
 
 saveEdit.addEventListener("click", () => {
-  if (!editRow) return;
+  if(!editRow) return;
   editRow.children[0].innerText = document.getElementById("editDept").value;
   editRow.children[1].innerText = document.getElementById("editName").value;
   editRow.children[2].innerText = document.getElementById("editPosition").value;
@@ -1066,11 +1080,11 @@ saveEdit.addEventListener("click", () => {
   editRow.children[4].innerText = document.getElementById("editStatus").value;
   editRow.children[5].innerText = document.getElementById("editResult").value;
   closeModal("editModal");
+  saveToStorage();
 });
 
 const closeView = document.getElementById("closeView");
 closeView.addEventListener("click", () => closeModal("viewModal"));
-
 
 function attachRowEvents(row) {
   const viewBtn = row.querySelector(".view-btn");
@@ -1099,29 +1113,24 @@ function attachRowEvents(row) {
   });
 
   deleteBtn.addEventListener("click", () => {
-    if (confirm("Delete this record?")) row.remove();
+    if(confirm("Delete this record?")) {
+      row.remove();
+      saveToStorage();
+    }
   });
 }
-
-document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
 
 const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
-
 function filterTable() {
   const searchText = searchInput.value.toLowerCase();
   const selectedDept = deptSelect.value;
-
   tbody.querySelectorAll('tr').forEach(row => {
     const name = row.children[1].innerText.toLowerCase();
     const dept = row.children[0].innerText;
-    const matchesSearch = name.includes(searchText);
-    const matchesDept = selectedDept === "Department" || dept === selectedDept;
-
-    row.style.display = matchesSearch && matchesDept ? "" : "none";
+    row.style.display = (name.includes(searchText) && (selectedDept === "Department" || dept === selectedDept)) ? "" : "none";
   });
 }
-
 searchInput.addEventListener('input', filterTable);
 deptSelect.addEventListener('change', filterTable);
 
@@ -1144,19 +1153,20 @@ function addRequirementItem(value = "") {
   wrapper.querySelector(".removeReqBtn").addEventListener("click", () => wrapper.remove());
   reqList.appendChild(wrapper);
 }
-
 addReqBtn.addEventListener("click", () => addRequirementItem());
 
 document.getElementById("saveJobBtn").addEventListener("click", () => {
-  const title = document.getElementById("jobTitle").value;
-  const description = document.getElementById("jobDescription").value;
-  const location = document.getElementById("jobLocation").value;
-  const salary = document.getElementById("jobSalary").value;
-  const requirements = [...document.querySelectorAll(".requirementInput")]
-                        .map(i => i.value).filter(v => v.trim() !== "");
-  console.log({ title, description, location, salary, requirements });
+  const jobs = JSON.parse(localStorage.getItem("jobPositions")) || [];
+  const job = {
+    title: document.getElementById("jobTitle").value,
+    description: document.getElementById("jobDescription").value,
+    location: document.getElementById("jobLocation").value,
+    salary: document.getElementById("jobSalary").value,
+    requirements: [...document.querySelectorAll(".requirementInput")].map(i=>i.value).filter(v=>v.trim()!=="")
+  };
+  jobs.push(job);
+  localStorage.setItem("jobPositions", JSON.stringify(jobs));
   closeModal("jobModal");
-
 
   document.getElementById("jobTitle").value = "";
   document.getElementById("jobDescription").value = "";
@@ -1183,12 +1193,13 @@ exportBtn.addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
+
 const sidebarToggle = document.getElementById("sidebarToggle");
 const body = document.body;
-
-sidebarToggle.addEventListener("click", () => {
-  body.classList.toggle("sidebar-collapsed");
-});
+sidebarToggle.addEventListener("click", () => body.classList.toggle("sidebar-collapsed"));
 
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
+
+loadFromStorage();
+document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
 </script>
