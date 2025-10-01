@@ -760,6 +760,7 @@
   <button class="btn btn-primary" id="exportBtn">Export</button>
   <button class="btn btn-primary" id="addBtn">Add Employee</button>
 </div>
+    
 <div id="addModal" class="modal">
   <div class="modal-content">
     <h2>Add Employee</h2>
@@ -778,8 +779,9 @@
       <button id="saveAdd">Save</button>
       <button onclick="closeModal('addModal')">Cancel</button>
     </div>
-  </div>
+ </div>
 </div>
+    
 <div id="reportModal" class="modal">
   <div class="modal-content">
     <h2>Generated Report</h2>
@@ -1088,7 +1090,7 @@ Generated on: ${new Date().toLocaleString()}
   };
 
   loadTable();
-const addEmployeeBtn = document.getElementById('addEmployeeBtn');
+const addEmployeeBtn = document.getElementById('addBtn');
   const saveAddBtn = document.getElementById('saveAdd');
 
   addEmployeeBtn.addEventListener('click', () => {
