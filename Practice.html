@@ -1175,24 +1175,29 @@ document.getElementById("saveJobBtn").addEventListener("click", () => {
   reqList.innerHTML = "";
 });
 
-const exportBtn = document.getElementById("exportBtn");
-exportBtn.addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,";
-  const rows = document.querySelectorAll(".activity-table tr");
-  rows.forEach(row => {
-      const cols = row.querySelectorAll("td, th");
-      const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-      csvContent += rowData + "\r\n";
+xportBtn.addEventListener("click", () => {
+  const rows = [
+    ["Department", "Candidate Name", "Position", "Submitted", "Application Status", "Result"]
+  ];
+
+  tbody.querySelectorAll("tr").forEach(tr => {
+    const row = Array.from(tr.children)
+      .slice(0, 6) // exclude Actions column
+      .map(td => td.innerText);
+    rows.push(row);
   });
-  const encodedUri = encodeURI(csvContent);
+
+  const csvContent = rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
+  link.setAttribute("href", url);
   link.setAttribute("download", "recruitment_records.csv");
+  link.style.display = "none";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
-
 
 const sidebarToggle = document.getElementById("sidebarToggle");
 const body = document.body;
