@@ -1080,7 +1080,7 @@ function addRequirementItem(value = "") {
 
 addReqBtn.addEventListener("click", () => addRequirementItem());
 
-document.getElementById("saveJob").addEventListener("click", () => {
+document.getElementById("saveJobBtn").addEventListener("click", () => {
     const title = document.getElementById("jobTitle").value;
     const description = document.getElementById("jobDescription").value;
     const location = document.getElementById("jobLocation").value;
@@ -1178,6 +1178,7 @@ exportBtn.addEventListener("click", () => {
 });
 
 const sidebarToggle = document.getElementById("sidebarToggle");
+
 sidebarToggle.addEventListener("click", () => {
   document.body.classList.toggle("sidebar-collapsed");
 });
