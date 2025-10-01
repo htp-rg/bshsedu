@@ -951,180 +951,159 @@
 lucide.createIcons();
 
 const tbody = document.querySelector(".activity-table tbody");
-let editRow = null;
+let editRowIndex = null;
 
-// Load table from localStorage
-function loadTable() {
-    const savedData = JSON.parse(localStorage.getItem("attendanceRecords") || "[]");
-    tbody.innerHTML = "";
-    savedData.forEach(record => addTableRow(record, false));
-}
+// Load saved data from localStorage
+let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || "[]");
 
-// Save table to localStorage
-function saveTable() {
-    const data = [];
-    tbody.querySelectorAll("tr").forEach(row => {
-        const cells = row.children;
-        data.push({
-            name: cells[0].innerText,
-            date: cells[1].innerText,
-            checkIn: cells[2].innerText,
-            checkOut: cells[3].innerText,
-            status: cells[4].innerText
-        });
-    });
-    localStorage.setItem("attendanceRecords", JSON.stringify(data));
-}
-
-// Add row helper
-function addTableRow(record, save = true) {
+function renderTable() {
+  tbody.innerHTML = "";
+  attendanceData.forEach((record, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-        <td>${record.name}</td>
-        <td>${record.date}</td>
-        <td>${record.checkIn}</td>
-        <td>${record.checkOut}</td>
-        <td>${record.status}</td>
-        <td>
-            <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-            <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-            <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-        </td>
+      <td>${record.name}</td>
+      <td>${record.date}</td>
+      <td>${record.checkIn}</td>
+      <td>${record.checkOut}</td>
+      <td>${record.status}</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
     `;
     tbody.appendChild(tr);
     lucide.createIcons();
-    attachRowEvents(tr);
-    if (save) saveTable();
+    attachRowEvents(tr, index);
+  });
+}
+
+function saveData() {
+  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
 }
 
 // Modal functions
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
 function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
-// ADD
-const addBtn = document.getElementById("addBtn");
-const closeAdd = document.getElementById("closeAdd");
-const saveAdd = document.getElementById("saveAdd");
+// Add Modal
+document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
+document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
 
-addBtn.addEventListener("click", () => openModal("addModal"));
-closeAdd.addEventListener("click", () => closeModal("addModal"));
+document.getElementById("saveAdd").addEventListener("click", () => {
+  const name = document.getElementById("addName").value.trim();
+  const date = document.getElementById("addDate").value;
+  const checkIn = document.getElementById("addCheckIn").value;
+  const checkOut = document.getElementById("addCheckOut").value;
+  const status = document.getElementById("addStatus").value;
 
-saveAdd.addEventListener("click", () => {
-    const name = document.getElementById("addName").value.trim();
-    const date = document.getElementById("addDate").value;
-    const checkIn = document.getElementById("addCheckIn").value;
-    const checkOut = document.getElementById("addCheckOut").value;
-    const status = document.getElementById("addStatus").value;
+  if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
 
-    if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
+  attendanceData.push({ name, date, checkIn, checkOut, status });
+  saveData();
+  renderTable();
 
-    addTableRow({ name, date, checkIn, checkOut, status });
-
-    document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
-    closeModal("addModal");
+  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
+  closeModal("addModal");
 });
 
-// EDIT
-const closeEdit = document.getElementById("closeEdit");
-const saveEdit = document.getElementById("saveEdit");
+// Edit Modal
+document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 
-closeEdit.addEventListener("click", () => closeModal("editModal"));
-
-saveEdit.addEventListener("click", () => {
-    if (!editRow) return;
-    editRow.children[0].innerText = document.getElementById("editName").value;
-    editRow.children[1].innerText = document.getElementById("editDate").value;
-    editRow.children[2].innerText = document.getElementById("editCheckIn").value;
-    editRow.children[3].innerText = document.getElementById("editCheckOut").value;
-    editRow.children[4].innerText = document.getElementById("editStatus").value;
-    saveTable();
-    closeModal("editModal");
+document.getElementById("saveEdit").addEventListener("click", () => {
+  if (editRowIndex === null) return;
+  attendanceData[editRowIndex] = {
+    name: document.getElementById("editName").value,
+    date: document.getElementById("editDate").value,
+    checkIn: document.getElementById("editCheckIn").value,
+    checkOut: document.getElementById("editCheckOut").value,
+    status: document.getElementById("editStatus").value
+  };
+  saveData();
+  renderTable();
+  closeModal("editModal");
+  editRowIndex = null;
 });
 
-// VIEW
-const closeView = document.getElementById("closeView");
-closeView.addEventListener("click", () => closeModal("viewModal"));
+// View Modal
+document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
-// Attach row events
-function attachRowEvents(row) {
-    const viewBtn = row.querySelector(".view-btn");
-    const editBtn = row.querySelector(".edit-btn");
-    const deleteBtn = row.querySelector(".delete-btn");
+function attachRowEvents(row, index) {
+  const viewBtn = row.querySelector(".view-btn");
+  const editBtn = row.querySelector(".edit-btn");
+  const deleteBtn = row.querySelector(".delete-btn");
 
-    viewBtn.addEventListener("click", () => {
-        document.getElementById("viewName").innerText = row.children[0].innerText;
-        document.getElementById("viewDate").innerText = row.children[1].innerText;
-        document.getElementById("viewCheckIn").innerText = row.children[2].innerText;
-        document.getElementById("viewCheckOut").innerText = row.children[3].innerText;
-        document.getElementById("viewStatus").innerText = row.children[4].innerText;
-        openModal("viewModal");
-    });
+  viewBtn.addEventListener("click", () => {
+    const record = attendanceData[index];
+    document.getElementById("viewName").innerText = record.name;
+    document.getElementById("viewDate").innerText = record.date;
+    document.getElementById("viewCheckIn").innerText = record.checkIn;
+    document.getElementById("viewCheckOut").innerText = record.checkOut;
+    document.getElementById("viewStatus").innerText = record.status;
+    openModal("viewModal");
+  });
 
-    editBtn.addEventListener("click", () => {
-        editRow = row;
-        document.getElementById("editName").value = row.children[0].innerText;
-        document.getElementById("editDate").value = row.children[1].innerText;
-        document.getElementById("editCheckIn").value = row.children[2].innerText;
-        document.getElementById("editCheckOut").value = row.children[3].innerText;
-        document.getElementById("editStatus").value = row.children[4].innerText;
-        openModal("editModal");
-    });
+  editBtn.addEventListener("click", () => {
+    editRowIndex = index;
+    const record = attendanceData[index];
+    document.getElementById("editName").value = record.name;
+    document.getElementById("editDate").value = record.date;
+    document.getElementById("editCheckIn").value = record.checkIn;
+    document.getElementById("editCheckOut").value = record.checkOut;
+    document.getElementById("editStatus").value = record.status;
+    openModal("editModal");
+  });
 
-    deleteBtn.addEventListener("click", () => {
-        if (confirm("Delete this record?")) {
-            row.remove();
-            saveTable();
-        }
-    });
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Delete this record?")) {
+      attendanceData.splice(index, 1);
+      saveData();
+      renderTable();
+    }
+  });
 }
 
-// Search & Filter
+// Filter/Search
 const searchInput = document.querySelector('.search-filter input');
-const statusSelect = document.querySelector('.search-filter select');
+const filterSelect = document.querySelector('.search-filter select');
 
 function filterTable() {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedStatus = statusSelect.value;
+  const searchText = searchInput.value.toLowerCase();
+  const filterStatus = filterSelect.value;
 
-    tbody.querySelectorAll('tr').forEach(row => {
-        const name = row.children[0].innerText.toLowerCase();
-        const status = row.children[4].innerText;
-        const matchesSearch = name.includes(searchText);
-        const matchesStatus = selectedStatus === "Filter" || status === selectedStatus;
-        row.style.display = matchesSearch && matchesStatus ? "" : "none";
-    });
+  tbody.querySelectorAll('tr').forEach((row, i) => {
+    const record = attendanceData[i];
+    const matchesSearch = record.name.toLowerCase().includes(searchText);
+    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
+    row.style.display = matchesSearch && matchesStatus ? "" : "none";
+  });
 }
 
-searchInput.addEventListener('input', filterTable);
-statusSelect.addEventListener('change', filterTable);
+searchInput.addEventListener("input", filterTable);
+filterSelect.addEventListener("change", filterTable);
 
 // Export CSV
-const exportBtn = document.getElementById("exportBtn");
-exportBtn.addEventListener("click", () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    const rows = document.querySelectorAll(".activity-table tr");
-    rows.forEach(row => {
-        const cols = row.querySelectorAll("td, th");
-        const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-        csvContent += rowData + "\r\n";
-    });
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "attendance_records.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+document.getElementById("exportBtn").addEventListener("click", () => {
+  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
+  attendanceData.forEach(row => {
+    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "attendance_records.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 });
 
 // Sidebar toggle
 const sidebarToggle = document.getElementById("sidebarToggle");
-const body = document.body;
-sidebarToggle.addEventListener("click", () => body.classList.toggle("sidebar-collapsed"));
+sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
 
 // Back button
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
-// Initialize
-loadTable();
+// Initial render
+renderTable();
 </script>
