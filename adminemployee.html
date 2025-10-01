@@ -955,6 +955,63 @@ Generated on: ${new Date().toLocaleString()}
     URL.revokeObjectURL(url);
   });
 
+  let currentRow = null;
+
+  document.querySelectorAll('.edit-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentRow = btn.closest('tr');
+      document.getElementById('editName').value = currentRow.children[0].innerText;
+      document.getElementById('editPosition').value = currentRow.children[1].innerText;
+      document.getElementById('editDepartment').value = currentRow.children[2].innerText;
+      document.getElementById('editStatus').value = currentRow.children[3].innerText;
+      openModal('editModal');
+    });
+  });
+
+  document.getElementById('saveEdit').addEventListener('click', () => {
+    if (currentRow) {
+      currentRow.children[0].innerText = document.getElementById('editName').value;
+      currentRow.children[1].innerText = document.getElementById('editPosition').value;
+      currentRow.children[2].innerText = document.getElementById('editDepartment').value;
+      currentRow.children[3].innerText = document.getElementById('editStatus').value;
+      closeModal('editModal');
+    }
+  });
+
+  document.querySelectorAll('.delete-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentRow = btn.closest('tr');
+      openModal('deleteModal');
+    });
+  });
+
+  document.getElementById('confirmDelete').addEventListener('click', () => {
+    if (currentRow) {
+      currentRow.remove();
+      currentRow = null;
+      closeModal('deleteModal');
+    }
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    let csv = [];
+    const rows = document.querySelectorAll(".activity-table tr");
+    rows.forEach(row => {
+      let cols = row.querySelectorAll("td, th");
+      let rowData = [];
+      cols.forEach(col => rowData.push(col.innerText));
+      csv.push(rowData.join(","));
+    });
+
+    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "employees.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
   function openModal(id) {
     const modal = document.getElementById(id);
     modal.style.display = 'flex';
@@ -965,9 +1022,11 @@ Generated on: ${new Date().toLocaleString()}
       }
     });
   }
+
   window.closeModal = function(id) {
     document.getElementById(id).style.display = 'none';
   };
 
 });
+</script>
 </script>
