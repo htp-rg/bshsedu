@@ -769,7 +769,12 @@
     <label>Position</label>
     <input type="text" id="addPosition" placeholder="Enter position">
     <label>Department</label>
-    <input type="text" id="addDepartment" placeholder="Enter department">
+    <select id="addDepartment">
+      <option value="">Select Department</option>
+      <option value="Academics">Academics</option>
+      <option value="HR">HR</option>
+      <option value="Library">Library</option>
+    </select>
     <label>Status</label>
     <select id="addStatus">
       <option value="Active">Active</option>
@@ -779,8 +784,7 @@
       <button id="saveAdd">Save</button>
       <button onclick="closeModal('addModal')">Cancel</button>
     </div>
- </div>
-</div>
+  </div>
     
 <div id="reportModal" class="modal">
   <div class="modal-content">
