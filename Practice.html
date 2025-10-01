@@ -1190,37 +1190,26 @@ document.getElementById("saveJobBtn").addEventListener("click", () => {
     const location = document.getElementById("jobLocation").value.trim();
     const salary = document.getElementById("jobSalary").value.trim();
 
-    // Gather requirements
-    const requirements = [...document.querySelectorAll(".requirementInput")].map(input => input.value.trim()).filter(r => r !== "");
+    const requirements = [...document.querySelectorAll(".requirementInput")].map(input => input.value.trim()).filter(r => r);
 
     if (!title || !description || !location || !salary) {
-        return alert("Please fill out all required fields.");
+        return alert("Please fill in all job fields.");
     }
 
-    const jobData = {
-        title,
-        description,
-        location,
-        salary,
-        requirements
-    };
-
-    console.log("New Job Position:", jobData);
-
-    // Optionally, save to localStorage
-    let jobs = JSON.parse(localStorage.getItem("jobPositions") || "[]");
-    jobs.push(jobData);
+    // Example: add to localStorage (or you can send it to server)
+    const jobs = JSON.parse(localStorage.getItem("jobPositions") || "[]");
+    jobs.push({ title, description, location, salary, requirements });
     localStorage.setItem("jobPositions", JSON.stringify(jobs));
 
-    // Reset fields
+    // Reset form
     document.getElementById("jobTitle").value = "";
     document.getElementById("jobDescription").value = "";
     document.getElementById("jobLocation").value = "";
     document.getElementById("jobSalary").value = "";
-    reqList.innerHTML = "";
+    reqList.innerHTML = ""; // clear requirements
 
     closeModal("jobModal");
-    alert("Job position saved!");
+    alert("Job position saved successfully!");
 });
 // ====== EXPORT CSV ======
 document.getElementById("exportBtn").addEventListener("click", () => {
