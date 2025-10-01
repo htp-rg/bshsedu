@@ -972,22 +972,20 @@ closeAdd.addEventListener("click", () => closeModal("addModal"));
 
 saveAdd.addEventListener("click", () => {
   const name = document.getElementById("addName").value.trim();
-  const dept = document.getElementById("addDept").value;
-  const pos = document.getElementById("addPosition").value.trim();
   const date = document.getElementById("addDate").value;
+  const checkIn = document.getElementById("addCheckIn").value;
+  const checkOut = document.getElementById("addCheckOut").value;
   const status = document.getElementById("addStatus").value;
-  const result = document.getElementById("addResult").value;
 
-  if (!name || !pos) return alert("Fill all fields!");
+  if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
 
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <td>${dept}</td>
     <td>${name}</td>
-    <td>${pos}</td>
     <td>${date}</td>
+    <td>${checkIn}</td>
+    <td>${checkOut}</td>
     <td>${status}</td>
-    <td>${result}</td>
     <td>
       <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
       <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
@@ -1001,7 +999,7 @@ saveAdd.addEventListener("click", () => {
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
-
+  
 const closeEdit = document.getElementById("closeEdit");
 const saveEdit = document.getElementById("saveEdit");
 
