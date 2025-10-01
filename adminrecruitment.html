@@ -777,13 +777,13 @@
     </div>
     
  <div class="content-block" style="margin-top:50px;">
-        <h2>REcruitment Records</h2>
+        <h2>Recruitment Records</h2>
        <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
   <div style="display:flex; gap:10px;">
     <button class="btn btn-primary" id="generateBtn">Post Job</button>
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
-  <button class="btn btn-primary" id="addBtn">Add Employee</button>
+  <button class="btn btn-primary" id="addBtn">Add New Recruit</button>
 </div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
           <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
@@ -796,69 +796,78 @@
         </div>
 
        <div style="overflow-x:auto;">
-  <table class="activity-table">
-    <thead>
-      <tr>
-        <th>ID / Department</th>
-        <th>Candidate Name</th>
-        <th>Position</th>
-        <th>Submitted</th>
-        <th>Status </th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Academics</td>
-        <td>Antonio Remigio</td>
-        <td>Teacher</td>
-        <td>May 10, 2025</td>
-        <td>Accepted</td>
-        <td>Accepted</td>
-        <td><button class="btn btn-primary view-btn">View Details</button></td>
-        <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
-        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
-        </tr>
-        <tr>
-        <td>HR</td>
-        <td>Lisa Guillermo</td>
-        <td>Admin Staff</td>
-        <td>May 8, 2025</td>
-        <td>Interviewing</td>
-        <td>Rejected</td>
-        <td><button class="btn btn-primary view-btn">View Details</button></td>
-        <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
-        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
-        </tr>
-        <tr>
-        <td>Library</td>
-        <td>Daniel Riego</td>
-        <td>Librarian</td>
-        <td>May 9, 2025</td>
-        <td>Rejected</td>
-        <td>Pending</td>
-        <td><button class="btn btn-primary view-btn">View Details</button></td>
-        <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
-        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
-        </tr>
-        <tr>
-        <td>Academics</td>
-        <td>Sara Mendoza</td>
-        <td>Teacher</td>
-        <td>May 9, 2025</td>
-        <td>Pending</td>
-        <td>Pending</td>
-        <td><button class="btn btn-primary view-btn">View Details</button></td>
-        <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
-        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<table class="activity-table">
+  <thead>
+    <tr>
+      <th>Department</th>
+      <th>Candidate Name</th>
+      <th>Position</th>
+      <th>Submitted</th>
+      <th>Application Status</th>
+      <th>Result</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Academics</td>
+      <td>Antonio Remigio</td>
+      <td>Teacher</td>
+      <td>May 10, 2025</td>
+      <td>Interview Completed</td>
+      <td>Accepted</td>
+      <td>
+        <button class="btn btn-primary view-btn">View</button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>HR</td>
+      <td>Lisa Guillermo</td>
+      <td>Admin Staff</td>
+      <td>May 8, 2025</td>
+      <td>Interviewing</td>
+      <td>Pending</td>
+      <td>
+        <button class="btn btn-primary view-btn">View</button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>Library</td>
+      <td>Daniel Riego</td>
+      <td>Librarian</td>
+      <td>May 9, 2025</td>
+      <td>Application Review</td>
+      <td>Rejected</td>
+      <td>
+        <button class="btn btn-primary view-btn">View</button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>Academics</td>
+      <td>Sara Mendoza</td>
+      <td>Teacher</td>
+      <td>May 9, 2025</td>
+      <td>Pending Review</td>
+      <td>Pending</td>
+      <td>
+        <button class="btn btn-primary view-btn">View</button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 </main>
 <div id="addModal" class="modal">
   <div class="modal-content">
-    <h2>Add Employee</h2>
+    <h2>Add New Recruit</h2>
     <label>Name</label>
     <input type="text" id="empName">
 
