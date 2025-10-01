@@ -777,12 +777,13 @@
     
  <div class="content-block" style="margin-top:50px;">
         <h2>Employee Records</h2>
-        <div style="margin-bottom:15px; display:flex; gap:10px;">
-          <button class="btn btn-primary" id="generateBtn">Generate Report</button>
-          <button class="btn btn-primary" id="exportBtn">Export</button>
-          <button class="btn btn-primary" id="addBtn">Add Employee</button>
-        </div>
-
+       <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+  <div style="display:flex; gap:10px;">
+    <button class="btn btn-primary" id="generateBtn">Generate Report</button>
+    <button class="btn btn-primary" id="exportBtn">Export</button>
+  </div>
+  <button class="btn btn-primary" id="addBtn">Add Employee</button>
+</div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
           <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
           <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
