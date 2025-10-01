@@ -704,17 +704,20 @@
 </div>
     </nav>
 
-  <main class="main-content">
+<main class="main-content">
+  
   <div class="content-header">
     <div class="header-title-section">
       <h1>Employee Information & Records Management</h1>
+    </div>
     <div class="header-actions-section">
-  <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
-    <i data-lucide="arrow-left" class="icon"></i> Back
-  </a>
+      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
+        <i data-lucide="arrow-left" class="icon"></i> Back
+      </a>
+    </div>
   </div>
-        </div>
-        <div class="content-wrapper">
+
+  <div class="content-wrapper">
     <div class="dashboard-container">
       <div class="stat-card">
         <div class="stat-card-info">
@@ -748,7 +751,7 @@
         <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
       </div>
     </div>
-  </div> 
+    
   <div class="content-block" style="margin-top:30px;">
     <h2>Employee Records</h2>
 
@@ -779,18 +782,19 @@
       </select>
     </div>
 
-    <table class="activity-table">
-      <thead>
-        <tr>
-          <th>Employee Name</th>
-          <th>Position</th>
-          <th>Department</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
+   <div style="overflow-x:auto;">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Employee Name</th>
+              <th>Position</th>
+              <th>Department</th>
+              <th>Status</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
           <td>Juan Dela Cruz</td>
           <td>Teacher</td>
           <td>Academics</td>
