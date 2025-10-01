@@ -907,28 +907,45 @@
 
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h2>Edit Employee</h2>
-    <label>Name</label><input type="text" id="editName">
-    <label>Position</label><input type="text" id="editPosition">
-    <label>Department</label><input type="text" id="editDepartment">
-    <label>Status</label><select id="editStatus"><option>Active</option><option>Inactive</option></select>
+    <h2>Edit Recruit</h2>
+    <input type="hidden" id="editRowIndex">
+    <input type="text" id="editName" placeholder="Name">
+    <input type="text" id="editDept" placeholder="Department">
+    <input type="text" id="editPos" placeholder="Position">
+    <input type="text" id="editStatus" placeholder="Status">
+    <input type="text" id="editResult" placeholder="Result">
     <div class="modal-actions">
-      <button class="btn-primary" id="saveEdit">Save</button>
-      <button class="btn-secondary" onclick="closeModal('editModal')">Cancel</button>
+      <button onclick="closeModal('editModal')" class="btn-secondary">Cancel</button>
+      <button onclick="saveEdit()" class="btn-primary">Update</button>
+    </div>
+  </div>
+</div>
+
+<div id="viewModal" class="modal">
+  <div class="modal-content">
+    <h2>Recruit Details</h2>
+    <p><strong>Name:</strong> <span id="viewName"></span></p>
+    <p><strong>Department:</strong> <span id="viewDept"></span></p>
+    <p><strong>Position:</strong> <span id="viewPos"></span></p>
+    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+    <p><strong>Result:</strong> <span id="viewResult"></span></p>
+    <div class="modal-actions">
+      <button onclick="closeModal('viewModal')" class="btn-primary">Close</button>
     </div>
   </div>
 </div>
 
 <div id="deleteModal" class="modal">
   <div class="modal-content">
-    <h2>Confirm Delete</h2>
-    <p>Are you sure you want to delete this employee?</p>
+    <h2>Delete Recruit</h2>
+    <p>Are you sure you want to delete this recruit?</p>
     <div class="modal-actions">
-      <button class="btn-primary" id="confirmDelete">Yes</button>
-      <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+      <button onclick="closeModal('deleteModal')" class="btn-secondary">Cancel</button>
+      <button onclick="confirmDelete()" class="btn-primary">Delete</button>
     </div>
   </div>
 </div>
+
 
 <div id="postJobModal" class="modal">
   <div class="modal-content">
