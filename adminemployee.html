@@ -755,10 +755,10 @@
   <div class="content-block" style="margin-top:30px;">
     <h2>Employee Records</h2>
 
- <div style="margin-bottom:15px; display:flex; gap:10px;">
+<div style="margin-bottom:15px; display:flex; gap:10px;">
   <button class="btn btn-primary" id="generateBtn">Generate Report</button>
   <button class="btn btn-primary" id="exportBtn">Export</button>
-
+</div>
 
 <div id="reportModal" class="modal">
   <div class="modal-content">
@@ -767,7 +767,9 @@
     <div class="modal-actions">
       <button type="button" class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
       <button type="button" class="btn-primary" id="modalExportBtn">Export</button>
- 
+    </div>
+  </div>
+</div>
     <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
       <input type="text" placeholder="🔍 Search employees..." 
              style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
