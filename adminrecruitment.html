@@ -780,7 +780,7 @@
         <h2>Recruitment Records</h2>
        <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
   <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" id="generateBtn">Post Job</button>
+    <button class="btn btn-primary" id="generateBtn">New Job Position</button>
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
   <button class="btn btn-primary" id="addBtn">Add New Recruit</button>
@@ -964,15 +964,15 @@
   </div>
 </div>
 
-<div id="postJobModal" class="modal">
+<div id="jobModal" class="modal">
   <div class="modal-content">
-    <h2>Post a Job</h2>
+    <h2>New Job Position</h2>
     
     <label for="jobTitle">Job Title</label>
     <input type="text" id="jobTitle" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job title">
 
     <label for="jobDescription">Job Description</label>
-    <textarea id="jobDescription" style="width:100%; height:150px; margin-bottom:10px;" placeholder="Enter job description"></textarea>
+    <textarea id="jobDescription" style="width:100%; height:120px; margin-bottom:10px;" placeholder="Enter job description"></textarea>
     
     <label for="jobLocation">Location</label>
     <input type="text" id="jobLocation" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job location">
@@ -980,13 +980,22 @@
     <label for="jobSalary">Salary</label>
     <input type="text" id="jobSalary" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter salary range">
 
+    <label>Requirements</label>
+    <div id="requirementsList" style="margin-bottom:10px;">
+      <div class="requirement-item" style="display:flex; gap:8px; margin-bottom:5px;">
+        <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement">
+        <button type="button" class="btn-secondary removeReqBtn">✖</button>
+      </div>
+    </div>
+    <button type="button" class="btn-primary" id="addReqBtn" style="margin-bottom:15px;">+ Add Requirement</button>
+
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('postJobModal')">Cancel</button>
-      <button class="btn-primary" id="postJobBtn">Post Job</button>
+      <button class="btn-secondary" onclick="closeModal('jobModal')">Cancel</button>
+      <button class="btn-primary" id="saveJobBtn">Save Job</button>
     </div>
   </div>
 </div>
-
+         
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
@@ -1075,4 +1084,48 @@
   });
 
   document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
+   const reqList = document.getElementById("requirementsList");
+  const addReqBtn = document.getElementById("addReqBtn");
+
+  addReqBtn.addEventListener("click", () => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "requirement-item";
+    wrapper.style.display = "flex";
+    wrapper.style.gap = "8px";
+    wrapper.style.marginBottom = "5px";
+
+    wrapper.innerHTML = `
+      <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement">
+      <button type="button" class="btn-secondary removeReqBtn">✖</button>
+    `;
+
+    reqList.appendChild(wrapper);
+
+    wrapper.querySelector(".removeReqBtn").addEventListener("click", () => {
+      wrapper.remove();
+    });
+  });
+
+  document.getElementById("saveJobBtn").addEventListener("click", () => {
+    const title = document.getElementById("jobTitle").value;
+    const description = document.getElementById("jobDescription").value;
+    const location = document.getElementById("jobLocation").value;
+    const salary = document.getElementById("jobSalary").value;
+    const requirements = [...document.querySelectorAll(".requirementInput")].map(i => i.value).filter(v => v.trim() !== "");
+
+    console.log({
+      title,
+      description,
+      location,
+      salary,
+      requirements
+    });
+
+    closeModal("jobModal");
+  });
+
+
+  document.querySelectorAll(".removeReqBtn").forEach(btn => {
+    btn.addEventListener("click", () => btn.parentElement.remove());
+  });
 </script>
