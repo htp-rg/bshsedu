@@ -868,6 +868,7 @@
 <div id="addModal" class="modal">
   <div class="modal-content">
     <h2>Add New Recruit</h2>
+    
     <label>Name</label>
     <input type="text" id="empName">
 
@@ -881,12 +882,12 @@
     <label>Position</label>
     <input type="text" id="empPosition">
 
-    <label>Status</label>
+    <label>Application Status</label>
     <select id="empStatus">
       <option>Pending Review</option>
-      <option>Application Review</option>
       <option>Interviewing</option>
       <option>Interview Completed</option>
+      <option>Application Review</option>
     </select>
 
     <label>Result</label>
@@ -897,11 +898,12 @@
     </select>
 
     <div class="modal-actions">
-      <button class="btn-secondary" id="closeModal">Cancel</button>
-      <button class="btn btn-primary" id="saveRecruit">Save</button>
+      <button class="btn-secondary" id="cancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveBtn">Save</button>
     </div>
   </div>
 </div>
+
 
 <div id="editModal" class="modal">
   <div class="modal-content">
