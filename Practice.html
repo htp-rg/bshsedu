@@ -1186,19 +1186,42 @@ function addRequirementItem(value = "") {
 addReqBtn.addEventListener("click", () => addRequirementItem());
 document.getElementById("saveJobBtn").addEventListener("click", () => {
     const title = document.getElementById("jobTitle").value.trim();
-    const desc = document.getElementById("jobDescription").value.trim();
+    const description = document.getElementById("jobDescription").value.trim();
     const location = document.getElementById("jobLocation").value.trim();
     const salary = document.getElementById("jobSalary").value.trim();
-    const requirements = Array.from(document.querySelectorAll(".requirementInput"))
-                              .map(input => input.value.trim())
-                              .filter(v => v);
 
-    if(!title || !desc) return alert("Job Title and Description are required!");
+    // Gather requirements
+    const requirements = [...document.querySelectorAll(".requirementInput")].map(input => input.value.trim()).filter(r => r !== "");
 
-    console.log({title, desc, location, salary, requirements});
+    if (!title || !description || !location || !salary) {
+        return alert("Please fill out all required fields.");
+    }
+
+    const jobData = {
+        title,
+        description,
+        location,
+        salary,
+        requirements
+    };
+
+    console.log("New Job Position:", jobData);
+
+    // Optionally, save to localStorage
+    let jobs = JSON.parse(localStorage.getItem("jobPositions") || "[]");
+    jobs.push(jobData);
+    localStorage.setItem("jobPositions", JSON.stringify(jobs));
+
+    // Reset fields
+    document.getElementById("jobTitle").value = "";
+    document.getElementById("jobDescription").value = "";
+    document.getElementById("jobLocation").value = "";
+    document.getElementById("jobSalary").value = "";
+    reqList.innerHTML = "";
+
     closeModal("jobModal");
+    alert("Job position saved!");
 });
-
 // ====== EXPORT CSV ======
 document.getElementById("exportBtn").addEventListener("click", () => {
     let csvContent = "data:text/csv;charset=utf-8,";
