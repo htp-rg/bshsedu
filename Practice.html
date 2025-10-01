@@ -1021,7 +1021,7 @@ function loadTableFromStorage() {
   data.forEach(item => addRow(item));
 }
 
-// --- ADD ROW FUNCTION ---
+// --- ADD ROW ---
 function addRow(item) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
@@ -1040,19 +1040,22 @@ function addRow(item) {
   tbody.appendChild(tr);
   lucide.createIcons();
   attachRowEvents(tr);
-
-  // Animate row
   gsap.from(tr, { opacity: 0, y: -20, duration: 0.4 });
 }
 
 // --- MODAL ---
 function openModal(id) {
-  document.getElementById(id).style.display = "flex";
+  const modal = document.getElementById(id);
+  modal.style.display = "flex";
+  gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
 }
 
 function closeModal(id) {
-  document.getElementById(id).style.display = "none";
-  if (id === "editModal") editRow = null; // reset editRow on close
+  const modal = document.getElementById(id);
+  gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => {
+    modal.style.display = "none";
+    if (id === "editModal") editRow = null;
+  }});
 }
 
 // --- ADD RECORD ---
@@ -1070,7 +1073,6 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   addRow({ dept, name, position: pos, date, status, result });
   saveTableToStorage();
 
-  // reset inputs
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
@@ -1079,14 +1081,12 @@ document.getElementById("saveAdd").addEventListener("click", () => {
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (!editRow) return;
-
   editRow.children[0].innerText = document.getElementById("editDept").value;
   editRow.children[1].innerText = document.getElementById("editName").value;
   editRow.children[2].innerText = document.getElementById("editPosition").value;
   editRow.children[3].innerText = document.getElementById("editDate").value;
   editRow.children[4].innerText = document.getElementById("editStatus").value;
   editRow.children[5].innerText = document.getElementById("editResult").value;
-
   saveTableToStorage();
   closeModal("editModal");
 });
@@ -1129,7 +1129,6 @@ function attachRowEvents(row) {
 // --- SEARCH & FILTER ---
 const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
-
 function filterTable() {
   const searchText = searchInput.value.toLowerCase();
   const selectedDept = deptSelect.value.toLowerCase();
@@ -1140,7 +1139,6 @@ function filterTable() {
     row.style.display = show ? "" : "none";
   });
 }
-
 searchInput.addEventListener("input", filterTable);
 deptSelect.addEventListener("change", filterTable);
 
@@ -1166,4 +1164,3 @@ document.getElementById("backButton").addEventListener("click", () => window.his
 // --- INITIALIZE ---
 loadTableFromStorage();
 </script>
-
