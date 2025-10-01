@@ -1001,9 +1001,9 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
-});
-const tbody = document.querySelector(".activity-table");
-let editRow = null;
+    
+    const tbody = document.querySelector(".activity-table tbody");
+    loadTableFromLocal();
 
 // ====== LOCAL STORAGE ======
 function saveTableToLocal() {
