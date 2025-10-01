@@ -933,7 +933,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     localStorage.setItem("employeeData", JSON.stringify(data));
   }
-
+if (!localStorage.getItem("employeeData")) {
+  const defaultData = [
+    { name: "Juan Dela Cruz", position: "Teacher", department: "Academics", status: "Active" },
+    { name: "Maria Santos", position: "Admin Staff", department: "HR", status: "Inactive" },
+    { name: "Jose Reyes", position: "Librarian", department: "Library", status: "Onboarding" },
+    { name: "Ana Lopez", position: "Teacher", department: "Academics", status: "Active" }
+  ];
+  localStorage.setItem("employeeData", JSON.stringify(defaultData));
+}
   function loadTable() {
     const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
     tbody.innerHTML = "";
