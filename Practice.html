@@ -1134,5 +1134,31 @@ function attachRowEvents(row) {
 
 // Attach events to all existing rows
 document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
+  const searchInput = document.querySelector('.search-filter input');
+const deptSelect = document.querySelector('.search-filter select');
+
+// Filter function
+function filterTable() {
+  const searchText = searchInput.value.toLowerCase();
+  const selectedDept = deptSelect.value;
+
+  tbody.querySelectorAll('tr').forEach(row => {
+    const name = row.children[1].innerText.toLowerCase();
+    const dept = row.children[0].innerText;
+
+    const matchesSearch = name.includes(searchText);
+    const matchesDept = selectedDept === "Department" || dept === selectedDept;
+
+    if (matchesSearch && matchesDept) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+// Attach events
+searchInput.addEventListener('input', filterTable);
+deptSelect.addEventListener('change', filterTable);
 
 </script>
