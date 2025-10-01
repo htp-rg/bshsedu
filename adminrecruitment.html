@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Information & Records Management</title>
+  <title>Recruitment & Hiring</title>
 
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -732,7 +732,7 @@
   
   <div class="content-header">
     <div class="header-title-section">
-      <h1>Employee Information & Records Management</h1>
+      <h1>Recruitment & Hiring</h1>
     </div>
     <div class="header-actions-section">
       <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
@@ -746,41 +746,41 @@
       <div class="stat-card">
         <div class="stat-card-info">
           <h3>120</h3>
-          <p>Total Employees</p>
+          <p>Total Candidates</p>
         </div>
         <i data-lucide="user" class="stat-card-icon icon-books"></i>
       </div>
 
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>3</h3>
-          <p>Active Employees</p>
+          <h3>8</h3>
+          <p>Open Position</p>
         </div>
         <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
       </div>
 
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>5</h3>
-          <p>Onboarding</p>
+          <h3>85</h3>
+          <p>Application Received</p>
         </div>
         <i data-lucide="check-circle" class="stat-card-icon icon-loan"></i>
       </div>
       
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>12</h3>
-          <p>Avg. Rating</p>
+          <h3>28</h3>
+          <p>Pending Interviews</p>
         </div>
         <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
       </div>
     </div>
     
  <div class="content-block" style="margin-top:50px;">
-        <h2>Employee Records</h2>
+        <h2>REcruitment Records</h2>
        <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
   <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" id="generateBtn">Generate Report</button>
+    <button class="btn btn-primary" id="generateBtn">Post Job</button>
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
   <button class="btn btn-primary" id="addBtn">Add Employee</button>
@@ -795,47 +795,60 @@
           </select>
         </div>
 
-        <div style="overflow-x:auto;">
-          <table class="activity-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Department</th>
-                <th>Status</th>
-                <th colspan="2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-          <td>Juan Dela Cruz</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-           <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
-        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
-        </tr>
-        <tr>
-          <td>Maria Santos</td>
-          <td>Admin Staff</td>
-          <td>HR</td>
-          <td>Inactive</td>
+       <div style="overflow-x:auto;">
+  <table class="activity-table">
+    <thead>
+      <tr>
+        <th>ID / Department</th>
+        <th>Candidate Name</th>
+        <th>Position</th>
+        <th>Submitted</th>
+        <th>Status </th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Academics</td>
+        <td>Antonio Remigio</td>
+        <td>Teacher</td>
+        <td>May 10, 2025</td>
+        <td>Accepted</td>
+        <td>Accepted</td>
+        <td><button class="btn btn-primary view-btn">View Details</button></td>
         <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
         <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
         </tr>
         <tr>
-          <td>Jose Reyes</td>
-          <td>Librarian</td>
-          <td>Library</td>
-          <td>Onboarding</td>
+        <td>HR</td>
+        <td>Lisa Guillermo</td>
+        <td>Admin Staff</td>
+        <td>May 8, 2025</td>
+        <td>Interviewing</td>
+        <td>Rejected</td>
+        <td><button class="btn btn-primary view-btn">View Details</button></td>
         <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
         <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
         </tr>
         <tr>
-          <td>Ana Lopez</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
+        <td>Library</td>
+        <td>Daniel Riego</td>
+        <td>Librarian</td>
+        <td>May 9, 2025</td>
+        <td>Rejected</td>
+        <td>Pending</td>
+        <td><button class="btn btn-primary view-btn">View Details</button></td>
+        <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
+        <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
+        </tr>
+        <tr>
+        <td>Academics</td>
+        <td>Sara Mendoza</td>
+        <td>Teacher</td>
+        <td>May 9, 2025</td>
+        <td>Pending</td>
+        <td>Pending</td>
+        <td><button class="btn btn-primary view-btn">View Details</button></td>
         <td><button class="btn btn-primary edit-btn"><i data-lucide="edit"></i> Edit</button></td>
         <td><button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i> Delete</button></td>
         </tr>
@@ -847,24 +860,29 @@
   <div class="modal-content">
     <h2>Add Employee</h2>
     <label>Name</label>
-    <input type="text" id="addName" placeholder="Enter name">
-    <label>Position</label>
-    <input type="text" id="addPosition" placeholder="Enter position">
+    <input type="text" id="empName">
+
     <label>Department</label>
-    <select id="addDepartment">
-      <option value="">Select Department</option>
-      <option value="Academics">Academics</option>
-      <option value="HR">HR</option>
-      <option value="Library">Library</option>
+    <select id="empDept">
+      <option>Academics</option>
+      <option>HR</option>
+      <option>Library</option>
     </select>
+
+    <label>Position</label>
+    <input type="text" id="empPosition">
+
     <label>Status</label>
-    <select id="addStatus">
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
+    <select id="empStatus">
+      <option>Pending</option>
+      <option>Interviewing</option>
+      <option>Accepted</option>
+      <option>Rejected</option>
     </select>
+
     <div class="modal-actions">
-      <button class="btn-primary" id="saveAdd">Save</button>
-      <button class="btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn-secondary" id="closeModal">Cancel</button>
+      <button class="btn-primary" id="saveEmployee">Save</button>
     </div>
   </div>
 </div>
@@ -894,13 +912,25 @@
   </div>
 </div>
 
-<div id="reportModal" class="modal">
+<div id="postJobModal" class="modal">
   <div class="modal-content">
-    <h2>Generated Report</h2>
-    <textarea id="reportArea" style="width:100%; height:250px;"></textarea>
+    <h2>Post a Job</h2>
+    
+    <label for="jobTitle">Job Title</label>
+    <input type="text" id="jobTitle" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job title">
+
+    <label for="jobDescription">Job Description</label>
+    <textarea id="jobDescription" style="width:100%; height:150px; margin-bottom:10px;" placeholder="Enter job description"></textarea>
+    
+    <label for="jobLocation">Location</label>
+    <input type="text" id="jobLocation" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job location">
+
+    <label for="jobSalary">Salary</label>
+    <input type="text" id="jobSalary" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter salary range">
+
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
-      <button class="btn-primary" id="modalExportBtn">Export</button>
+      <button class="btn-secondary" onclick="closeModal('postJobModal')">Cancel</button>
+      <button class="btn-primary" id="postJobBtn">Post Job</button>
     </div>
   </div>
 </div>
