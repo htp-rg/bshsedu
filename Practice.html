@@ -998,10 +998,20 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-lucide.createIcons();
+         lucide.createIcons();
 
 const tbody = document.querySelector(".activity-table tbody");
 let editRow = null;
+
+
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'flex';
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
 
 const addBtn = document.getElementById("addBtn");
 const closeAdd = document.getElementById("closeAdd");
@@ -1011,9 +1021,9 @@ addBtn.addEventListener("click", () => openModal("addModal"));
 closeAdd.addEventListener("click", () => closeModal("addModal"));
 
 saveAdd.addEventListener("click", () => {
-  const name = document.getElementById("addName").value;
+  const name = document.getElementById("addName").value.trim();
   const dept = document.getElementById("addDept").value;
-  const pos = document.getElementById("addPosition").value;
+  const pos = document.getElementById("addPosition").value.trim();
   const date = document.getElementById("addDate").value;
   const status = document.getElementById("addStatus").value;
   const result = document.getElementById("addResult").value;
@@ -1036,15 +1046,17 @@ saveAdd.addEventListener("click", () => {
   `;
   tbody.appendChild(tr);
   lucide.createIcons();
-  attachRowEvents(tr); 
-  closeModal("addModal");
+  attachRowEvents(tr);
+
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
+  closeModal("addModal");
 });
 
 const closeEdit = document.getElementById("closeEdit");
 const saveEdit = document.getElementById("saveEdit");
 
 closeEdit.addEventListener("click", () => closeModal("editModal"));
+
 saveEdit.addEventListener("click", () => {
   if (!editRow) return;
   editRow.children[0].innerText = document.getElementById("editDept").value;
@@ -1059,39 +1071,6 @@ saveEdit.addEventListener("click", () => {
 const closeView = document.getElementById("closeView");
 closeView.addEventListener("click", () => closeModal("viewModal"));
 
-const addReqBtn = document.getElementById("addReqBtn");
-const reqList = document.getElementById("requirementsList");
-
-function addRequirementItem(value = "") {
-  const wrapper = document.createElement("div");
-  wrapper.className = "requirement-item";
-  wrapper.style.display = "flex";
-  wrapper.style.gap = "8px";
-  wrapper.style.marginBottom = "5px";
-
-  wrapper.innerHTML = `
-    <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement" value="${value}">
-    <button type="button" class="btn-secondary removeReqBtn">✖</button>
-  `;
-
-  wrapper.querySelector(".removeReqBtn").addEventListener("click", () => wrapper.remove());
-  reqList.appendChild(wrapper);
-}
-
-addReqBtn.addEventListener("click", () => addRequirementItem());
-
-document.getElementById("saveJobBtn").addEventListener("click", () => {
-    const title = document.getElementById("jobTitle").value;
-    const description = document.getElementById("jobDescription").value;
-    const location = document.getElementById("jobLocation").value;
-    const salary = document.getElementById("jobSalary").value;
-    const requirements = [...document.querySelectorAll(".requirementInput")]
-                          .map(i => i.value).filter(v => v.trim() !== "");
-
-    console.log({ title, description, location, salary, requirements });
-    closeModal("jobModal");
-});
-document.getElementById("closeJob").addEventListener("click", () => closeModal("jobModal"));
 
 function attachRowEvents(row) {
   const viewBtn = row.querySelector(".view-btn");
@@ -1125,7 +1104,8 @@ function attachRowEvents(row) {
 }
 
 document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
-  const searchInput = document.querySelector('.search-filter input');
+
+const searchInput = document.querySelector('.search-filter input');
 const deptSelect = document.querySelector('.search-filter select');
 
 function filterTable() {
@@ -1135,46 +1115,72 @@ function filterTable() {
   tbody.querySelectorAll('tr').forEach(row => {
     const name = row.children[1].innerText.toLowerCase();
     const dept = row.children[0].innerText;
-
     const matchesSearch = name.includes(searchText);
     const matchesDept = selectedDept === "Department" || dept === selectedDept;
 
-    if (matchesSearch && matchesDept) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
+    row.style.display = matchesSearch && matchesDept ? "" : "none";
   });
 }
 
 searchInput.addEventListener('input', filterTable);
 deptSelect.addEventListener('change', filterTable);
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-  }
 
-  function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-  }
-  const generateBtn = document.getElementById("generateBtn");
+const generateBtn = document.getElementById("generateBtn");
 generateBtn.addEventListener("click", () => openModal("jobModal"));
+
+const addReqBtn = document.getElementById("addReqBtn");
+const reqList = document.getElementById("requirementsList");
+
+function addRequirementItem(value = "") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "requirement-item";
+  wrapper.style.display = "flex";
+  wrapper.style.gap = "8px";
+  wrapper.style.marginBottom = "5px";
+  wrapper.innerHTML = `
+    <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement" value="${value}">
+    <button type="button" class="btn-secondary removeReqBtn">✖</button>
+  `;
+  wrapper.querySelector(".removeReqBtn").addEventListener("click", () => wrapper.remove());
+  reqList.appendChild(wrapper);
+}
+
+addReqBtn.addEventListener("click", () => addRequirementItem());
+
+document.getElementById("saveJobBtn").addEventListener("click", () => {
+  const title = document.getElementById("jobTitle").value;
+  const description = document.getElementById("jobDescription").value;
+  const location = document.getElementById("jobLocation").value;
+  const salary = document.getElementById("jobSalary").value;
+  const requirements = [...document.querySelectorAll(".requirementInput")]
+                        .map(i => i.value).filter(v => v.trim() !== "");
+  console.log({ title, description, location, salary, requirements });
+  closeModal("jobModal");
+
+
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("jobDescription").value = "";
+  document.getElementById("jobLocation").value = "";
+  document.getElementById("jobSalary").value = "";
+  reqList.innerHTML = "";
+});
 
 const exportBtn = document.getElementById("exportBtn");
 exportBtn.addEventListener("click", () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    const rows = document.querySelectorAll(".activity-table tr");
-    rows.forEach(row => {
-        const cols = row.querySelectorAll("td, th");
-        const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-        csvContent += rowData + "\r\n";
-    });
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "recruitment_records.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  let csvContent = "data:text/csv;charset=utf-8,";
+  const rows = document.querySelectorAll(".activity-table tr");
+  rows.forEach(row => {
+      const cols = row.querySelectorAll("td, th");
+      const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
+      csvContent += rowData + "\r\n";
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "recruitment_records.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 });
 
 const sidebarToggle = document.getElementById("sidebarToggle");
@@ -1184,4 +1190,5 @@ sidebarToggle.addEventListener("click", () => {
   body.classList.toggle("sidebar-collapsed");
 });
 
+document.getElementById("backButton").addEventListener("click", () => window.history.back());
 </script>
