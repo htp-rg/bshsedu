@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Information & Records Management</title>
+  <title>Recruitment & Hiring</title>
 
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -276,22 +276,28 @@
   }
 
  .dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
- }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
 
-  .stat-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 25px;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
+ .stat-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 10px; 
+}
 
   .stat-card:hover {
     transform: translateY(-5px);
@@ -326,7 +332,7 @@
   }
 
   .stat-card-info h3 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin: 0 0 10px 0;
     color: #1a202c;
     font-weight: 700;
@@ -435,7 +441,7 @@
 
   .activity-table td {
     padding: 12px 0;
-    vertical-align: middle;
+    text-align: center;
   }
 
   .activity-icon {
@@ -667,7 +673,7 @@
     
 <div class="sidebar-links">
     <span class="sidebar-heading">MAIN</span>
-    <a href="admindashboard.html" class="active">
+    <a href="admindashboard.html">
         <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
     </a>
 
@@ -676,7 +682,7 @@
         <i data-lucide="arrow-right-from-line" class="icon"></i>
         Employee Information & Records Management
     </a>
-    <a href="adminrecruitment.html">
+    <a href="adminrecruitment.html"class="active">
         <i data-lucide="arrow-left-to-line" class="icon"></i>
         Recruitment and Hiring
     </a>
@@ -726,7 +732,7 @@
   
   <div class="content-header">
     <div class="header-title-section">
-      <h1>Employee Information & Records Management</h1>
+      <h1>Recruitment & Hiring</h1>
     </div>
     <div class="header-actions-section">
       <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
@@ -740,44 +746,45 @@
       <div class="stat-card">
         <div class="stat-card-info">
           <h3>120</h3>
-          <p>Total Employees</p>
+          <p>Total Candidates</p>
         </div>
         <i data-lucide="user" class="stat-card-icon icon-books"></i>
       </div>
 
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>Active</h3>
-          <p>Employees</p>
+          <h3>8</h3>
+          <p>Open Position</p>
         </div>
         <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
       </div>
 
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>5</h3>
-          <p>Onboarding</p>
+          <h3>85</h3>
+          <p>Application Received</p>
         </div>
         <i data-lucide="check-circle" class="stat-card-icon icon-loan"></i>
       </div>
       
       <div class="stat-card">
         <div class="stat-card-info">
-          <h3>12</h3>
-          <p>Avg. Rating</p>
+          <h3>28</h3>
+          <p>Pending Interviews</p>
         </div>
         <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
       </div>
     </div>
     
- <div class="content-block" style="margin-top:30px;">
-        <h2>Employee Records</h2>
-        <div style="margin-bottom:15px; display:flex; gap:10px;">
-          <button class="btn btn-primary" id="generateBtn">Generate Report</button>
-          <button class="btn btn-primary" id="exportBtn">Export</button>
-          <button class="btn btn-primary" id="addBtn">Add Employee</button>
-        </div>
-
+ <div class="content-block" style="margin-top:50px;">
+        <h2>Recruitment Records</h2>
+       <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+  <div style="display:flex; gap:10px;">
+    <button class="btn btn-primary" id="generateBtn">New Job Position</button>
+    <button class="btn btn-primary" id="exportBtn">Export</button>
+  </div>
+ <button class="btn btn-primary" id="addBtn">Add New Recruit</button>
+</div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
           <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
           <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
@@ -788,1271 +795,344 @@
           </select>
         </div>
 
-        <div style="overflow-x:auto;">
-          <table class="activity-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Department</th>
-                <th>Status</th>
-                <th colspan="2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-          <td>Juan Dela Cruz</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-          <td><button class="btn-primary edit-btn">Edit</button></td>
-          <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Maria Santos</td>
-          <td>Admin Staff</td>
-          <td>HR</td>
-          <td>Inactive</td>
-        <td><button class="btn-primary edit-btn">Edit</button></td>
-        <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Jose Reyes</td>
-          <td>Librarian</td>
-          <td>Library</td>
-          <td>Onboarding</td>
-         <td><button class="btn-primary edit-btn">Edit</button></td>
-         <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Ana Lopez</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-        <td><button class="btn-primary edit-btn">Edit</button></td>
-        <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+       <div style="overflow-x:auto;">
+<table class="activity-table">
+  <thead>
+    <tr>
+      <th>Department</th>
+      <th>Candidate Name</th>
+      <th>Position</th>
+      <th>Submitted</th>
+      <th>Application Status</th>
+      <th>Result</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Academics</td>
+      <td>Antonio Remigio</td>
+      <td>Teacher</td>
+      <td>May 10, 2025</td>
+      <td>Interview Completed</td>
+      <td>Accepted</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>HR</td>
+      <td>Lisa Guillermo</td>
+      <td>Admin Staff</td>
+      <td>May 8, 2025</td>
+      <td>Interviewing</td>
+      <td>Pending</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>Library</td>
+      <td>Daniel Riego</td>
+      <td>Librarian</td>
+      <td>May 9, 2025</td>
+      <td>Application Review</td>
+      <td>Rejected</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>Academics</td>
+      <td>Sara Mendoza</td>
+      <td>Teacher</td>
+      <td>May 9, 2025</td>
+      <td>Pending Review</td>
+      <td>Pending</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 </main>
 <div id="addModal" class="modal">
   <div class="modal-content">
-    <h2>Add Employee</h2>
+    <h2>Add New Recruit</h2>
+
     <label>Name</label>
-    <input type="text" id="addName" placeholder="Enter name">
-    <label>Position</label>
-    <input type="text" id="addPosition" placeholder="Enter position">
+    <input type="text" id="addName">
+
     <label>Department</label>
-    <select id="addDepartment">
-      <option value="">Select Department</option>
-      <option value="Academics">Academics</option>
-      <option value="HR">HR</option>
-      <option value="Library">Library</option>
+    <select id="addDept">
+      <option>Academics</option>
+      <option>HR</option>
+      <option>Library</option>
     </select>
-    <label>Status</label>
+
+    <label>Position</label>
+    <input type="text" id="addPosition">
+
+    <label>Date Submitted</label>
+    <input type="date" id="addDate">
+
+    <label>Application Status</label>
     <select id="addStatus">
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
+      <option>Pending Review</option>
+      <option>Application Review</option>
+      <option>Interviewing</option>
+      <option>Interview Completed</option>
     </select>
+
+    <label>Result</label>
+    <select id="addResult">
+      <option>Pending</option>
+      <option>Accepted</option>
+      <option>Rejected</option>
+    </select>
+
     <div class="modal-actions">
-      <button class="btn-primary" id="saveAdd">Save</button>
-      <button class="btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn-secondary" id="closeAdd">Cancel</button>
+      <button class="btn btn-primary" id="saveAdd">Save</button>
     </div>
   </div>
 </div>
 
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h2>Edit Employee</h2>
-    <label>Name</label><input type="text" id="editName">
-    <label>Position</label><input type="text" id="editPosition">
-    <label>Department</label><input type="text" id="editDepartment">
-    <label>Status</label><select id="editStatus"><option>Active</option><option>Inactive</option></select>
-    <div class="modal-actions">
-      <button class="btn-primary" id="saveEdit">Save</button>
-      <button class="btn-secondary" onclick="closeModal('editModal')">Cancel</button>
-    </div>
-  </div>
-</div>
+    <h2>Edit Recruit</h2>
 
-<div id="deleteModal" class="modal">
-  <div class="modal-content">
-    <h2>Confirm Delete</h2>
-    <p>Are you sure you want to delete this employee?</p>
-    <div class="modal-actions">
-      <button class="btn-primary" id="confirmDelete">Yes</button>
-      <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<div id="reportModal" class="modal">
-  <div class="modal-content">
-    <h2>Generated Report</h2>
-    <textarea id="reportArea" style="width:100%; height:250px;"></textarea>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
-      <button class="btn-primary" id="modalExportBtn">Export</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Information & Records Management</title>
-
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-  body {
-    margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f8f9fa;
-    transition: margin-left 0.3s ease-in-out;
-  }
-
-  :root {
-    --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
-    --saas-primary: #ec4899;
-  }
-
-  .main-sidebar {
-    width: 260px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background-color: #2d3748;
-    color: #e2e8f0;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease-in-out;
-  }
-
-  .sidebar-header {
-    padding: 0 25px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #4a5568;
-    flex-shrink: 0;
-  }
-
-  .sidebar-header h1 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #ffffff;
-    font-weight: 600;
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .sidebar-header h1 a {
-    color: #ffffff;
-    text-decoration: none;
-  }
-
-.sidebar-links {
-  flex-grow: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-.sidebar-links::-webkit-scrollbar {
-  display: none;
-}
-
-  .sidebar-heading {
-    display: block;
-    padding: 10px 25px;
-    margin-top: 15px;
-    font-size: 0.75rem;
-    color: #a0aec0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  .sidebar-links .sidebar-heading:first-child {
-    margin-top: 0;
-  }
-
-  .main-sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: #cbd5e0;
-    text-decoration: none;
-    padding: 12px 25px 12px 35px;
-    margin: 2px 0;
-    font-size: 15px;
-    font-weight: 500;
-    position: relative;
-    z-index: 2;
-    white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .main-sidebar a .icon {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2;
-    flex-shrink: 0;
-    transition: color 0.2s ease;
-  }
-
-  .main-sidebar a:hover {
-    background-color: #4a5568;
-    color: #ffffff;
-  }
-
-  .main-sidebar a.active {
-    background-color: transparent;
-    color: var(--saas-primary);
-    font-weight: 600;
-  }
-
-  .main-sidebar a.active .icon {
-    color: var(--saas-primary);
-  }
-
-  .main-sidebar a.active::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 24px;
-    background-image: var(--saas-gradient);
-    border-radius: 2px;
-    animation: pulse-indicator-open 2.5s infinite;
-  }
-
-  .notification-badge {
-    background-color: #ef4444;
-    color: white;
-    border-radius: 12px;
-    padding: 2px 8px;
-    font-size: 0.8em;
-    font-weight: bold;
-    margin-left: auto;
-    position: relative;
-    z-index: 2;
-  }
-
-  .main-sidebar a.active .notification-badge {
-    background-color: #ffffff;
-    color: #4f46e5;
-    font-weight: bold;
-  }
-
-  .main-sidebar a.nav-alert {
-    color: #f56565;
-    font-weight: 600;
-  }
-
-  .main-sidebar a.nav-alert .icon {
-    color: #f56565;
-  }
-
-  .main-sidebar a.nav-alert:hover {
-    color: #fff;
-    background-color: #dc2626;
-  }
-
-  .main-sidebar a.nav-alert.active {
-    background-color: transparent;
-    color: #ef4444;
-  }
-
-  .main-sidebar a.nav-alert.active .icon {
-    color: #ef4444;
-  }
-
-  .main-sidebar a.nav-alert.active::before {
-    background-image: none;
-    background-color: #ef4444;
-    animation: none;
-  }
-
-  .sidebar-footer {
-    padding: 20px 0 10px 0;
-    border-top: 1px solid #4a5568;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
-  }
-
-  .main-content {
-    margin-left: 260px;
-    padding: 0;
-    transition: margin-left 0.3s ease-in-out;
-  }
-
-  .content-header {
-    height: 80px;
-    background-color: #ffffff;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e2e8f0;
-    flex-shrink: 0;
-  }
-
-  .header-title-section h1 {
-    margin: 0 0 4px 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a202c;
-  }
-
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #718096;
-  }
-
-  .breadcrumbs a {
-    color: var(--saas-primary);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .breadcrumbs a:hover {
-    text-decoration: underline;
-  }
-
-  .breadcrumbs .separator {
-    color: #cbd5e0;
-  }
-
-  .content-wrapper {
-    padding: 30px;
-  }
-
-  .btn-primary {
-    background-image: var(--saas-gradient);
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 10px 24px;
-    border-radius: 8px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    color: white;
-  }
-
-  .btn-primary .icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-  }
-
-  .page-description {
-    font-size: 16px;
-    color: #718096;
-    max-width: 800px;
-  }
-
- .dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
- }
-
-  .stat-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 25px;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-color: var(--saas-primary);
-  }
-
-  .stat-card-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    opacity: 0.3;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  .stat-card:hover .stat-card-icon {
-    transform: scale(1.15) rotate(5deg);
-    opacity: 0.6;
-  }
-
-  .icon-books { color: #3b82f6; }
-  .icon-students { color: #10b981; }
-  .icon-loan { color: #f97316; }
-  .icon-requests { color: #ec4899; }
-  .icon-returns { color: #8b5cf6; }
-
-  .stat-card-info {
-    position: relative;
-    z-index: 2;
-  }
-
-  .stat-card-info h3 {
-    font-size: 3.5rem;
-    margin: 0 0 10px 0;
-    color: #1a202c;
-    font-weight: 700;
-  }
-
-  .stat-card-info p {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #718096;
-  }
-
-  .stat-card.alert {
-    border-color: #ef4444;
-    background-color: #fef2f2;
-  }
-
-  .stat-card.alert:hover {
-    border-color: #dc2626;
-  }
-
-  .gradient-text {
-    background: var(--saas-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .dashboard-main-content {
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid #e2e8f0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-
-  .content-block {
-    background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    padding: 25px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    transition: box-shadow 0.2s ease;
-  }
-
-  .content-block h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 15px;
-  }
-
-  .quick-actions-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
-
-  .quick-action-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    text-decoration: none;
-    color: #4a5568;
-    font-weight: 500;
-    text-align: center;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  }
-
-  .quick-action-btn:hover {
-    background-color: var(--saas-primary);
-    color: #ffffff;
-    transform: translateY(-3px);
-  }
-
-  .quick-action-btn .icon {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 10px;
-  }
-
-  .activity-table-container {
-    max-height: 250px;
-    overflow-y: auto;
-  }
-
-  .activity-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .activity-table tr {
-    border-bottom: 1px solid #e2e8f0;
-  }
-
-  .activity-table tr:last-child {
-    border-bottom: none;
-  }
-
-  .activity-table td {
-    padding: 12px 0;
-    vertical-align: middle;
-  }
-
-  .activity-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-  }
-
-  .activity-icon .icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .activity-icon.borrow {
-    background-color: #fee2e2;
-    color: #dc2626;
-  }
-
-  .activity-icon.return {
-    background-color: #dcfce7;
-    color: #16a34a;
-  }
-
-  .activity-user {
-    font-weight: 600;
-    color: #1a202c;
-  }
-
-  .activity-book {
-    color: #718096;
-  }
-
-  .activity-time {
-    text-align: right;
-    color: #a0aec0;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-
-  @media (max-width: 992px) {
-    .dashboard-main-content {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  body.sidebar-collapsed .main-sidebar { width: 75px; }
-  body.sidebar-collapsed .main-content { margin-left: 75px; }
-  body.sidebar-collapsed .sidebar-header h1 { opacity: 0; }
-  body.sidebar-collapsed .sidebar-heading {
-    opacity: 0;
-    padding: 0;
-    margin: 0;
-    height: 0;
-    overflow: hidden;
-  }
-  body.sidebar-collapsed .main-sidebar a {
-    border-radius: 8px;
-    margin: 4px 8px;
-    padding: 12px;
-    justify-content: center;
-  }
-  body.sidebar-collapsed .main-sidebar a::before { display: none; }
-  body.sidebar-collapsed .main-sidebar a.active {
-    animation: glow-collapsed 3s infinite ease-in-out;
-  }
-  body.sidebar-collapsed .main-sidebar a.active .icon { color: #ffffff; }
-  body.sidebar-collapsed .main-sidebar .sidebar-links a,
-  body.sidebar-collapsed .main-sidebar .sidebar-footer a {
-    font-size: 0;
-    gap: 0;
-  }
-  body.sidebar-collapsed .notification-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    font-size: 0;
-    border: none;
-  }
-  body.sidebar-collapsed .sidebar-toggle {
-    top: 50%;
-    right: -22px;
-  }
-  body.sidebar-collapsed .sidebar-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
-  }
-  body.sidebar-collapsed .sidebar-toggle .icon-close {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  body.sidebar-collapsed .sidebar-toggle .icon-open {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .sidebar-toggle {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -20px;
-    z-index: 1001;
-    background-image: var(--saas-gradient);
-    color: white;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-  }
-
-  .sidebar-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .sidebar-toggle .icon {
-    position: absolute;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .sidebar-toggle .icon-close {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .sidebar-toggle .icon-open {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-
-  @keyframes pulse-indicator-open {
-    0%   { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
-    70%  { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
-  }
-
-  @keyframes glow-collapsed {
-    0%, 100% { background-color: #4f46e0; box-shadow: 0 0 10px rgba(79, 70, 229, 0.6); }
-    50%      { background-color: #8b5cf6; box-shadow: 0 0 18px rgba(139, 92, 246, 0.9); }
-  }
-    
-  .main-sidebar a,
-.sidebar-heading {
-  white-space: normal;     
-  word-break: break-word;  
-}
-    
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    align-items: center; justify-content: center;
-  }
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    width: 400px;
-    max-width: 90%;
-  }
-  .modal-actions {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  .btn-secondary {
-    background: #e2e8f0;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .modal-backdrop {
-    --bs-backdrop-zindex: 1050;
-    --bs-backdrop-bg: #000;
-    --bs-backdrop-opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: var(--bs-backdrop-zindex);
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--bs-backdrop-bg);
-}
-    .modal-content label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-  color: #1a202c;
-}
-
-.modal-content input,
-.modal-content select,
-.modal-content textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-}
-  </style>
-</head>
-<body>
-  <nav class="main-sidebar">
-        <button id="sidebarToggle" class="sidebar-toggle">
-            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
-            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
-        </button>
- <div class="sidebar-header">
-      <h1><a href="#">Admin Panel</a></h1>
-    </div>
-    
-<div class="sidebar-links">
-    <span class="sidebar-heading">MAIN</span>
-    <a href="admindashboard.html" class="active">
-        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
-    </a>
-
-    <span class="sidebar-heading">MODULE</span>
-    <a href="adminemployee.html">
-        <i data-lucide="arrow-right-from-line" class="icon"></i>
-        Employee Information & Records Management
-    </a>
-    <a href="adminrecruitment.html">
-        <i data-lucide="arrow-left-to-line" class="icon"></i>
-        Recruitment and Hiring
-    </a>
-    <a href="admintime.html">
-        <i data-lucide="triangle-alert" class="icon"></i>
-        Time & Attendance Monitoring
-    </a>
-    <a href="adminleave.html">
-        <i data-lucide="book-user" class="icon"></i>
-        Leave & Overtime Management
-    </a>
-
-    <span class="sidebar-heading">SUPERVISION</span>
-    <a href="adminpayroll.html">
-        <i data-lucide="book-open" class="icon"></i>
-        Payroll & Compensation
-    </a>
-    <a href="adminperformance.html">
-        <i data-lucide="calendar-check" class="icon"></i>
-        Performance Evaluation System
-    </a>
-    <a href="admintraining.html">
-        <i data-lucide="users" class="icon"></i>
-        Training & Development
-    </a>
-    <a href="adminbenefits.html">
-        <i data-lucide="school" class="icon"></i>
-        Employee Benefits & Welfare
-    </a>
-    <a href="adminlogs.html">
-        <i data-lucide="history" class="icon"></i>
-        System Logs
-    </a>
-</div>
-
-<div class="sidebar-footer">
-    <a href="adminprofile.html">
-        <i data-lucide="user-circle" class="icon"></i> My Profile
-    </a>
-    <a href="main.html" class="nav-alert">
-        <i data-lucide="log-out" class="icon"></i> Logout
-    </a>
-</div>
-    </nav>
-
-<main class="main-content">
-  
-  <div class="content-header">
-    <div class="header-title-section">
-      <h1>Employee Information & Records Management</h1>
-    </div>
-    <div class="header-actions-section">
-      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
-        <i data-lucide="arrow-left" class="icon"></i> Back
-      </a>
-    </div>
-  </div>
-
-  <div class="content-wrapper">
-    <div class="dashboard-container">
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>120</h3>
-          <p>Total Employees</p>
-        </div>
-        <i data-lucide="user" class="stat-card-icon icon-books"></i>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>Active</h3>
-          <p>Employees</p>
-        </div>
-        <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>5</h3>
-          <p>Onboarding</p>
-        </div>
-        <i data-lucide="check-circle" class="stat-card-icon icon-loan"></i>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>12</h3>
-          <p>Avg. Rating</p>
-        </div>
-        <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
-      </div>
-    </div>
-    
- <div class="content-block" style="margin-top:30px;">
-        <h2>Employee Records</h2>
-        <div style="margin-bottom:15px; display:flex; gap:10px;">
-          <button class="btn btn-primary" id="generateBtn">Generate Report</button>
-          <button class="btn btn-primary" id="exportBtn">Export</button>
-          <button class="btn btn-primary" id="addBtn">Add Employee</button>
-        </div>
-
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
-
-        <div style="overflow-x:auto;">
-          <table class="activity-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Department</th>
-                <th>Status</th>
-                <th colspan="2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-          <td>Juan Dela Cruz</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-          <td><button class="btn-primary edit-btn">Edit</button></td>
-          <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Maria Santos</td>
-          <td>Admin Staff</td>
-          <td>HR</td>
-          <td>Inactive</td>
-        <td><button class="btn-primary edit-btn">Edit</button></td>
-        <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Jose Reyes</td>
-          <td>Librarian</td>
-          <td>Library</td>
-          <td>Onboarding</td>
-         <td><button class="btn-primary edit-btn">Edit</button></td>
-         <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Ana Lopez</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-        <td><button class="btn-primary edit-btn">Edit</button></td>
-        <td><button class="btn-primary delete-btn">Delete</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</main>
-<div id="addModal" class="modal">
-  <div class="modal-content">
-    <h2>Add Employee</h2>
     <label>Name</label>
-    <input type="text" id="addName" placeholder="Enter name">
-    <label>Position</label>
-    <input type="text" id="addPosition" placeholder="Enter position">
+    <input type="text" id="editName">
+
     <label>Department</label>
-    <select id="addDepartment">
-      <option value="">Select Department</option>
-      <option value="Academics">Academics</option>
-      <option value="HR">HR</option>
-      <option value="Library">Library</option>
+    <select id="editDept">
+      <option>Academics</option>
+      <option>HR</option>
+      <option>Library</option>
     </select>
-    <label>Status</label>
-    <select id="addStatus">
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
+
+    <label>Position</label>
+    <input type="text" id="editPosition">
+
+    <label>Date Submitted</label>
+    <input type="date" id="editDate">
+
+    <label>Application Status</label>
+    <select id="editStatus">
+      <option>Pending Review</option>
+      <option>Application Review</option>
+      <option>Interviewing</option>
+      <option>Interview Completed</option>
     </select>
+
+    <label>Result</label>
+    <select id="editResult">
+      <option>Pending</option>
+      <option>Accepted</option>
+      <option>Rejected</option>
+    </select>
+
     <div class="modal-actions">
-      <button class="btn-primary" id="saveAdd">Save</button>
-      <button class="btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn-secondary" id="closeEdit">Cancel</button>
+      <button class="btn btn-primary" id="saveEdit">Update</button>
     </div>
   </div>
 </div>
 
-<div id="editModal" class="modal">
+<div id="viewModal" class="modal">
   <div class="modal-content">
-    <h2>Edit Employee</h2>
-    <label>Name</label><input type="text" id="editName">
-    <label>Position</label><input type="text" id="editPosition">
-    <label>Department</label><input type="text" id="editDepartment">
-    <label>Status</label><select id="editStatus"><option>Active</option><option>Inactive</option></select>
+    <h2>Recruit Details</h2>
+    <p><strong>Name:</strong> <span id="viewName"></span></p>
+    <p><strong>Department:</strong> <span id="viewDept"></span></p>
+    <p><strong>Position:</strong> <span id="viewPosition"></span></p>
+    <p><strong>Date Submitted:</strong> <span id="viewDate"></span></p>
+    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+    <p><strong>Result:</strong> <span id="viewResult"></span></p>
     <div class="modal-actions">
-      <button class="btn-primary" id="saveEdit">Save</button>
-      <button class="btn-secondary" onclick="closeModal('editModal')">Cancel</button>
+      <button class="btn-secondary" id="closeView">Close</button>
     </div>
   </div>
 </div>
 
-<div id="deleteModal" class="modal">
+<div id="jobModal" class="modal">
   <div class="modal-content">
-    <h2>Confirm Delete</h2>
-    <p>Are you sure you want to delete this employee?</p>
+    <h2>New Job Position</h2>
+    
+    <label for="jobTitle">Job Title</label>
+    <input type="text" id="jobTitle" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job title">
+
+    <label for="jobDescription">Job Description</label>
+    <textarea id="jobDescription" style="width:100%; height:120px; margin-bottom:10px;" placeholder="Enter job description"></textarea>
+    
+    <label for="jobLocation">Location</label>
+    <input type="text" id="jobLocation" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job location">
+
+    <label for="jobSalary">Salary</label>
+    <input type="text" id="jobSalary" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter salary range">
+
+    <label>Requirements</label>
+    <div id="requirementsList" style="margin-bottom:10px;">
+      <div class="requirement-item" style="display:flex; gap:8px; margin-bottom:5px;">
+        <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement">
+        <button type="button" class="btn-secondary removeReqBtn">✖</button>
+      </div>
+    </div>
+    <button type="button" class="btn-primary" id="addReqBtn" style="margin-bottom:15px;">+ Add Requirement</button>
+
     <div class="modal-actions">
-      <button class="btn-primary" id="confirmDelete">Yes</button>
-      <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+      <button class="btn-secondary" onclick="closeModal('jobModal')">Cancel</button>
+      <button class="btn-primary" id="saveJobBtn">Save Job</button>
     </div>
   </div>
 </div>
-
-<div id="reportModal" class="modal">
-  <div class="modal-content">
-    <h2>Generated Report</h2>
-    <textarea id="reportArea" style="width:100%; height:250px;"></textarea>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
-      <button class="btn-primary" id="modalExportBtn">Export</button>
-    </div>
-  </div>
-</div>
-
+         
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.lucide) lucide.createIcons();
+lucide.createIcons();
 
-  document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-    document.body.classList.toggle('sidebar-collapsed');
-  });
+const tbody = document.querySelector(".activity-table tbody");
+let editRow = null;
 
-  document.getElementById('backButton')?.addEventListener('click', e => {
-    e.preventDefault();
-    window.history.back();
-  });
+// Generic modal open/close functions
+function openModal(id) { document.getElementById(id).style.display = "flex"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-  gsap.from(".content-header h1", { duration: 0.6, opacity: 0, x: -30, ease: "power2.out" });
-  gsap.from(".stat-card", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.2 });
-  gsap.from(".content-block", { duration: 0.5, opacity: 0, y: 30, stagger: 0.1, ease: "power2.out", delay: 0.4 });
+// ------------------- ADD RECRUIT -------------------
+const addBtn = document.getElementById("addBtn");
+const closeAdd = document.getElementById("closeAdd");
+const saveAdd = document.getElementById("saveAdd");
 
-  const searchInput = document.querySelector('.search-filter input');
-  const departmentSelect = document.querySelector('.search-filter select');
-  const tbody = document.querySelector('.activity-table tbody');
+addBtn.addEventListener("click", () => openModal("addModal"));
+closeAdd.addEventListener("click", () => closeModal("addModal"));
 
-  function saveTable() {
-    const data = [];
-    tbody.querySelectorAll('tr').forEach(tr => {
-      const tds = tr.querySelectorAll('td');
-      data.push({
-        name: tds[0].innerText,
-        position: tds[1].innerText,
-        department: tds[2].innerText,
-        status: tds[3].innerText
-      });
-    });
-    localStorage.setItem("employeeData", JSON.stringify(data));
-  }
-if (!localStorage.getItem("employeeData")) {
-  const defaultData = [
-    { name: "Juan Dela Cruz", position: "Teacher", department: "Academics", status: "Active" },
-    { name: "Maria Santos", position: "Admin Staff", department: "HR", status: "Inactive" },
-    { name: "Jose Reyes", position: "Librarian", department: "Library", status: "Onboarding" },
-    { name: "Ana Lopez", position: "Teacher", department: "Academics", status: "Active" }
-  ];
-  localStorage.setItem("employeeData", JSON.stringify(defaultData));
-}
-  function loadTable() {
-    const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
-    tbody.innerHTML = "";
-    data.forEach(emp => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${emp.name}</td>
-        <td>${emp.position}</td>
-        <td>${emp.department}</td>
-        <td>${emp.status}</td>
-        <td>
-          <button class="edit-btn"><i data-lucide="edit"></i></button>
-          <button class="delete-btn"><i data-lucide="trash-2"></i></button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-    attachRowEvents();
-    if (window.lucide) lucide.createIcons();
-  }
+saveAdd.addEventListener("click", () => {
+  const name = document.getElementById("addName").value;
+  const dept = document.getElementById("addDept").value;
+  const pos = document.getElementById("addPosition").value;
+  const date = document.getElementById("addDate").value;
+  const status = document.getElementById("addStatus").value;
+  const result = document.getElementById("addResult").value;
 
-  function filterTable() {
-    const searchValue = searchInput.value.toLowerCase();
-    const departmentValue = departmentSelect.value;
-    const rows = tbody.querySelectorAll('tr');
+  if (!name || !pos) return alert("Fill all fields!");
 
-    rows.forEach(row => {
-      const cells = row.querySelectorAll('td');
-      const name = cells[0].innerText.toLowerCase();
-      const position = cells[1].innerText.toLowerCase();
-      const department = cells[2].innerText;
-      const status = cells[3].innerText.toLowerCase();
-
-      const matchesSearch = name.includes(searchValue) || position.includes(searchValue) || department.toLowerCase().includes(searchValue) || status.includes(searchValue);
-      const matchesDepartment = departmentValue === "Department" || department === departmentValue;
-
-      row.style.display = (matchesSearch && matchesDepartment) ? "" : "none";
-    });
-  }
-
-  searchInput.addEventListener('keyup', filterTable);
-  departmentSelect.addEventListener('change', filterTable);
-
-  const generateBtn = document.getElementById('generateBtn');
-  const modalExportBtn = document.getElementById('modalExportBtn');
-  const reportArea = document.getElementById('reportArea');
-
-  const sampleReport = () => `
-Company: ABC Corporation
-Department: Sales
-Report Date: ${new Date().toLocaleDateString()}
-
-Sales Summary:
-----------------------------------------
-1. Total Sales: $12,450
-2. New Clients: 5
-3. Pending Orders: 3
-
-Top Performers:
-- John Doe: $4,500
-- Jane Smith: $3,200
-- Mike Johnson: $2,750
-
-Remarks:
-All targets for the month are on track. Focus on increasing new client acquisition for next month.
-----------------------------------------
-Generated on: ${new Date().toLocaleString()}
-`;
-
-  generateBtn.addEventListener('click', () => {
-    reportArea.value = sampleReport();
-    openModal('reportModal');
-  });
-
-  modalExportBtn.addEventListener('click', () => {
-    const content = reportArea.value.trim();
-    if (!content) {
-      alert('Report is empty!');
-      return;
-    }
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'report.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  let currentRow = null;
-
-  function attachRowEvents() {
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.onclick = () => {
-        currentRow = btn.closest('tr');
-        document.getElementById('editName').value = currentRow.children[0].innerText;
-        document.getElementById('editPosition').value = currentRow.children[1].innerText;
-        document.getElementById('editDepartment').value = currentRow.children[2].innerText;
-        document.getElementById('editStatus').value = currentRow.children[3].innerText;
-        openModal('editModal');
-      };
-    });
-
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.onclick = () => {
-        currentRow = btn.closest('tr');
-        openModal('deleteModal');
-      };
-    });
-  }
-
-  document.getElementById('saveEdit').addEventListener('click', () => {
-    if (currentRow) {
-      currentRow.children[0].innerText = document.getElementById('editName').value;
-      currentRow.children[1].innerText = document.getElementById('editPosition').value;
-      currentRow.children[2].innerText = document.getElementById('editDepartment').value;
-      currentRow.children[3].innerText = document.getElementById('editStatus').value;
-      saveTable();
-      closeModal('editModal');
-    }
-  });
-
-  document.getElementById('confirmDelete').addEventListener('click', () => {
-    if (currentRow) {
-      currentRow.remove();
-      saveTable();
-      currentRow = null;
-      closeModal('deleteModal');
-    }
-  });
-
-  document.getElementById('exportBtn').addEventListener('click', () => {
-    let csv = [];
-    const rows = document.querySelectorAll(".activity-table tr");
-    rows.forEach(row => {
-      let cols = row.querySelectorAll("td, th");
-      let rowData = [];
-      cols.forEach(col => rowData.push(col.innerText));
-      csv.push(rowData.join(","));
-    });
-
-    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "employees.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  function openModal(id) {
-    const modal = document.getElementById(id);
-    modal.style.display = 'flex';
-    modal.addEventListener('click', function onBackdrop(e) {
-      if (e.target === modal) {
-        closeModal(id);
-        modal.removeEventListener('click', onBackdrop);
-      }
-    });
-  }
-
-  window.closeModal = function(id) {
-    document.getElementById(id).style.display = 'none';
-  };
-
-  loadTable();
-const addEmployeeBtn = document.getElementById('addBtn');
-  const saveAddBtn = document.getElementById('saveAdd');
-
-  addEmployeeBtn.addEventListener('click', () => {
-    openModal('addModal');
-  });
-
-  saveAddBtn.addEventListener('click', () => {
-    const name = document.getElementById('addName').value.trim();
-    const position = document.getElementById('addPosition').value.trim();
-    const department = document.getElementById('addDepartment').value.trim();
-    const status = document.getElementById('addStatus').value;
-
-    if (!name || !position || !department) {
-      alert("Please fill in all fields!");
-      return;
-    }
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${position}</td>
-      <td>${department}</td>
-      <td>${status}</td>
-      <td>
-        <button class="edit-btn"><i data-lucide="edit"></i></button>
-        <button class="delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    `;
-    document.querySelector('.activity-table tbody').appendChild(tr);
-
-
-    document.getElementById('addName').value = "";
-    document.getElementById('addPosition').value = "";
-    document.getElementById('addDepartment').value = "";
-    document.getElementById('addStatus').value = "Active";
-
-    attachRowEvents();  
-    saveTable();        
-    if (window.lucide) lucide.createIcons();
-    closeModal('addModal');
-  });
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${dept}</td>
+    <td>${name}</td>
+    <td>${pos}</td>
+    <td>${date}</td>
+    <td>${status}</td>
+    <td>${result}</td>
+    <td>
+      <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+      <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+      <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+    </td>
+  `;
+  tbody.appendChild(tr);
+  lucide.createIcons();
+  attachRowEvents(tr); // attach events to new row
+  closeModal("addModal");
+  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
 });
-</script>
 
+// ------------------- EDIT RECRUIT -------------------
+const closeEdit = document.getElementById("closeEdit");
+const saveEdit = document.getElementById("saveEdit");
+
+closeEdit.addEventListener("click", () => closeModal("editModal"));
+saveEdit.addEventListener("click", () => {
+  if (!editRow) return;
+  editRow.children[0].innerText = document.getElementById("editDept").value;
+  editRow.children[1].innerText = document.getElementById("editName").value;
+  editRow.children[2].innerText = document.getElementById("editPosition").value;
+  editRow.children[3].innerText = document.getElementById("editDate").value;
+  editRow.children[4].innerText = document.getElementById("editStatus").value;
+  editRow.children[5].innerText = document.getElementById("editResult").value;
+  closeModal("editModal");
+});
+
+// ------------------- VIEW RECRUIT -------------------
+const closeView = document.getElementById("closeView");
+closeView.addEventListener("click", () => closeModal("viewModal"));
+
+// ------------------- JOB POSITION MODAL -------------------
+const addReqBtn = document.getElementById("addReqBtn");
+const reqList = document.getElementById("requirementsList");
+
+function addRequirementItem(value = "") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "requirement-item";
+  wrapper.style.display = "flex";
+  wrapper.style.gap = "8px";
+  wrapper.style.marginBottom = "5px";
+
+  wrapper.innerHTML = `
+    <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement" value="${value}">
+    <button type="button" class="btn-secondary removeReqBtn">✖</button>
+  `;
+
+  wrapper.querySelector(".removeReqBtn").addEventListener("click", () => wrapper.remove());
+  reqList.appendChild(wrapper);
+}
+
+addReqBtn.addEventListener("click", () => addRequirementItem());
+
+document.getElementById("saveJobBtn").addEventListener("click", () => {
+  const title = document.getElementById("jobTitle").value;
+  const description = document.getElementById("jobDescription").value;
+  const location = document.getElementById("jobLocation").value;
+  const salary = document.getElementById("jobSalary").value;
+  const requirements = [...document.querySelectorAll(".requirementInput")].map(i => i.value).filter(v => v.trim() !== "");
+
+  console.log({ title, description, location, salary, requirements });
+  closeModal("jobModal");
+});
+
+// ------------------- ROW BUTTON EVENTS -------------------
+function attachRowEvents(row) {
+  const viewBtn = row.querySelector(".view-btn");
+  const editBtn = row.querySelector(".edit-btn");
+  const deleteBtn = row.querySelector(".delete-btn");
+
+  viewBtn.addEventListener("click", () => {
+    document.getElementById("viewDept").innerText = row.children[0].innerText;
+    document.getElementById("viewName").innerText = row.children[1].innerText;
+    document.getElementById("viewPosition").innerText = row.children[2].innerText;
+    document.getElementById("viewDate").innerText = row.children[3].innerText;
+    document.getElementById("viewStatus").innerText = row.children[4].innerText;
+    document.getElementById("viewResult").innerText = row.children[5].innerText;
+    openModal("viewModal");
+  });
+
+  editBtn.addEventListener("click", () => {
+    editRow = row;
+    document.getElementById("editDept").value = row.children[0].innerText;
+    document.getElementById("editName").value = row.children[1].innerText;
+    document.getElementById("editPosition").value = row.children[2].innerText;
+    document.getElementById("editDate").value = row.children[3].innerText;
+    document.getElementById("editStatus").value = row.children[4].innerText;
+    document.getElementById("editResult").value = row.children[5].innerText;
+    openModal("editModal");
+  });
+
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Delete this record?")) row.remove();
+  });
+}
+
+// Attach events to all existing rows
+document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
+
+</script>
