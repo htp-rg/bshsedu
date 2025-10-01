@@ -1907,55 +1907,40 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.lucide) lucide.createIcons();
-
-  document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-    document.body.classList.toggle('sidebar-collapsed');
-  });
-
-  document.getElementById('backButton')?.addEventListener('click', e => {
-    e.preventDefault();
-    window.history.back();
-  });
+  lucide.createIcons();
 
   const addModal = document.getElementById("addModal");
   const addBtn = document.getElementById("addBtn");
-  const closeModal = document.getElementById("closeModal");
-  const saveRecruit = document.getElementById("saveRecruit");
-  const tableBody = document.querySelector(".activity-table tbody");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const saveBtn = document.getElementById("saveBtn");
 
   // Open modal
-  addBtn.onclick = () => {
+  addBtn.addEventListener("click", () => {
     addModal.style.display = "flex";
-  };
+  });
 
   // Close modal
-  closeModal.onclick = () => {
+  cancelBtn.addEventListener("click", () => {
     addModal.style.display = "none";
-  };
+  });
 
-  // Save recruit to table
-  saveRecruit.onclick = () => {
+  // Save new recruit
+  saveBtn.addEventListener("click", () => {
     const name = document.getElementById("empName").value;
     const dept = document.getElementById("empDept").value;
     const pos = document.getElementById("empPosition").value;
+    const date = document.getElementById("empDate").value;
     const status = document.getElementById("empStatus").value;
     const result = document.getElementById("empResult").value;
 
-    if (!name || !pos) {
-      alert("Please complete the form!");
-      return;
-    }
-
-    const today = new Date().toLocaleDateString();
-
-    const newRow = `
-      <tr>
+    if (name && dept && pos && date) {
+      const table = document.querySelector(".activity-table tbody");
+      const row = document.createElement("tr");
+      row.innerHTML = `
         <td>${dept}</td>
         <td>${name}</td>
         <td>${pos}</td>
-        <td>${today}</td>
+        <td>${date}</td>
         <td>${status}</td>
         <td>${result}</td>
         <td>
@@ -1963,19 +1948,29 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
           <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
         </td>
-      </tr>
-    `;
+      `;
+      table.appendChild(row);
+      lucide.createIcons(); // refresh icons
+      addModal.style.display = "none";
+    } else {
+      alert("Please complete all fields.");
+    }
+  });
 
-    tableBody.insertAdjacentHTML("beforeend", newRow);
-    lucide.createIcons(); // refresh icons
-
-    addModal.style.display = "none"; // close modal
-  };
-
-  // Close modal when clicking outside
-  window.onclick = (e) => {
-    if (e.target == addModal) {
+  // Close modal on outside click
+  window.addEventListener("click", (e) => {
+    if (e.target === addModal) {
       addModal.style.display = "none";
     }
-  };
+  });
+
+  // Sidebar toggle
+  document.getElementById("sidebarToggle").addEventListener("click", () => {
+    document.body.classList.toggle("sidebar-collapsed");
+  });
+
+  // Back button
+  document.getElementById("backButton").addEventListener("click", () => {
+    window.history.back();
+  });
 </script>
