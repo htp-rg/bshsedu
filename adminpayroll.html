@@ -1009,14 +1009,16 @@ function saveData() {
   localStorage.setItem("payrollData", JSON.stringify(payrollData));
 }
 
-payrollData.forEach((record, index) => {
+function renderTable() {
+  tbody.innerHTML = "";
+  payrollData.forEach((record, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${record.name}</td>
       <td>${record.position}</td>
-      <td>P${record.basicPay.toLocaleString()}${record.overtime ? " P" + record.overtime.toLocaleString() : ""}</td>
+      <td>P${record.basic.toLocaleString()}${record.overtime ? " + P" + record.overtime.toLocaleString() : ""}</td>
       <td>P${record.deduction.toLocaleString()}</td>
-      <td>P${record.netPay.toLocaleString()}</td>
+      <td>P${record.net.toLocaleString()}</td>
       <td>${record.status}</td>
       <td>
         <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
@@ -1030,10 +1032,9 @@ payrollData.forEach((record, index) => {
   });
 }
 
-
+// ---------- MODAL HANDLERS ----------
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
-
 
 document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
 document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
@@ -1041,13 +1042,13 @@ document.getElementById("closeAdd").addEventListener("click", () => closeModal("
 document.getElementById("saveAdd").addEventListener("click", () => {
   const name = document.getElementById("addName").value.trim();
   const position = document.getElementById("addPosition").value;
-  const basic = document.getElementById("addBasic").value;
-  const overtime = document.getElementById("addOvertime").value;
-  const deduction = document.getElementById("addDeduction").value;
-  const net = document.getElementById("addNet").value;
+  const basic = Number(document.getElementById("addBasic").value);
+  const overtime = Number(document.getElementById("addOvertime").value);
+  const deduction = Number(document.getElementById("addDeduction").value);
+  const net = Number(document.getElementById("addNet").value);
   const status = document.getElementById("addStatus").value;
 
-  if (!name || !position || !basic || !overtime || !deduction || !net) return alert("Fill all fields!");
+  if (!name || !position || !basic || !net) return alert("Fill all required fields!");
   payrollData.push({ name, position, basic, overtime, deduction, net, status });
   saveData();
   renderTable();
@@ -1055,44 +1056,46 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
+
+// ---------- REPORT GENERATION ----------
 document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Attendance Report\n\n";
-  reportText += "Employee Name | Position | Basic Pay | OverTime |  Deduction |  Net Pay | Status\n";
-  reportText += "---------------------------------------------------\n";
+  let reportText = "Payroll Report\n\n";
+  reportText += "Employee Name | Position | Basic Pay | Overtime | Deduction | Net Pay | Status\n";
+  reportText += "-------------------------------------------------------------------\n";
 
   payrollData.forEach(record => {
-    reportText += `${record.name} | ${record.position} | ${record.basic} | ${record.overtime} |  ${record.deduction} |  ${record.net} | ${record.status}\n`;
+    reportText += `${record.name} | ${record.position} | ${record.basic} | ${record.overtime} | ${record.deduction} | ${record.net} | ${record.status}\n`;
   });
 
   document.getElementById("reportArea").value = reportText;
   openModal("reportModal");
 });
 
-
 document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
+  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Position,Basic Pay,Overtime,Deduction,Net Pay,Status\r\n";
   payrollData.forEach(row => {
     csvContent += `"${row.name}","${row.position}","${row.basic}","${row.overtime}","${row.deduction}","${row.net}","${row.status}"\r\n`;
   });
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_report.csv");
+  link.setAttribute("download", "payroll_report.csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 
+// ---------- EDIT ----------
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (editRowIndex === null) return;
   payrollData[editRowIndex] = {
     name: document.getElementById("editName").value,
     position: document.getElementById("editPosition").value,
-    basic: document.getElementById("editBasic").value,
-    overtime: document.getElementById("editOvertime").value,
-    deduction: document.getElementById("editDeduction").value,
-    net: document.getElementById("editNet").value,
+    basic: Number(document.getElementById("editBasic").value),
+    overtime: Number(document.getElementById("editOvertime").value),
+    deduction: Number(document.getElementById("editDeduction").value),
+    net: Number(document.getElementById("editNet").value),
     status: document.getElementById("editStatus").value
   };
   saveData();
@@ -1101,9 +1104,9 @@ document.getElementById("saveEdit").addEventListener("click", () => {
   closeModal("editModal");
 });
 
+// ---------- VIEW ----------
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
-  
 function attachRowEvents(row, index) {
   const viewBtn = row.querySelector(".view-btn");
   const editBtn = row.querySelector(".edit-btn");
@@ -1126,7 +1129,7 @@ function attachRowEvents(row, index) {
     const record = payrollData[index];
     document.getElementById("editName").value = record.name;
     document.getElementById("editPosition").value = record.position;
-    document.getElementById("editBasic").value = record.Basic;
+    document.getElementById("editBasic").value = record.basic;
     document.getElementById("editOvertime").value = record.overtime;
     document.getElementById("editDeduction").value = record.deduction;
     document.getElementById("editNet").value = record.net;
@@ -1143,6 +1146,7 @@ function attachRowEvents(row, index) {
   });
 }
 
+// ---------- SEARCH & FILTER ----------
 const searchInput = document.querySelector('.search-filter input');
 const filterSelect = document.querySelector('.search-filter select');
 
@@ -1151,16 +1155,16 @@ function filterTable() {
   const filterStatus = filterSelect.value;
 
   tbody.querySelectorAll('tr').forEach((row, i) => {
-    const record = attendanceData[i];
+    const record = payrollData[i];
     const matchesSearch = record.name.toLowerCase().includes(searchText);
     const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
     row.style.display = matchesSearch && matchesStatus ? "" : "none";
   });
 }
-
 searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
+// ---------- EXPORT BUTTON ----------
 document.getElementById("exportBtn").addEventListener("click", () => {
   let csvContent = "data:text/csv;charset=utf-8,Employee Name,Position,Basic Pay,Overtime,Deduction,Net Pay,Status\r\n";
   payrollData.forEach(row => {
@@ -1169,16 +1173,18 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_records.csv");
+  link.setAttribute("download", "payroll_records.csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 
+// ---------- SIDEBAR & BACK ----------
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
-
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
 renderTable();
+</script>
+
 </script>
