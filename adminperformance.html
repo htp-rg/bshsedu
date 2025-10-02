@@ -761,25 +761,6 @@
             <option>Pending</option>
           </select>
         </div>
-
-        <div style="overflow-x:auto;">
-          <table class="activity-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Date</th>
-                <th>Check In</th>
-                <th>Check Out</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-                          </tbody>
-          </table>
-        </div>
-      </div>
-
             <div class="content-block" style="padding: 25px;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;">
           <h2>Performance Evaluation System</h2>
@@ -977,42 +958,6 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
 lucide.createIcons();
-
-const tbody = document.querySelector(".activity-table tbody");
-let editRowIndex = null;
-
-let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || `[
-  { "name": "Juan Dela Cruz", "date": "Sep 8", "checkIn": "8:10 AM", "checkOut": "5:30 PM", "status": "On Time" },
-  { "name": "Maria Santos", "date": "Sep 9", "checkIn": "8:00 AM", "checkOut": "5:45 PM", "status": "On Time" },
-  { "name": "Jose Reyes", "date": "Sep 10", "checkIn": "8:30 AM", "checkOut": "5:15 PM", "status": "Late" },
-  { "name": "Ana Lopez", "date": "Sep 11", "checkIn": "8:15 AM", "checkOut": "5:25 PM", "status": "Pending" }
-]`);
-
-function saveData() {
-  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
-}
-
-function renderTable() {
-  tbody.innerHTML = "";
-  attendanceData.forEach((record, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${record.name}</td>
-      <td>${record.date}</td>
-      <td>${record.checkIn}</td>
-      <td>${record.checkOut}</td>
-      <td>${record.status}</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-    lucide.createIcons();
-    attachRowEvents(tr, index);
-  });
-}
 
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
