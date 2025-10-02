@@ -980,20 +980,22 @@ function saveData() {
 }
 
 function renderTable() {
+  const tbody = document.querySelector(".payroll-table tbody");
   tbody.innerHTML = "";
   payrollData.forEach((record, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${record.name}</td>
       <td>${record.position}</td>
-      <td>P${record.basic.toLocaleString()}${record.overtime ? " + P" + record.overtime.toLocaleString() : ""}</td>
+      <td>P${record.basic.toLocaleString()}</td>
+      <td>P${record.overtime.toLocaleString()}</td>
       <td>P${record.deduction.toLocaleString()}</td>
       <td>P${record.net.toLocaleString()}</td>
       <td>${record.status}</td>
       <td>
         <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+        <button class="btn btn-warning edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-danger delete-btn"><i data-lucide="trash-2"></i></button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1001,6 +1003,7 @@ function renderTable() {
     attachRowEvents(tr, index);
   });
 }
+
   
   const viewButtons = document.querySelectorAll(".view-btn");
   const editButtons = document.querySelectorAll(".edit-btn");
