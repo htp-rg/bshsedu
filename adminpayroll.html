@@ -883,7 +883,7 @@
     <input type="text" id="addBasic">
 
     <label>Overtime</label>
-    <input type="time" id="addTime">
+    <input type="time" id="addOvertime">
   
     <label>Deduction</label>
     <input type="text" id="addDeduction">
@@ -1020,7 +1020,7 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   const name = document.getElementById("addName").value.trim();
   const position = document.getElementById("addPosition").value;
   const basic = document.getElementById("addBasic").value;
-  const overtime = document.getElementById("addTime").value;
+  const overtime = document.getElementById("addOvertime").value;
   const deduction = document.getElementById("addDeduction").value;
   const net = document.getElementById("addNet").value;
   const status = document.getElementById("addStatus").value;
@@ -1088,7 +1088,7 @@ function attachRowEvents(row, index) {
   const deleteBtn = row.querySelector(".delete-btn");
 
   viewBtn.addEventListener("click", () => {
-    const record = attendanceData[index];
+    const record = payrollData[index];
     document.getElementById("viewName").innerText = record.name;
     document.getElementById("viewPosition").innerText = record.position;
     document.getElementById("viewBasic").innerText = record.basic;
@@ -1101,7 +1101,7 @@ function attachRowEvents(row, index) {
 
   editBtn.addEventListener("click", () => {
     editRowIndex = index;
-    const record = attendanceData[index];
+    const record = payrollData[index];
     document.getElementById("editName").value = record.name;
     document.getElementById("editPosition").value = record.position;
     document.getElementById("editBasic").value = record.Basic;
