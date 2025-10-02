@@ -978,10 +978,10 @@ const tbody = document.querySelector(".activity-table tbody");
 let editRowIndex = null;
 
 let payrollData = JSON.parse(localStorage.getItem("payrollData") || `[
-  { "name": "Juan Dela Cruz", "position": "Teacher", "basicPay": 25000, "overtime": 2000, "deductions": 500, "netPay": 25500, "status": "Processed" },
-  { "name": "Maria Santos", "position": "Admin Staff", "basicPay": 20000, "overtime": 1200, "deductions": 300, "netPay": 20900, "status": "Processed" },
-  { "name": "Jose Reyes", "position": "Librarian", "basicPay": 18000, "overtime": 0, "deductions": 200, "netPay": 17800, "status": "Pending" },
-  { "name": "Ana Lopez", "position": "Teacher", "basicPay": 25000, "overtime": 1500, "deductions": 500, "netPay": 26000, "status": "Approved" }
+  { "name": "Juan Dela Cruz", "position": "Teacher", "basicPay": 25000, "overtime": 2000, "deduction": 500, "netPay": 25500, "status": "Processed" },
+  { "name": "Maria Santos", "position": "Admin Staff", "basicPay": 20000, "overtime": 1200, "deduction": 300, "netPay": 20900, "status": "Processed" },
+  { "name": "Jose Reyes", "position": "Librarian", "basicPay": 18000, "overtime": 0, "deduction": 200, "netPay": 17800, "status": "Pending" },
+  { "name": "Ana Lopez", "position": "Teacher", "basicPay": 25000, "overtime": 1500, "deduction": 500, "netPay": 26000, "status": "Approved" }
 ]`);
 
 function saveData() {
@@ -994,7 +994,7 @@ payrollData.forEach((record, index) => {
       <td>${record.name}</td>
       <td>${record.position}</td>
       <td>P${record.basicPay.toLocaleString()}${record.overtime ? " P" + record.overtime.toLocaleString() : ""}</td>
-      <td>P${record.deductions.toLocaleString()}</td>
+      <td>P${record.deduction.toLocaleString()}</td>
       <td>P${record.netPay.toLocaleString()}</td>
       <td>${record.status}</td>
       <td>
