@@ -978,14 +978,14 @@ const tbody = document.querySelector(".activity-table tbody");
 let editRowIndex = null;
 
 let payrollData = JSON.parse(localStorage.getItem("payrollData") || `[
-  { "name": "Juan Dela Cruz", "position": "Teacher", "basicPay": 25000, "overtime": 2000, "deduction": 500, "netPay": 25500, "status": "Processed" },
-  { "name": "Maria Santos", "position": "Admin Staff", "basicPay": 20000, "overtime": 1200, "deduction": 300, "netPay": 20900, "status": "Processed" },
-  { "name": "Jose Reyes", "position": "Librarian", "basicPay": 18000, "overtime": 0, "deduction": 200, "netPay": 17800, "status": "Pending" },
-  { "name": "Ana Lopez", "position": "Teacher", "basicPay": 25000, "overtime": 1500, "deduction": 500, "netPay": 26000, "status": "Approved" }
+  { "name": "Juan Dela Cruz", "position": "Teacher", "basic": 25000, "overtime": 2000, "deduction": 500, "net": 25500, "status": "Processed" },
+  { "name": "Maria Santos", "position": "Admin Staff", "basic": 20000, "overtime": 1200, "deduction": 300, "net": 20900, "status": "Processed" },
+  { "name": "Jose Reyes", "position": "Librarian", "basic": 18000, "overtime": 0, "deduction": 200, "net": 17800, "status": "Pending" },
+  { "name": "Ana Lopez", "position": "Teacher", "basic": 25000, "overtime": 1500, "deduction": 500, "net": 26000, "status": "Approved" }
 ]`);
 
 function saveData() {
-  localStorage.setItem("payrollData", JSON.stringify(attendanceData));
+  localStorage.setItem("payrollData", JSON.stringify(payrollData));
 }
 
 payrollData.forEach((record, index) => {
