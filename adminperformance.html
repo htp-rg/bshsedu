@@ -741,112 +741,134 @@
   </div>
 
 <div class="content-wrapper">
-            <div class="content-block" style="padding: 25px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;">
-          <h2>Performance Evaluation System</h2>
-          <div style="display: flex; gap: 10px;">
-            <button class="btn-secondary" style="background: #f8f9fa; color: #4a5568; padding: 6px 15px; border: 1px solid #ddd; font-weight: 500;">
-              <i data-lucide="search" style="width: 14px; height: 14px; margin-right: 5px;"></i> Search
-            </button>
-            <button class="btn btn-primary" style="padding: 6px 15px; font-size: 14px; font-weight: 500;">
-              <i data-lucide="plus" style="width: 14px; height: 14px; margin-right: 5px;"></i> Add Evaluation
-            </button>
-          </div>
-        </div>
+    <div class="page-container">
+        <div class="title-bar">
+            <h2>
+                <i data-lucide="check-circle" class="total-icon" style="width: 28px; height: 28px;"></i>
+                Performance Evaluation System
+            </h2>
+            <div class="action-buttons">
+                <button class="btn-search">
+                    <i data-lucide="search" style="width: 14px; height: 14px; margin-right: 5px;"></i> Search
+                </button>
+                <button class="btn-add-eval">
+                    <i data-lucide="plus" style="width: 14px; height: 14px; margin-right: 5px;"></i> Add Evaluation
+                </button>
+            </div>
+        </div>
 
-        <div style="display: flex; gap: 20px;">
-                    <div style="flex: 0 0 40%;">
-            <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Overview</span>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
-                <i data-lucide="star" style="width: 24px; height: 24px; color: var(--saas-primary);"></i>
-                <h3 style="font-size: 1.5rem; margin: 5px 0;">75</h3>
-                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Completed</p>
-              </div>
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
-                <i data-lucide="clock" style="width: 24px; height: 24px; color: #f97316;"></i>
-                <h3 style="font-size: 1.5rem; margin: 5px 0;">25</h3>
-                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Pending</p>
-              </div>
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
-                <i data-lucide="bar-chart-2" style="width: 24px; height: 24px; color: #3b82f6;"></i>
-                <h3 style="font-size: 1.5rem; margin: 5px 0;">4.2</h3>
-                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Average Score</p>
-              </div>
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
-                <i data-lucide="check-circle" style="width: 24px; height: 24px; color: #10b981;"></i>
-                <h3 style="font-size: 1.5rem; margin: 5px 0;">100</h3>
-                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Total Evaluations</p>
-              </div>
-            </div>
+        <div class="main-layout">
+            <div class="left-panel">
+                <span class="section-title">Overview</span>
+                <div class="overview-grid">
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">75</h3>
+                            <i data-lucide="star" class="completed-icon"></i>
+                        </div>
+                        <p>Completed</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">25</h3>
+                            <i data-lucide="user-check" class="pending-icon"></i>
+                        </div>
+                        <p>Pending</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">4.2</h3>
+                            <i data-lucide="bar-chart-2" class="average-icon"></i>
+                        </div>
+                        <p>Average Score</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">100</h3>
+                            <i data-lucide="check-circle" class="total-icon"></i>
+                        </div>
+                        <p>Total Evaluations</p>
+                    </div>
+                </div>
 
-                        <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 20px;">Evaluations by Department</span>
-            <div class="bar-chart-mockup" style="font-size: 14px; color: #4a5568;">
-              <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                <span style="flex: 0 0 35%;">Marketing</span>
-                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
-                  <div style="width: 90%; height: 100%; background-color: #3b82f6;"></div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                <span style="flex: 0 0 35%;">Sales</span>
-                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
-                  <div style="width: 70%; height: 100%; background-color: #3b82f6;"></div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                <span style="flex: 0 0 35%;">Engineering</span>
-                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
-                  <div style="width: 55%; height: 100%; background-color: #3b82f6;"></div>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                <span style="flex: 0 0 35%;">HR</span>
-                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
-                  <div style="width: 40%; height: 100%; background-color: #3b82f6;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <span class="section-title">Evaluations by Department</span>
+                <div class="bar-chart-mockup" style="font-size: 14px;">
+                    <div style="display: flex; margin-bottom: 5px; color: #718096; font-size: 12px; position: relative; left: 100px; width: calc(100% - 100px);">
+                        <span style="position: absolute; left: 0;">0</span>
+                        <span style="position: absolute; left: calc(33.3% - 10px);">10</span>
+                        <span style="position: absolute; left: calc(66.6% - 10px);">20</span>
+                        <span style="position: absolute; right: 0; transform: translateX(10px);">30</span>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 0 0 10px 100px;">
 
-                    <div style="flex: 1;">
-            <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Recent Evaluation</span>
-            <table class="activity-table" style="width: 100%; font-size: 14px;">
-              <thead>
-                <tr>
-                  <th style="text-align: left; padding: 12px 0;">Employee</th>
-                  <th style="text-align: right; padding: 12px 0;">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="text-align: left; padding: 12px 0;">RUADO, CYRILL</td>
-                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
-                </tr>
-                <tr>
-                  <td style="text-align: left; padding: 12px 0;">REYES, JOSHUA</td>
-                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
-                </tr>
-                <tr>
-                  <td style="text-align: left; padding: 12px 0;">BESA, JOHN LLOYD</td>
-                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
-                </tr>
-                <tr>
-                  <td style="text-align: left; padding: 12px 0;">PAULITE, JOHANES</td>
-                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
-                </tr>
-                <tr>
-                  <td style="text-align: left; padding: 12px 0; border-bottom: none;">EDORIA, MARK</td>
-                  <td style="text-align: right; color: #718096; border-bottom: none;">Sept 20, 2025</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Marketing</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 90%;"></div> 
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Sales</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Engineering</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 55%;"></div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">HR</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      </div>
-    </div>
-      </div>
+            <div class="right-panel">
+                <span class="section-title">Recent Evaluation</span>
+                <table class="recent-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70%;">Employee</th>
+                            <th style="width: 30%; text-align: right;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RUADO, CYRILL</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>REYES, JOSHUA</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>BESA, JOHN LLOYD</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>PAULITE, JOHANES</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>EDORIA, MARK</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="pagination-mockup">
+            4-8 of 6
+        </div>
+
+    </div>
+</div>
 
 </main>
 <div id="addModal" class="modal">
