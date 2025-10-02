@@ -977,7 +977,6 @@ function renderTable() {
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-// Add
 document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
 document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
 
@@ -996,7 +995,6 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   closeModal("addModal");
 });
 
-// Edit
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (editRowIndex === null) return;
@@ -1012,7 +1010,6 @@ document.getElementById("saveEdit").addEventListener("click", () => {
   closeModal("editModal");
 });
 
-// View
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
 function attachRowEvents(row, index) {
@@ -1048,7 +1045,6 @@ function attachRowEvents(row, index) {
   });
 }
 
-// Search & Filter
 const searchInput = document.querySelector('.search-filter input');
 const filterSelect = document.querySelector('.search-filter select');
 
@@ -1067,7 +1063,6 @@ function filterTable() {
 searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
-// Export
 document.getElementById("exportBtn").addEventListener("click", () => {
   let csvContent = "data:text/csv;charset=utf-8,Benefit,Description,Enrolled Employees,Status\r\n";
   benefitData.forEach(row => {
