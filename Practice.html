@@ -1,1207 +1,1122 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recruitment & Hiring</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Evaluation System</title>
 
- <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-  body {
-    margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f8f9fa;
-    transition: margin-left 0.3s ease-in-out;
-  }
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    transition: margin-left 0.3s ease-in-out;
+  }
 
-  :root {
-    --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
-    --saas-primary: #ec4899;
-  }
+  :root {
+    --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+    --saas-primary: #ec4899;
+  }
 
-  .main-sidebar {
-    width: 260px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background-color: #2d3748;
-    color: #e2e8f0;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease-in-out;
-  }
+  .main-sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #2d3748;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out;
+  }
 
-  .sidebar-header {
-    padding: 0 25px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #4a5568;
-    flex-shrink: 0;
-  }
+  .sidebar-header {
+    padding: 0 25px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #4a5568;
+    flex-shrink: 0;
+  }
 
-  .sidebar-header h1 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #ffffff;
-    font-weight: 600;
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-  }
+  .sidebar-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
 
-  .sidebar-header h1 a {
-    color: #ffffff;
-    text-decoration: none;
-  }
+  .sidebar-header h1 a {
+    color: #ffffff;
+    text-decoration: none;
+  }
 
 .sidebar-links {
-  flex-grow: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .sidebar-links::-webkit-scrollbar {
-  display: none;
+  display: none;
 }
 
-  .sidebar-heading {
-    display: block;
-    padding: 10px 25px;
-    margin-top: 15px;
-    font-size: 0.75rem;
-    color: #a0aec0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
+  .sidebar-heading {
+    display: block;
+    padding: 10px 25px;
+    margin-top: 15px;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
 
-  .sidebar-links .sidebar-heading:first-child {
-    margin-top: 0;
-  }
+  .sidebar-links .sidebar-heading:first-child {
+    margin-top: 0;
+  }
 
-  .main-sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: #cbd5e0;
-    text-decoration: none;
-    padding: 12px 25px 12px 35px;
-    margin: 2px 0;
-    font-size: 15px;
-    font-weight: 500;
-    position: relative;
-    z-index: 2;
-    white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
+  .main-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #cbd5e0;
+    text-decoration: none;
+    padding: 12px 25px 12px 35px;
+    margin: 2px 0;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
 
-  .main-sidebar a .icon {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2;
-    flex-shrink: 0;
-    transition: color 0.2s ease;
-  }
+  .main-sidebar a .icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
 
-  .main-sidebar a:hover {
-    background-color: #4a5568;
-    color: #ffffff;
-  }
+  .main-sidebar a:hover {
+    background-color: #4a5568;
+    color: #ffffff;
+  }
 
-  .main-sidebar a.active {
-    background-color: transparent;
-    color: var(--saas-primary);
-    font-weight: 500;
-  }
+  .main-sidebar a.active {
+    background-color: transparent;
+    color: var(--saas-primary);
+    font-weight: 500;
+  }
 
-  .main-sidebar a.active .icon {
-    color: var(--saas-primary);
-  }
+  .main-sidebar a.active .icon {
+    color: var(--saas-primary);
+  }
 
-  .main-sidebar a.active::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 24px;
-    background-image: var(--saas-gradient);
-    border-radius: 2px;
-    animation: pulse-indicator-open 2.5s infinite;
-  }
+  .main-sidebar a.active::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background-image: var(--saas-gradient);
+    border-radius: 2px;
+    animation: pulse-indicator-open 2.5s infinite;
+  }
 
-  .notification-badge {
-    background-color: #ef4444;
-    color: white;
-    border-radius: 12px;
-    padding: 2px 8px;
-    font-size: 0.8em;
-    font-weight: bold;
-    margin-left: auto;
-    position: relative;
-    z-index: 2;
-  }
+  .notification-badge {
+    background-color: #ef4444;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: auto;
+    position: relative;
+    z-index: 2;
+  }
 
-  .main-sidebar a.active .notification-badge {
-    background-color: #ffffff;
-    color: #4f46e5;
-    font-weight: bold;
-  }
+  .main-sidebar a.active .notification-badge {
+    background-color: #ffffff;
+    color: #4f46e5;
+    font-weight: bold;
+  }
 
-  .main-sidebar a.nav-alert {
-    color: #f56565;
-    font-weight: 600;
-  }
+  .main-sidebar a.nav-alert {
+    color: #f56565;
+    font-weight: 600;
+  }
 
-  .main-sidebar a.nav-alert .icon {
-    color: #f56565;
-  }
+  .main-sidebar a.nav-alert .icon {
+    color: #f56565;
+  }
 
-  .main-sidebar a.nav-alert:hover {
-    color: #fff;
-    background-color: #dc2626;
-  }
+  .main-sidebar a.nav-alert:hover {
+    color: #fff;
+    background-color: #dc2626;
+  }
 
-  .main-sidebar a.nav-alert.active {
-    background-color: transparent;
-    color: #ef4444;
-  }
+  .main-sidebar a.nav-alert.active {
+    background-color: transparent;
+    color: #ef4444;
+  }
 
-  .main-sidebar a.nav-alert.active .icon {
-    color: #ef4444;
-  }
+  .main-sidebar a.nav-alert.active .icon {
+    color: #ef4444;
+  }
 
-  .main-sidebar a.nav-alert.active::before {
-    background-image: none;
-    background-color: #ef4444;
-    animation: none;
-  }
+  .main-sidebar a.nav-alert.active::before {
+    background-image: none;
+    background-color: #ef4444;
+    animation: none;
+  }
 
-  .sidebar-footer {
-    padding: 20px 0 10px 0;
-    border-top: 1px solid #4a5568;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
-  }
+  .sidebar-footer {
+    padding: 20px 0 10px 0;
+    border-top: 1px solid #4a5568;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
 
-  .main-content {
-    margin-left: 260px;
-    padding: 0;
-    transition: margin-left 0.3s ease-in-out;
-  }
+  .main-content {
+    margin-left: 260px;
+    padding: 0;
+    transition: margin-left 0.3s ease-in-out;
+  }
 
-  .content-header {
-    height: 80px;
-    background-color: #ffffff;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e2e8f0;
-    flex-shrink: 0;
-  }
+  .content-header {
+    height: 80px;
+    background-color: #ffffff;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    flex-shrink: 0;
+  }
 
-  .header-title-section h1 {
-    margin: 0 0 4px 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a202c;
-  }
+  .header-title-section h1 {
+    margin: 0 0 4px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+  }
 
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #718096;
-  }
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #718096;
+  }
 
-  .breadcrumbs a {
-    color: var(--saas-primary);
-    text-decoration: none;
-    font-weight: 500;
-  }
+  .breadcrumbs a {
+    color: var(--saas-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
 
-  .breadcrumbs a:hover {
-    text-decoration: underline;
-  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
 
-  .breadcrumbs .separator {
-    color: #cbd5e0;
-  }
+  .breadcrumbs .separator {
+    color: #cbd5e0;
+  }
 
-  .content-wrapper {
-    padding: 30px;
-  }
+  .content-wrapper {
+    padding: 30px;
+  }
 
-  .btn-primary {
-    background-image: var(--saas-gradient);
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 10px 24px;
-    border-radius: 8px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+  .btn-primary {
+    background-image: var(--saas-gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    color: white;
-  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
 
-  .btn-primary .icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-  }
+  .btn-primary .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
 
-  .page-description {
-    font-size: 16px;
-    color: #718096;
-    max-width: 800px;
-  }
+  .page-description {
+    font-size: 16px;
+    color: #718096;
+    max-width: 800px;
+  }
 
- .dashboard-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+ .dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
 }
 
- .stat-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-              0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
- 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 10px; 
+ .stat-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 10px; 
 }
 
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-color: var(--saas-primary);
-  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--saas-primary);
+  }
 
-  .stat-card-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    opacity: 0.3;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
+  .stat-card-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    opacity: 0.3;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 
-  .stat-card:hover .stat-card-icon {
-    transform: scale(1.15) rotate(5deg);
-    opacity: 0.6;
-  }
+  .stat-card:hover .stat-card-icon {
+    transform: scale(1.15) rotate(5deg);
+    opacity: 0.6;
+  }
 
-  .icon-books { color: #3b82f6; }
-  .icon-students { color: #10b981; }
-  .icon-loan { color: #f97316; }
-  .icon-requests { color: #ec4899; }
-  .icon-returns { color: #8b5cf6; }
+  .icon-books { color: #3b82f6; }
+  .icon-students { color: #10b981; }
+  .icon-loan { color: #f97316; }
+  .icon-requests { color: #ec4899; }
+  .icon-returns { color: #8b5cf6; }
 
-  .stat-card-info {
-    position: relative;
-    z-index: 2;
-  }
+  .stat-card-info {
+    position: relative;
+    z-index: 2;
+  }
 
-  .stat-card-info h3 {
-    font-size: 3rem;
-    margin: 0 0 10px 0;
-    color: #1a202c;
-    font-weight: 700;
-  }
+  .stat-card-info h3 {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    color: #1a202c;
+    font-weight: 700;
+  }
 
-  .stat-card-info p {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #718096;
-  }
+  .stat-card-info p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #718096;
+  }
 
-  .stat-card.alert {
-    border-color: #ef4444;
-    background-color: #fef2f2;
-  }
+  .stat-card.alert {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+  }
 
-  .stat-card.alert:hover {
-    border-color: #dc2626;
-  }
+  .stat-card.alert:hover {
+    border-color: #dc2626;
+  }
 
-  .gradient-text {
-    background: var(--saas-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
+  .gradient-text {
+    background: var(--saas-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 
-  .dashboard-main-content {
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid #e2e8f0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
+  .dashboard-main-content {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
 
-  .content-block {
-    background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    padding: 25px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    transition: box-shadow 0.2s ease;
-  }
+  .content-block {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s ease;
+  }
 
-  .content-block h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 15px;
-  }
+  .content-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+  }
 
-  .quick-actions-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
+  .quick-actions-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
 
-  .quick-action-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    text-decoration: none;
-    color: #4a5568;
-    font-weight: 500;
-    text-align: center;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  }
+  .quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
 
-  .quick-action-btn:hover {
-    background-color: var(--saas-primary);
-    color: #ffffff;
-    transform: translateY(-3px);
-  }
+  .quick-action-btn:hover {
+    background-color: var(--saas-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+  }
 
-  .quick-action-btn .icon {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 10px;
-  }
+  .quick-action-btn .icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 10px;
+  }
 
-  .activity-table-container {
-    max-height: 250px;
-    overflow-y: auto;
-  }
+  .activity-table-container {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 
-  .activity-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+  .activity-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-  .activity-table tr {
-    border-bottom: 1px solid #e2e8f0;
-  }
+  .activity-table tr {
+    border-bottom: 1px solid #e2e8f0;
+  }
 
-  .activity-table tr:last-child {
-    border-bottom: none;
-  }
+  .activity-table tr:last-child {
+    border-bottom: none;
+  }
 
-  .activity-table td {
-    padding: 12px 0;
-    text-align: center;
-  }
+  .activity-table td {
+    padding: 12px 0;
+    text-align: center;
+  }
 
-  .activity-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-  }
+  .activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+  }
 
-  .activity-icon .icon {
-    width: 18px;
-    height: 18px;
-  }
+  .activity-icon .icon {
+    width: 18px;
+    height: 18px;
+  }
 
-  .activity-icon.borrow {
-    background-color: #fee2e2;
-    color: #dc2626;
-  }
+  .activity-icon.borrow {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
 
-  .activity-icon.return {
-    background-color: #dcfce7;
-    color: #16a34a;
-  }
+  .activity-icon.return {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
 
-  .activity-user {
-    font-weight: 600;
-    color: #1a202c;
-  }
+  .activity-user {
+    font-weight: 600;
+    color: #1a202c;
+  }
 
-  .activity-book {
-    color: #718096;
-  }
+  .activity-book {
+    color: #718096;
+  }
 
-  .activity-time {
-    text-align: right;
-    color: #a0aec0;
-    font-size: 14px;
-    white-space: nowrap;
-  }
+  .activity-time {
+    text-align: right;
+    color: #a0aec0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
 
-  @media (max-width: 992px) {
-    .dashboard-main-content {
-      grid-template-columns: 1fr;
-    }
-  }
+  @media (max-width: 992px) {
+    .dashboard-main-content {
+      grid-template-columns: 1fr;
+    }
+  }
 
-  body.sidebar-collapsed .main-sidebar { width: 75px; }
-  body.sidebar-collapsed .main-content { margin-left: 75px; }
-  body.sidebar-collapsed .sidebar-header h1 { opacity: 0; }
-  body.sidebar-collapsed .sidebar-heading {
-    opacity: 0;
-    padding: 0;
-    margin: 0;
-    height: 0;
-    overflow: hidden;
-  }
-  body.sidebar-collapsed .main-sidebar a {
-    border-radius: 8px;
-    margin: 4px 8px;
-    padding: 12px;
-    justify-content: center;
-  }
-  body.sidebar-collapsed .main-sidebar a::before { display: none; }
-  body.sidebar-collapsed .main-sidebar a.active {
-    animation: glow-collapsed 3s infinite ease-in-out;
-  }
-  body.sidebar-collapsed .main-sidebar a.active .icon { color: #ffffff; }
-  body.sidebar-collapsed .main-sidebar .sidebar-links a,
-  body.sidebar-collapsed .main-sidebar .sidebar-footer a {
-    font-size: 0;
-    gap: 0;
-  }
-  body.sidebar-collapsed .notification-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    font-size: 0;
-    border: none;
-  }
-  body.sidebar-collapsed .sidebar-toggle {
-    top: 50%;
-    right: -22px;
-  }
-  body.sidebar-collapsed .sidebar-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
-  }
-  body.sidebar-collapsed .sidebar-toggle .icon-close {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  body.sidebar-collapsed .sidebar-toggle .icon-open {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  body.sidebar-collapsed .main-sidebar { width: 75px; }
+  body.sidebar-collapsed .main-content { margin-left: 75px; }
+  body.sidebar-collapsed .sidebar-header h1 { opacity: 0; }
+  body.sidebar-collapsed .sidebar-heading {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  body.sidebar-collapsed .main-sidebar a {
+    border-radius: 8px;
+    margin: 4px 8px;
+    padding: 12px;
+    justify-content: center;
+  }
+  body.sidebar-collapsed .main-sidebar a::before { display: none; }
+  body.sidebar-collapsed .main-sidebar a.active {
+    animation: glow-collapsed 3s infinite ease-in-out;
+  }
+  body.sidebar-collapsed .main-sidebar a.active .icon { color: #ffffff; }
+  body.sidebar-collapsed .main-sidebar .sidebar-links a,
+  body.sidebar-collapsed .main-sidebar .sidebar-footer a {
+    font-size: 0;
+    gap: 0;
+  }
+  body.sidebar-collapsed .notification-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    font-size: 0;
+    border: none;
+  }
+  body.sidebar-collapsed .sidebar-toggle {
+    top: 50%;
+    right: -22px;
+  }
+  body.sidebar-collapsed .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-close {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-open {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-  .sidebar-toggle {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -20px;
-    z-index: 1001;
-    background-image: var(--saas-gradient);
-    color: white;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-  }
+  .sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px;
+    z-index: 1001;
+    background-image: var(--saas-gradient);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
 
-  .sidebar-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
+  .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
 
-  .sidebar-toggle .icon {
-    position: absolute;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  .sidebar-toggle .icon {
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-  .sidebar-toggle .icon-close {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  .sidebar-toggle .icon-close {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-  .sidebar-toggle .icon-open {
-    opacity: 0;
-    transform: translateX(100%);
-  }
+  .sidebar-toggle .icon-open {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 
-  @keyframes pulse-indicator-open {
-    0%   { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
-    70%  { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
-  }
+  @keyframes pulse-indicator-open {
+    0%   { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+  }
 
-  @keyframes glow-collapsed {
-    0%, 100% { background-color: #4f46e0; box-shadow: 0 0 10px rgba(79, 70, 229, 0.6); }
-    50%      { background-color: #8b5cf6; box-shadow: 0 0 18px rgba(139, 92, 246, 0.9); }
-  }
-    
-  .main-sidebar a,
+  @keyframes glow-collapsed {
+    0%, 100% { background-color: #4f46e0; box-shadow: 0 0 10px rgba(79, 70, 229, 0.6); }
+    50%      { background-color: #8b5cf6; box-shadow: 0 0 18px rgba(139, 92, 246, 0.9); }
+  }
+    
+  .main-sidebar a,
 .sidebar-heading {
-  white-space: normal;     
-  word-break: break-word;  
+  white-space: normal;     
+  word-break: break-word;  
 }
-    
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    align-items: center; justify-content: center;
-  }
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    width: 400px;
-    max-width: 90%;
-  }
-  .modal-actions {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  .btn-secondary {
-    background: #e2e8f0;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .modal-backdrop {
-    --bs-backdrop-zindex: 1050;
-    --bs-backdrop-bg: #000;
-    --bs-backdrop-opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: var(--bs-backdrop-zindex);
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--bs-backdrop-bg);
+    
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    align-items: center; justify-content: center;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+  }
+  .modal-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .btn-secondary {
+    background: #e2e8f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .modal-backdrop {
+    --bs-backdrop-zindex: 1050;
+    --bs-backdrop-bg: #000;
+    --bs-backdrop-opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--bs-backdrop-zindex);
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bs-backdrop-bg);
 }
-    .modal-content label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-  color: #1a202c;
+    .modal-content label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+  color: #1a202c;
 }
 
 .modal-content input,
 .modal-content select,
 .modal-content textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
 }
-  </style>
+
+/* Specific styles to match the image layout */
+.content-wrapper {
+    padding: 25px 30px; /* Reduced top padding to match image */
+}
+.page-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.title-bar h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a202c;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-search {
+    background: #f8f9fa;
+    color: #4a5568;
+    padding: 6px 15px;
+    border: 1px solid #ddd;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.btn-add-eval {
+    padding: 6px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    background-image: var(--saas-gradient);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.main-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.left-panel {
+    flex: 0 0 350px; /* Adjusted to fit the proportions of the image */
+}
+
+.right-panel {
+    flex: 1;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-box .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-box .header i {
+    width: 20px;
+    height: 20px;
+}
+
+.stat-box h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 0 2px 0;
+    color: #1a202c;
+}
+
+.stat-box p {
+    font-size: 14px;
+    color: #718096;
+    margin: 0;
+}
+
+.completed-icon { color: #8b5cf6; } /* Purple/Star icon color for Completed */
+.pending-icon { color: #f97316; } /* Orange/Clock icon color for Pending */
+.average-icon { color: #3b82f6; } /* Blue/Chart icon color for Average */
+.total-icon { color: #10b981; } /* Green/Check icon color for Total */
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a202c;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.department-chart {
+    margin-top: 20px;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.bar-label {
+    flex: 0 0 100px; /* Fixed width for department names */
+    font-weight: 500;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.bar-fill {
+    height: 100%;
+    background-color: #3b82f6;
+}
+
+.bar-value {
+    font-weight: 600;
+    color: #1a202c;
+    min-width: 25px;
+    text-align: right;
+}
+
+.recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.recent-table th {
+    text-align: left;
+    padding: 12px 0;
+    color: #718096;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.recent-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.recent-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.recent-table td:nth-child(2) {
+    text-align: right;
+    color: #718096;
+}
+
+/* Pagination mockup */
+.pagination-mockup {
+    font-size: 12px;
+    color: #718096;
+    margin-top: 15px;
+}
+
+/* Overriding and fixing the original CSS for the image's appearance */
+.main-content {
+    margin-left: 260px;
+    padding: 0;
+}
+
+.content-wrapper {
+    padding: 25px 30px;
+}
+
+.content-header {
+    display: none; /* Hide the top header to match the image which has the title inside the main content block */
+}
+
+/* Specific bar styles to match the image precisely */
+.bar-chart-mockup {
+    margin-top: 15px;
+}
+.bar-chart-mockup .bar-row {
+    margin-bottom: 15px;
+}
+.bar-chart-mockup .bar-label {
+    flex: 0 0 100px;
+    margin-right: 15px;
+    color: #1a202c;
+}
+.bar-chart-mockup .bar-container {
+    height: 10px;
+    margin: 0;
+}
+.bar-chart-mockup .bar-value {
+    display: none; /* Hide value to match the image */
+}
+
+  </style>
 </head>
 <body>
-  <nav class="main-sidebar">
-        <button id="sidebarToggle" class="sidebar-toggle">
-            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
-            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
-        </button>
- <div class="sidebar-header">
-      <h1><a href="#">Admin Panel</a></h1>
-    </div>
-    
+  <nav class="main-sidebar">
+        <button id="sidebarToggle" class="sidebar-toggle">
+            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
+            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
+        </button>
+ <div class="sidebar-header">
+      <h1><a href="#">Admin Panel</a></h1>
+    </div>
+    
 <div class="sidebar-links">
-    <span class="sidebar-heading">MAIN</span>
-    <a href="admindashboard.html">
-        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
-    </a>
+    <span class="sidebar-heading">MAIN</span>
+    <a href="admindashboard.html">
+        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
+    </a>
 
-    <span class="sidebar-heading">MODULE</span>
-    <a href="adminemployee.html">
-        <i data-lucide="arrow-right-from-line" class="icon"></i>
-        Employee Information & Records Management
-    </a>
-    <a href="adminrecruitment.html"class="active">
-        <i data-lucide="arrow-left-to-line" class="icon"></i>
-        Recruitment and Hiring
-    </a>
-    <a href="admintime.html">
-        <i data-lucide="triangle-alert" class="icon"></i>
-        Time & Attendance Monitoring
-    </a>
-    <a href="adminleave.html">
-        <i data-lucide="book-user" class="icon"></i>
-        Leave & Overtime Management
-    </a>
+    <span class="sidebar-heading">MODULE</span>
+    <a href="adminemployee.html">
+        <i data-lucide="arrow-right-from-line" class="icon"></i>
+        Employee Information & Records Management
+    </a>
+    <a href="adminrecruitment.html">
+        <i data-lucide="arrow-left-to-line" class="icon"></i>
+        Recruitment and Hiring
+    </a>
+    <a href="admintime.html">
+        <i data-lucide="triangle-alert" class="icon"></i>
+        Time & Attendance Monitoring
+    </a>
+    <a href="adminleave.html">
+        <i data-lucide="book-user" class="icon"></i>
+        Leave & Overtime Management
+    </a>
 
-    <span class="sidebar-heading">SUPERVISION</span>
-    <a href="adminpayroll.html">
-        <i data-lucide="book-open" class="icon"></i>
-        Payroll & Compensation
-    </a>
-    <a href="adminperformance.html">
-        <i data-lucide="calendar-check" class="icon"></i>
-        Performance Evaluation System
-    </a>
-    <a href="admintraining.html">
-        <i data-lucide="users" class="icon"></i>
-        Training & Development
-    </a>
-    <a href="adminbenefits.html">
-        <i data-lucide="school" class="icon"></i>
-        Employee Benefits & Welfare
-    </a>
-    <a href="adminlogs.html">
-        <i data-lucide="history" class="icon"></i>
-        System Logs
-    </a>
+    <span class="sidebar-heading">SUPERVISION</span>
+    <a href="adminpayroll.html">
+        <i data-lucide="book-open" class="icon"></i>
+        Payroll & Compensation
+    </a>
+    <a href="adminperformance.html" class="active">
+        <i data-lucide="calendar-check" class="icon"></i>
+        Performance Evaluation System
+    </a>
+    <a href="admintraining.html">
+        <i data-lucide="users" class="icon"></i>
+        Training & Development
+    </a>
+    <a href="adminbenefits.html">
+        <i data-lucide="school" class="icon"></i>
+        Employee Benefits & Welfare
+    </a>
+    <a href="adminlogs.html">
+        <i data-lucide="history" class="icon"></i>
+        System Logs
+    </a>
 </div>
 
 <div class="sidebar-footer">
-    <a href="adminprofile.html">
-        <i data-lucide="user-circle" class="icon"></i> My Profile
-    </a>
-    <a href="main.html" class="nav-alert">
-        <i data-lucide="log-out" class="icon"></i> Logout
-    </a>
+    <a href="adminprofile.html">
+        <i data-lucide="user-circle" class="icon"></i> My Profile
+    </a>
+    <a href="main.html" class="nav-alert">
+        <i data-lucide="log-out" class="icon"></i> Logout
+    </a>
 </div>
-    </nav>
+    </nav>
 
 <main class="main-content">
-  
-  <div class="content-header">
-    <div class="header-title-section">
-      <h1>Recruitment & Hiring</h1>
-    </div>
-    <div class="header-actions-section">
-      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
-        <i data-lucide="arrow-left" class="icon"></i> Back
-      </a>
-    </div>
-  </div>
+  <div class="content-header">
+    <div class="header-title-section">
+      <h1>Performance Evaluation System</h1>
+    </div>
+    <div class="header-actions-section">
+      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
+        <i data-lucide="arrow-left" class="icon"></i> Back
+      </a>
+    </div>
+  </div>
 
-  <div class="content-wrapper">
-    <div class="dashboard-container">
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>120</h3>
-          <p>Total Candidates</p>
+<div class="content-wrapper">
+    <div class="page-container">
+        <div class="title-bar">
+            <h2>
+                <i data-lucide="check-circle" class="total-icon" style="width: 28px; height: 28px;"></i>
+                Performance Evaluation System
+            </h2>
+            <div class="action-buttons">
+                <button class="btn-search">
+                    <i data-lucide="search" style="width: 14px; height: 14px; margin-right: 5px;"></i> Search
+                </button>
+                <button class="btn-add-eval">
+                    <i data-lucide="plus" style="width: 14px; height: 14px; margin-right: 5px;"></i> Add Evaluation
+                </button>
+            </div>
         </div>
-        <i data-lucide="user" class="stat-card-icon icon-books"></i>
-      </div>
 
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>8</h3>
-          <p>Open Position</p>
-        </div>
-        <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
-      </div>
+        <div class="main-layout">
+            <div class="left-panel">
+                <span class="section-title">Overview</span>
+                <div class="overview-grid">
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">75</h3>
+                            <i data-lucide="star" class="completed-icon"></i>
+                        </div>
+                        <p>Completed</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">25</h3>
+                            <i data-lucide="user-check" class="pending-icon"></i>
+                        </div>
+                        <p>Pending</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">4.2</h3>
+                            <i data-lucide="bar-chart-2" class="average-icon"></i>
+                        </div>
+                        <p>Average Score</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="header">
+                            <h3 style="font-size: 1.5rem; margin: 0;">100</h3>
+                            <i data-lucide="check-circle" class="total-icon"></i>
+                        </div>
+                        <p>Total Evaluations</p>
+                    </div>
+                </div>
 
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>85</h3>
-          <p>Application Received</p>
+                <span class="section-title">Evaluations by Department</span>
+                <div class="bar-chart-mockup" style="font-size: 14px;">
+                    <div style="display: flex; margin-bottom: 5px; color: #718096; font-size: 12px; position: relative; left: 100px; width: calc(100% - 100px);">
+                        <span style="position: absolute; left: 0;">0</span>
+                        <span style="position: absolute; left: calc(33.3% - 10px);">10</span>
+                        <span style="position: absolute; left: calc(66.6% - 10px);">20</span>
+                        <span style="position: absolute; right: 0; transform: translateX(10px);">30</span>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 0 0 10px 100px;">
+
+                    <div class="bar-row">
+                        <span class="bar-label">Marketing</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 90%;"></div> 
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Sales</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Engineering</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 55%;"></div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">HR</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <span class="section-title">Recent Evaluation</span>
+                <table class="recent-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70%;">Employee</th>
+                            <th style="width: 30%; text-align: right;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RUADO, CYRILL</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>REYES, JOSHUA</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>BESA, JOHN LLOYD</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>PAULITE, JOHANES</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>EDORIA, MARK</td>
+                            <td>Sept 20, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <i data-lucide="check-circle" class="stat-card-icon icon-loan"></i>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-card-info">
-          <h3>28</h3>
-          <p>Pending Interviews</p>
+        
+        <div class="pagination-mockup">
+            4-8 of 6
         </div>
-        <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
-      </div>
+
     </div>
-    
- <div class="content-block" style="margin-top:50px;">
-        <h2>Recruitment Records</h2>
-       <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
-  <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" id="generateBtn">New Job Position</button>
-    <button class="btn btn-primary" id="exportBtn">Export</button>
-  </div>
- <button class="btn btn-primary" id="addBtn">Add New Recruit</button>
 </div>
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
-
-       <div style="overflow-x:auto;">
-<table class="activity-table">
-  <thead>
-    <tr>
-      <th>Department</th>
-      <th>Candidate Name</th>
-      <th>Position</th>
-      <th>Submitted</th>
-      <th>Application Status</th>
-      <th>Result</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Academics</td>
-      <td>Antonio Remigio</td>
-      <td>Teacher</td>
-      <td>May 10, 2025</td>
-      <td>Interview Completed</td>
-      <td>Accepted</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>HR</td>
-      <td>Lisa Guillermo</td>
-      <td>Admin Staff</td>
-      <td>May 8, 2025</td>
-      <td>Interviewing</td>
-      <td>Pending</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>Library</td>
-      <td>Daniel Riego</td>
-      <td>Librarian</td>
-      <td>May 9, 2025</td>
-      <td>Application Review</td>
-      <td>Rejected</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>Academics</td>
-      <td>Sara Mendoza</td>
-      <td>Teacher</td>
-      <td>May 9, 2025</td>
-      <td>Pending Review</td>
-      <td>Pending</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 </main>
-<div id="addModal" class="modal">
-  <div class="modal-content">
-    <h2>Add New Recruit</h2>
-
-    <label>Name</label>
-    <input type="text" id="addName">
-
-    <label>Department</label>
-    <select id="addDept">
-      <option>Academics</option>
-      <option>HR</option>
-      <option>Library</option>
-    </select>
-
-    <label>Position</label>
-    <input type="text" id="addPosition">
-
-    <label>Date Submitted</label>
-    <input type="date" id="addDate">
-
-    <label>Application Status</label>
-    <select id="addStatus">
-      <option>Pending Review</option>
-      <option>Application Review</option>
-      <option>Interviewing</option>
-      <option>Interview Completed</option>
-    </select>
-
-    <label>Result</label>
-    <select id="addResult">
-      <option>Pending</option>
-      <option>Accepted</option>
-      <option>Rejected</option>
-    </select>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" id="closeAdd">Cancel</button>
-      <button class="btn btn-primary" id="saveAdd">Save</button>
-    </div>
-  </div>
-</div>
-
-<div id="editModal" class="modal">
-  <div class="modal-content">
-    <h2>Edit Recruit</h2>
-
-    <label>Name</label>
-    <input type="text" id="editName">
-
-    <label>Department</label>
-    <select id="editDept">
-      <option>Academics</option>
-      <option>HR</option>
-      <option>Library</option>
-    </select>
-
-    <label>Position</label>
-    <input type="text" id="editPosition">
-
-    <label>Date Submitted</label>
-    <input type="date" id="editDate">
-
-    <label>Application Status</label>
-    <select id="editStatus">
-      <option>Pending Review</option>
-      <option>Application Review</option>
-      <option>Interviewing</option>
-      <option>Interview Completed</option>
-    </select>
-
-    <label>Result</label>
-    <select id="editResult">
-      <option>Pending</option>
-      <option>Accepted</option>
-      <option>Rejected</option>
-    </select>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" id="closeEdit">Cancel</button>
-      <button class="btn btn-primary" id="saveEdit">Update</button>
-    </div>
-  </div>
-</div>
-
-<div id="viewModal" class="modal">
-  <div class="modal-content">
-    <h2>Recruit Details</h2>
-    <p><strong>Name:</strong> <span id="viewName"></span></p>
-    <p><strong>Department:</strong> <span id="viewDept"></span></p>
-    <p><strong>Position:</strong> <span id="viewPosition"></span></p>
-    <p><strong>Date Submitted:</strong> <span id="viewDate"></span></p>
-    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
-    <p><strong>Result:</strong> <span id="viewResult"></span></p>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="closeView">Close</button>
-    </div>
-  </div>
-</div>
-
-<div id="jobModal" class="modal">
-  <div class="modal-content">
-    <h2>New Job Position</h2>
-    
-    <label for="jobTitle">Job Title</label>
-    <input type="text" id="jobTitle" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job title">
-
-    <label for="jobDescription">Job Description</label>
-    <textarea id="jobDescription" style="width:100%; height:120px; margin-bottom:10px;" placeholder="Enter job description"></textarea>
-    
-    <label for="jobLocation">Location</label>
-    <input type="text" id="jobLocation" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter job location">
-
-    <label for="jobSalary">Salary</label>
-    <input type="text" id="jobSalary" style="width:100%; padding:8px; margin-bottom:10px;" placeholder="Enter salary range">
-
-    <label>Requirements</label>
-    <div id="requirementsList" style="margin-bottom:10px;">
-      <div class="requirement-item" style="display:flex; gap:8px; margin-bottom:5px;">
-        <input type="text" class="requirementInput" style="flex:1; padding:6px;" placeholder="Enter requirement">
-        <button type="button" class="btn-secondary removeReqBtn">✖</button>
-      </div>
-    </div>
-    <button type="button" class="btn-primary" id="addReqBtn" style="margin-bottom:15px;">+ Add Requirement</button>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('jobModal')">Cancel</button>
-      <button class="btn-primary" id="saveJobBtn">Save Job</button>
-    </div>
-  </div>
-</div>
-         
+         
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    lucide.createIcons();
-    
-    const tbody = document.querySelector(".activity-table tbody");
-    let editRow = null;
+lucide.createIcons();
 
-    // ====== LOCAL STORAGE ======
-    function saveTableToLocal() {
-        const rows = [...tbody.querySelectorAll("tr")];
-        const data = rows.map(row => ({
-            dept: row.children[0].innerText,
-            name: row.children[1].innerText,
-            position: row.children[2].innerText,
-            date: row.children[3].innerText,
-            status: row.children[4].innerText,
-            result: row.children[5].innerText
-        }));
-        localStorage.setItem("recruitmentData", JSON.stringify(data));
-    }
+const sidebarToggle = document.getElementById("sidebarToggle");
+sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
 
-    function loadTableFromLocal() {
-        const data = JSON.parse(localStorage.getItem("recruitmentData") || "[]");
-        
-        if (data.length === 0) {
-            // Attach events to existing HTML rows
-            document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
-            lucide.createIcons();
-            return;
-        }
-
-        // If there is data in localStorage, replace HTML rows
-        tbody.innerHTML = "";
-        data.forEach(item => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${item.dept}</td>
-                <td>${item.name}</td>
-                <td>${item.position}</td>
-                <td>${item.date}</td>
-                <td>${item.status}</td>
-                <td>${item.result}</td>
-                <td>
-                    <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                    <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                    <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-            attachRowEvents(tr);
-        });
-        lucide.createIcons();
-    }
-
-    // ====== MODAL FUNCTIONS ======
-    function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
-
-    // ====== ADD NEW RECRUIT ======
-    const addBtn = document.getElementById("addBtn");
-    const closeAdd = document.getElementById("closeAdd");
-    const saveAdd = document.getElementById("saveAdd");
-
-    addBtn?.addEventListener("click", () => openModal("addModal"));
-    closeAdd?.addEventListener("click", () => closeModal("addModal"));
-
-    saveAdd?.addEventListener("click", () => {
-        const name = document.getElementById("addName").value.trim();
-        const dept = document.getElementById("addDept").value;
-        const pos = document.getElementById("addPosition").value.trim();
-        const date = document.getElementById("addDate").value;
-        const status = document.getElementById("addStatus").value;
-        const result = document.getElementById("addResult").value;
-
-        if (!name || !pos) return alert("Fill all fields!");
-
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${dept}</td>
-            <td>${name}</td>
-            <td>${pos}</td>
-            <td>${date}</td>
-            <td>${status}</td>
-            <td>${result}</td>
-            <td>
-                <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-        attachRowEvents(tr);
-        lucide.createIcons();
-        saveTableToLocal();
-
-        document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
-        closeModal("addModal");
-    });
-
-    // ====== EDIT RECRUIT ======
-    const closeEdit = document.getElementById("closeEdit");
-    const saveEdit = document.getElementById("saveEdit");
-    closeEdit?.addEventListener("click", () => closeModal("editModal"));
-
-    saveEdit?.addEventListener("click", () => {
-        if (!editRow) return;
-        editRow.children[0].innerText = document.getElementById("editDept").value;
-        editRow.children[1].innerText = document.getElementById("editName").value;
-        editRow.children[2].innerText = document.getElementById("editPosition").value;
-        editRow.children[3].innerText = document.getElementById("editDate").value;
-        editRow.children[4].innerText = document.getElementById("editStatus").value;
-        editRow.children[5].innerText = document.getElementById("editResult").value;
-        closeModal("editModal");
-        saveTableToLocal();
-    });
-
-    // ====== VIEW RECRUIT ======
-    const closeView = document.getElementById("closeView");
-    closeView?.addEventListener("click", () => closeModal("viewModal"));
-
-    // ====== ATTACH ROW EVENTS ======
-    function attachRowEvents(row) {
-        const viewBtn = row.querySelector(".view-btn");
-        const editBtn = row.querySelector(".edit-btn");
-        const deleteBtn = row.querySelector(".delete-btn");
-
-        viewBtn?.addEventListener("click", () => {
-            document.getElementById("viewDept").innerText = row.children[0].innerText;
-            document.getElementById("viewName").innerText = row.children[1].innerText;
-            document.getElementById("viewPosition").innerText = row.children[2].innerText;
-            document.getElementById("viewDate").innerText = row.children[3].innerText;
-            document.getElementById("viewStatus").innerText = row.children[4].innerText;
-            document.getElementById("viewResult").innerText = row.children[5].innerText;
-            openModal("viewModal");
-        });
-
-        editBtn?.addEventListener("click", () => {
-            editRow = row;
-            document.getElementById("editDept").value = row.children[0].innerText;
-            document.getElementById("editName").value = row.children[1].innerText;
-            document.getElementById("editPosition").value = row.children[2].innerText;
-            document.getElementById("editDate").value = row.children[3].innerText;
-            document.getElementById("editStatus").value = row.children[4].innerText;
-            document.getElementById("editResult").value = row.children[5].innerText;
-            openModal("editModal");
-        });
-
-        deleteBtn?.addEventListener("click", () => {
-            if (confirm("Delete this record?")) {
-                row.remove();
-                saveTableToLocal();
-            }
-        });
-    }
-
-    // ====== INITIALIZE ROW EVENTS ======
-    document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
-
-    // ====== FILTER TABLE ======
-    const searchInput = document.querySelector('.search-filter input');
-    const deptSelect = document.querySelector('.search-filter select');
-
-    function filterTable() {
-        const searchText = searchInput?.value.toLowerCase() || "";
-        const selectedDept = deptSelect?.value || "Department";
-        tbody.querySelectorAll('tr').forEach(row => {
-            const name = row.children[1].innerText.toLowerCase();
-            const dept = row.children[0].innerText;
-            const matchesSearch = name.includes(searchText);
-            const matchesDept = selectedDept === "Department" || dept === selectedDept;
-            row.style.display = matchesSearch && matchesDept ? "" : "none";
-        });
-    }
-
-    searchInput?.addEventListener('input', filterTable);
-    deptSelect?.addEventListener('change', filterTable);
-
-    // ====== EXPORT CSV ======
-    document.getElementById("exportBtn")?.addEventListener("click", () => {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        const rows = document.querySelectorAll(".activity-table tr");
-        rows.forEach(row => {
-            const cols = row.querySelectorAll("td, th");
-            const rowData = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-            csvContent += rowData + "\r\n";
-        });
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "recruitment_records.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-
-    // ====== SIDEBAR TOGGLE ======
-    const sidebarToggle = document.getElementById("sidebarToggle");
-    const body = document.body;
-    sidebarToggle?.addEventListener("click", () => body.classList.toggle("sidebar-collapsed"));
-
-    // ====== BACK BUTTON ======
-    document.getElementById("backButton")?.addEventListener("click", () => window.history.back());
-
-    // ====== LOAD LOCAL STORAGE ON PAGE LOAD ======
-    loadTableFromLocal();
-});
+// Since the header is hidden, we won't need a back button in this view as per the image layout
+// document.getElementById("backButton").addEventListener("click", () => window.history.back());
 </script>
+</body>
+</html>
