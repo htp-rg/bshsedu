@@ -959,8 +959,6 @@ let leaveData = JSON.parse(localStorage.getItem("LeaveData")) || [
   { name: "Ana Lopez", type: "Vacation", date: "Sep 24", duration: "1 week", status: "Pending" }
 ];
 
-const tbody = document.querySelector("table tbody");
-
 function renderTable() {
   tbody.innerHTML = "";
   leaveData.forEach((record, index) => {
