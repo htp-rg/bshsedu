@@ -868,25 +868,32 @@
 </main>
 <div id="addModal" class="modal">
   <div class="modal-content">
-    <h2>Add Attendance Record</h2>
+    <h2>Add Training Record</h2>
 
-    <label>Employee Name</label>
-    <input type="text" id="addName">
+    <label>Course Title</label>
+    <input type="text" id="addCourseTitle">
 
     <label>Date</label>
     <input type="date" id="addDate">
 
-    <label>Check In</label>
-    <input type="time" id="addCheckIn">
+    <label>Enrolled</label>
+    <input type="number" id="addEnrolled">
 
-    <label>Check Out</label>
-    <input type="time" id="addCheckOut">
+    <label>Employees</label>
+    <input type="number" id="addEmployees">
 
-    <label>Status</label>
-    <select id="addStatus">
-      <option>On Time</option>
-      <option>Late</option>
-      <option>Pending</option>
+    <label>Status 1</label>
+    <select id="addStatus1">
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Upcoming</option>
+    </select>
+
+    <label>Status 2</label>
+    <select id="addStatus2">
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Upcoming</option>
     </select>
 
     <div class="modal-actions">
@@ -896,27 +903,35 @@
   </div>
 </div>
 
+<!-- Edit Training Record Modal -->
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h2>Edit Attendance Record</h2>
+    <h2>Edit Training Record</h2>
 
-    <label>Employee Name</label>
-    <input type="text" id="editName">
+    <label>Course Title</label>
+    <input type="text" id="editCourseTitle">
 
     <label>Date</label>
     <input type="date" id="editDate">
 
-    <label>Check In</label>
-    <input type="time" id="editCheckIn">
+    <label>Enrolled</label>
+    <input type="number" id="editEnrolled">
 
-    <label>Check Out</label>
-    <input type="time" id="editCheckOut">
+    <label>Employees</label>
+    <input type="number" id="editEmployees">
 
-    <label>Status</label>
-    <select id="editStatus">
-      <option>On Time</option>
-      <option>Late</option>
-      <option>Pending</option>
+    <label>Status 1</label>
+    <select id="editStatus1">
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Upcoming</option>
+    </select>
+
+    <label>Status 2</label>
+    <select id="editStatus2">
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Upcoming</option>
     </select>
 
     <div class="modal-actions">
@@ -926,20 +941,23 @@
   </div>
 </div>
 
+<!-- View Training Record Modal -->
 <div id="viewModal" class="modal">
   <div class="modal-content">
-    <h2>Attendance Details</h2>
-    <p><strong>Employee Name:</strong> <span id="viewName"></span></p>
+    <h2>Training Details</h2>
+    <p><strong>Course Title:</strong> <span id="viewCourseTitle"></span></p>
     <p><strong>Date:</strong> <span id="viewDate"></span></p>
-    <p><strong>Check In:</strong> <span id="viewCheckIn"></span></p>
-    <p><strong>Check Out:</strong> <span id="viewCheckOut"></span></p>
-    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+    <p><strong>Enrolled:</strong> <span id="viewEnrolled"></span></p>
+    <p><strong>Employees:</strong> <span id="viewEmployees"></span></p>
+    <p><strong>Status 1:</strong> <span id="viewStatus1"></span></p>
+    <p><strong>Status 2:</strong> <span id="viewStatus2"></span></p>
     <div class="modal-actions">
       <button class="btn-secondary" id="closeView">Close</button>
     </div>
   </div>
 </div>
 
+<!-- Report Modal -->
 <div id="reportModal" class="modal">
   <div class="modal-content">
     <h2>Generated Report</h2>
@@ -959,27 +977,28 @@ lucide.createIcons();
 const tbody = document.querySelector(".activity-table tbody");
 let editRowIndex = null;
 
-let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || `[
-  { "name": "Juan Dela Cruz", "date": "Sep 8", "checkIn": "8:10 AM", "checkOut": "5:30 PM", "status": "On Time" },
-  { "name": "Maria Santos", "date": "Sep 9", "checkIn": "8:00 AM", "checkOut": "5:45 PM", "status": "On Time" },
-  { "name": "Jose Reyes", "date": "Sep 10", "checkIn": "8:30 AM", "checkOut": "5:15 PM", "status": "Late" },
-  { "name": "Ana Lopez", "date": "Sep 11", "checkIn": "8:15 AM", "checkOut": "5:25 PM", "status": "Pending" }
+let trainingData = JSON.parse(localStorage.getItem("trainingData") || `[
+  { "course": "Leadership Training", "date": "June 11, 2020", "enrolled": 10, "employees": 20, "status1": "Completed", "status2": "Completed" },
+  { "course": "Project Management", "date": "Aug 4, 2022", "enrolled": 15, "employees": 18, "status1": "In Progress", "status2": "In Progress" },
+  { "course": "Customer Service", "date": "Sep 3, 2021", "enrolled": 20, "employees": 17, "status1": "Completed", "status2": "Upcoming" },
+  { "course": "Data Analysis", "date": "Oct 5, 2020", "enrolled": 21, "employees": 20, "status1": "Upcoming", "status2": "Upcoming" }
 ]`);
 
 function saveData() {
-  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
+  localStorage.setItem("trainingData", JSON.stringify(trainingData));
 }
 
 function renderTable() {
   tbody.innerHTML = "";
-  attendanceData.forEach((record, index) => {
+  trainingData.forEach((record, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${record.name}</td>
+      <td>${record.course}</td>
       <td>${record.date}</td>
-      <td>${record.checkIn}</td>
-      <td>${record.checkOut}</td>
-      <td>${record.status}</td>
+      <td>${record.enrolled}</td>
+      <td>${record.employees}</td>
+      <td>${record.status1}</td>
+      <td>${record.status2}</td>
       <td>
         <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
         <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
@@ -999,27 +1018,29 @@ document.getElementById("addBtn").addEventListener("click", () => openModal("add
 document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
 
 document.getElementById("saveAdd").addEventListener("click", () => {
-  const name = document.getElementById("addName").value.trim();
+  const course = document.getElementById("addCourseTitle").value.trim();
   const date = document.getElementById("addDate").value;
-  const checkIn = document.getElementById("addCheckIn").value;
-  const checkOut = document.getElementById("addCheckOut").value;
-  const status = document.getElementById("addStatus").value;
+  const enrolled = parseInt(document.getElementById("addEnrolled").value);
+  const employees = parseInt(document.getElementById("addEmployees").value);
+  const status1 = document.getElementById("addStatus1").value;
+  const status2 = document.getElementById("addStatus2").value;
 
-  if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
-  attendanceData.push({ name, date, checkIn, checkOut, status });
+  if (!course || !date || isNaN(enrolled) || isNaN(employees)) return alert("Fill all fields!");
+  trainingData.push({ course, date, enrolled, employees, status1, status2 });
   saveData();
   renderTable();
 
   document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
   closeModal("addModal");
 });
-document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Attendance Report\n\n";
-  reportText += "Employee Name | Date | Check In | Check Out | Status\n";
-  reportText += "---------------------------------------------------\n";
 
-  attendanceData.forEach(record => {
-    reportText += `${record.name} | ${record.date} | ${record.checkIn} | ${record.checkOut} | ${record.status}\n`;
+document.getElementById("generateBtn").addEventListener("click", () => {
+  let reportText = "Training Report\n\n";
+  reportText += "Course Title | Date | Enrolled | Employees | Status 1 | Status 2\n";
+  reportText += "---------------------------------------------------------------\n";
+
+  trainingData.forEach(record => {
+    reportText += `${record.course} | ${record.date} | ${record.enrolled} | ${record.employees} | ${record.status1} | ${record.status2}\n`;
   });
 
   document.getElementById("reportArea").value = reportText;
@@ -1027,14 +1048,14 @@ document.getElementById("generateBtn").addEventListener("click", () => {
 });
 
 document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
-  attendanceData.forEach(row => {
-    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
+  let csvContent = "data:text/csv;charset=utf-8,Course Title,Date,Enrolled,Employees,Status 1,Status 2\r\n";
+  trainingData.forEach(row => {
+    csvContent += `"${row.course}","${row.date}","${row.enrolled}","${row.employees}","${row.status1}","${row.status2}"\r\n`;
   });
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_report.csv");
+  link.setAttribute("download", "training_report.csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1043,12 +1064,13 @@ document.getElementById("modalExportBtn").addEventListener("click", () => {
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (editRowIndex === null) return;
-  attendanceData[editRowIndex] = {
-    name: document.getElementById("editName").value,
+  trainingData[editRowIndex] = {
+    course: document.getElementById("editCourseTitle").value,
     date: document.getElementById("editDate").value,
-    checkIn: document.getElementById("editCheckIn").value,
-    checkOut: document.getElementById("editCheckOut").value,
-    status: document.getElementById("editStatus").value
+    enrolled: parseInt(document.getElementById("editEnrolled").value),
+    employees: parseInt(document.getElementById("editEmployees").value),
+    status1: document.getElementById("editStatus1").value,
+    status2: document.getElementById("editStatus2").value
   };
   saveData();
   renderTable();
@@ -1064,29 +1086,31 @@ function attachRowEvents(row, index) {
   const deleteBtn = row.querySelector(".delete-btn");
 
   viewBtn.addEventListener("click", () => {
-    const record = attendanceData[index];
-    document.getElementById("viewName").innerText = record.name;
+    const record = trainingData[index];
+    document.getElementById("viewCourseTitle").innerText = record.course;
     document.getElementById("viewDate").innerText = record.date;
-    document.getElementById("viewCheckIn").innerText = record.checkIn;
-    document.getElementById("viewCheckOut").innerText = record.checkOut;
-    document.getElementById("viewStatus").innerText = record.status;
+    document.getElementById("viewEnrolled").innerText = record.enrolled;
+    document.getElementById("viewEmployees").innerText = record.employees;
+    document.getElementById("viewStatus1").innerText = record.status1;
+    document.getElementById("viewStatus2").innerText = record.status2;
     openModal("viewModal");
   });
 
   editBtn.addEventListener("click", () => {
     editRowIndex = index;
-    const record = attendanceData[index];
-    document.getElementById("editName").value = record.name;
+    const record = trainingData[index];
+    document.getElementById("editCourseTitle").value = record.course;
     document.getElementById("editDate").value = record.date;
-    document.getElementById("editCheckIn").value = record.checkIn;
-    document.getElementById("editCheckOut").value = record.checkOut;
-    document.getElementById("editStatus").value = record.status;
+    document.getElementById("editEnrolled").value = record.enrolled;
+    document.getElementById("editEmployees").value = record.employees;
+    document.getElementById("editStatus1").value = record.status1;
+    document.getElementById("editStatus2").value = record.status2;
     openModal("editModal");
   });
 
   deleteBtn.addEventListener("click", () => {
     if (confirm("Delete this record?")) {
-      attendanceData.splice(index, 1);
+      trainingData.splice(index, 1);
       saveData();
       renderTable();
     }
@@ -1101,9 +1125,9 @@ function filterTable() {
   const filterStatus = filterSelect.value;
 
   tbody.querySelectorAll('tr').forEach((row, i) => {
-    const record = attendanceData[i];
-    const matchesSearch = record.name.toLowerCase().includes(searchText);
-    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
+    const record = trainingData[i];
+    const matchesSearch = record.course.toLowerCase().includes(searchText);
+    const matchesStatus = filterStatus === "Filter" || record.status1 === filterStatus || record.status2 === filterStatus;
     row.style.display = matchesSearch && matchesStatus ? "" : "none";
   });
 }
@@ -1112,19 +1136,18 @@ searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
 document.getElementById("exportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
-  attendanceData.forEach(row => {
-    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
+  let csvContent = "data:text/csv;charset=utf-8,Course Title,Date,Enrolled,Employees,Status 1,Status 2\r\n";
+  trainingData.forEach(row => {
+    csvContent += `"${row.course}","${row.date}","${row.enrolled}","${row.employees}","${row.status1}","${row.status2}"\r\n`;
   });
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_records.csv");
+  link.setAttribute("download", "training_records.csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
-
 
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
