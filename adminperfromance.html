@@ -1,1 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time & Attendance Monitoring</title>
 
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  :root {
+    --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+    --saas-primary: #ec4899;
+  }
+
+  .main-sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #2d3748;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out;
+  }
+
+  .sidebar-header {
+    padding: 0 25px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #4a5568;
+    flex-shrink: 0;
+  }
+
+  .sidebar-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .sidebar-header h1 a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+.sidebar-links {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+  .sidebar-heading {
+    display: block;
+    padding: 10px 25px;
+    margin-top: 15px;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .sidebar-links .sidebar-heading:first-child {
+    margin-top: 0;
+  }
+
+  .main-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #cbd5e0;
+    text-decoration: none;
+    padding: 12px 25px 12px 35px;
+    margin: 2px 0;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .main-sidebar a .icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  .main-sidebar a:hover {
+    background-color: #4a5568;
+    color: #ffffff;
+  }
+
+  .main-sidebar a.active {
+    background-color: transparent;
+    color: var(--saas-primary);
+    font-weight: 500;
+  }
+
+  .main-sidebar a.active .icon {
+    color: var(--saas-primary);
+  }
+
+  .main-sidebar a.active::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background-image: var(--saas-gradient);
+    border-radius: 2px;
+    animation: pulse-indicator-open 2.5s infinite;
+  }
+
+  .notification-badge {
+    background-color: #ef4444;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .main-sidebar a.active .notification-badge {
+    background-color: #ffffff;
+    color: #4f46e5;
+    font-weight: bold;
+  }
+
+  .main-sidebar a.nav-alert {
+    color: #f56565;
+    font-weight: 600;
+  }
+
+  .main-sidebar a.nav-alert .icon {
+    color: #f56565;
+  }
+
+  .main-sidebar a.nav-alert:hover {
+    color: #fff;
+    background-color: #dc2626;
+  }
+
+  .main-sidebar a.nav-alert.active {
+    background-color: transparent;
+    color: #ef4444;
+  }
+
+  .main-sidebar a.nav-alert.active .icon {
+    color: #ef4444;
+  }
+
+  .main-sidebar a.nav-alert.active::before {
+    background-image: none;
+    background-color: #ef4444;
+    animation: none;
+  }
+
+  .sidebar-footer {
+    padding: 20px 0 10px 0;
+    border-top: 1px solid #4a5568;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .main-content {
+    margin-left: 260px;
+    padding: 0;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  .content-header {
+    height: 80px;
+    background-color: #ffffff;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    flex-shrink: 0;
+  }
+
+  .header-title-section h1 {
+    margin: 0 0 4px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #718096;
+  }
+
+  .breadcrumbs a {
+    color: var(--saas-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumbs .separator {
+    color: #cbd5e0;
+  }
+
+  .content-wrapper {
+    padding: 30px;
+  }
+
+  .btn-primary {
+    background-image: var(--saas-gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+
+  .btn-primary .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  .page-description {
+    font-size: 16px;
+    color: #718096;
+    max-width: 800px;
+  }
+
+ .dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+ .stat-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+              0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 10px; 
+}
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--saas-primary);
+  }
+
+  .stat-card-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    opacity: 0.3;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .stat-card:hover .stat-card-icon {
+    transform: scale(1.15) rotate(5deg);
+    opacity: 0.6;
+  }
+
+  .icon-books { color: #3b82f6; }
+  .icon-students { color: #10b981; }
+  .icon-loan { color: #f97316; }
+  .icon-requests { color: #ec4899; }
+  .icon-returns { color: #8b5cf6; }
+
+  .stat-card-info {
+    position: relative;
+    z-index: 2;
+  }
+
+  .stat-card-info h3 {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    color: #1a202c;
+    font-weight: 700;
+  }
+
+  .stat-card-info p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #718096;
+  }
+
+  .stat-card.alert {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+  }
+
+  .stat-card.alert:hover {
+    border-color: #dc2626;
+  }
+
+  .gradient-text {
+    background: var(--saas-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .dashboard-main-content {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .content-block {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .content-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+  }
+
+  .quick-actions-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .quick-action-btn:hover {
+    background-color: var(--saas-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+  }
+
+  .quick-action-btn .icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 10px;
+  }
+
+  .activity-table-container {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .activity-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .activity-table tr {
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .activity-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .activity-table td {
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  .activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+  }
+
+  .activity-icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .activity-icon.borrow {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
+
+  .activity-icon.return {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+
+  .activity-user {
+    font-weight: 600;
+    color: #1a202c;
+  }
+
+  .activity-book {
+    color: #718096;
+  }
+
+  .activity-time {
+    text-align: right;
+    color: #a0aec0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 992px) {
+    .dashboard-main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  body.sidebar-collapsed .main-sidebar { width: 75px; }
+  body.sidebar-collapsed .main-content { margin-left: 75px; }
+  body.sidebar-collapsed .sidebar-header h1 { opacity: 0; }
+  body.sidebar-collapsed .sidebar-heading {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  body.sidebar-collapsed .main-sidebar a {
+    border-radius: 8px;
+    margin: 4px 8px;
+    padding: 12px;
+    justify-content: center;
+  }
+  body.sidebar-collapsed .main-sidebar a::before { display: none; }
+  body.sidebar-collapsed .main-sidebar a.active {
+    animation: glow-collapsed 3s infinite ease-in-out;
+  }
+  body.sidebar-collapsed .main-sidebar a.active .icon { color: #ffffff; }
+  body.sidebar-collapsed .main-sidebar .sidebar-links a,
+  body.sidebar-collapsed .main-sidebar .sidebar-footer a {
+    font-size: 0;
+    gap: 0;
+  }
+  body.sidebar-collapsed .notification-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    font-size: 0;
+    border: none;
+  }
+  body.sidebar-collapsed .sidebar-toggle {
+    top: 50%;
+    right: -22px;
+  }
+  body.sidebar-collapsed .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-close {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-open {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px;
+    z-index: 1001;
+    background-image: var(--saas-gradient);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-toggle .icon {
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-toggle .icon-close {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle .icon-open {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  @keyframes pulse-indicator-open {
+    0%   { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+  }
+
+  @keyframes glow-collapsed {
+    0%, 100% { background-color: #4f46e0; box-shadow: 0 0 10px rgba(79, 70, 229, 0.6); }
+    50%      { background-color: #8b5cf6; box-shadow: 0 0 18px rgba(139, 92, 246, 0.9); }
+  }
+    
+  .main-sidebar a,
+.sidebar-heading {
+  white-space: normal;     
+  word-break: break-word;  
+}
+    
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    align-items: center; justify-content: center;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+  }
+  .modal-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .btn-secondary {
+    background: #e2e8f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .modal-backdrop {
+    --bs-backdrop-zindex: 1050;
+    --bs-backdrop-bg: #000;
+    --bs-backdrop-opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--bs-backdrop-zindex);
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bs-backdrop-bg);
+}
+    .modal-content label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+  color: #1a202c;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+  </style>
+</head>
+<body>
+  <nav class="main-sidebar">
+        <button id="sidebarToggle" class="sidebar-toggle">
+            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
+            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
+        </button>
+ <div class="sidebar-header">
+      <h1><a href="#">Admin Panel</a></h1>
+    </div>
+    
+<div class="sidebar-links">
+    <span class="sidebar-heading">MAIN</span>
+    <a href="admindashboard.html">
+        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
+    </a>
+
+    <span class="sidebar-heading">MODULE</span>
+    <a href="adminemployee.html">
+        <i data-lucide="arrow-right-from-line" class="icon"></i>
+        Employee Information & Records Management
+    </a>
+    <a href="adminrecruitment.html">
+        <i data-lucide="arrow-left-to-line" class="icon"></i>
+        Recruitment and Hiring
+    </a>
+    <a href="admintime.html"class="active">
+        <i data-lucide="triangle-alert" class="icon"></i>
+        Time & Attendance Monitoring
+    </a>
+    <a href="adminleave.html">
+        <i data-lucide="book-user" class="icon"></i>
+        Leave & Overtime Management
+    </a>
+
+    <span class="sidebar-heading">SUPERVISION</span>
+    <a href="adminpayroll.html">
+        <i data-lucide="book-open" class="icon"></i>
+        Payroll & Compensation
+    </a>
+    <a href="adminperformance.html">
+        <i data-lucide="calendar-check" class="icon"></i>
+        Performance Evaluation System
+    </a>
+    <a href="admintraining.html">
+        <i data-lucide="users" class="icon"></i>
+        Training & Development
+    </a>
+    <a href="adminbenefits.html">
+        <i data-lucide="school" class="icon"></i>
+        Employee Benefits & Welfare
+    </a>
+    <a href="adminlogs.html">
+        <i data-lucide="history" class="icon"></i>
+        System Logs
+    </a>
+</div>
+
+<div class="sidebar-footer">
+    <a href="adminprofile.html">
+        <i data-lucide="user-circle" class="icon"></i> My Profile
+    </a>
+    <a href="main.html" class="nav-alert">
+        <i data-lucide="log-out" class="icon"></i> Logout
+    </a>
+</div>
+    </nav>
+
+<main class="main-content">
+  
+  <div class="content-header">
+    <div class="header-title-section">
+      <h1>Time & Attendance Monitoring</h1>
+    </div>
+    <div class="header-actions-section">
+      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
+        <i data-lucide="arrow-left" class="icon"></i> Back
+      </a>
+    </div>
+  </div>
+
+<div class="content-wrapper">
+    <div class="dashboard-container">
+            <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>45</h3>
+          <p>Total Employees</p>
+        </div>
+        <i data-lucide="user" class="stat-card-icon icon-books"></i>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>Sep 8-14</h3>
+          <p>Current Week</p>
+        </div>
+        <i data-lucide="briefcase" class="stat-card-icon icon-students"></i>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>40</h3>
+          <p>On Time</p>
+        </div>
+        <i data-lucide="Clock" class="stat-card-icon icon-loan"></i>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-card-info">
+          <h3>5</h3>
+          <p>Late</p>
+        </div>
+        <i data-lucide="alert-triangle" class="stat-card-icon icon-requests"></i>
+      </div>
+    </div>
+    
+        <div class="dashboard-main-content" style="margin-top: 30px; border-top: none; padding-top: 0;">
+
+            <div class="content-block" style="padding: 25px;">
+        <h2>Employees Log</h2>
+        <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary" id="generateBtn">Generate Report</button>
+            <button class="btn btn-primary" id="exportBtn">Export</button>
+          </div>
+          <button class="btn btn-primary" id="addBtn">Add New Log</button>
+        </div>
+        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
+          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+            <option>Filter</option>
+            <option>On Time</option>
+            <option>Late</option>
+            <option>Pending</option>
+          </select>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="activity-table">
+            <thead>
+              <tr>
+                <th>Employee Name</th>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                          </tbody>
+          </table>
+        </div>
+      </div>
+
+            <div class="content-block" style="padding: 25px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;">
+          <h2>Performance Evaluation System</h2>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-secondary" style="background: #f8f9fa; color: #4a5568; padding: 6px 15px; border: 1px solid #ddd; font-weight: 500;">
+              <i data-lucide="search" style="width: 14px; height: 14px; margin-right: 5px;"></i> Search
+            </button>
+            <button class="btn btn-primary" style="padding: 6px 15px; font-size: 14px; font-weight: 500;">
+              <i data-lucide="plus" style="width: 14px; height: 14px; margin-right: 5px;"></i> Add Evaluation
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 20px;">
+                    <div style="flex: 0 0 40%;">
+            <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Overview</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
+                <i data-lucide="star" style="width: 24px; height: 24px; color: var(--saas-primary);"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;">75</h3>
+                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Completed</p>
+              </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
+                <i data-lucide="clock" style="width: 24px; height: 24px; color: #f97316;"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;">25</h3>
+                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Pending</p>
+              </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
+                <i data-lucide="bar-chart-2" style="width: 24px; height: 24px; color: #3b82f6;"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;">4.2</h3>
+                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Average Score</p>
+              </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd;">
+                <i data-lucide="check-circle" style="width: 24px; height: 24px; color: #10b981;"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;">100</h3>
+                <p style="font-size: 0.85rem; color: #718096; margin: 0;">Total Evaluations</p>
+              </div>
+            </div>
+
+                        <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 20px;">Evaluations by Department</span>
+            <div class="bar-chart-mockup" style="font-size: 14px; color: #4a5568;">
+              <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <span style="flex: 0 0 35%;">Marketing</span>
+                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="width: 90%; height: 100%; background-color: #3b82f6;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <span style="flex: 0 0 35%;">Sales</span>
+                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="width: 70%; height: 100%; background-color: #3b82f6;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <span style="flex: 0 0 35%;">Engineering</span>
+                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="width: 55%; height: 100%; background-color: #3b82f6;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <span style="flex: 0 0 35%;">HR</span>
+                <div style="flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="width: 40%; height: 100%; background-color: #3b82f6;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+                    <div style="flex: 1;">
+            <span style="font-size: 1rem; font-weight: 600; color: #1a202c; display: block; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Recent Evaluation</span>
+            <table class="activity-table" style="width: 100%; font-size: 14px;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding: 12px 0;">Employee</th>
+                  <th style="text-align: right; padding: 12px 0;">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align: left; padding: 12px 0;">RUADO, CYRILL</td>
+                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left; padding: 12px 0;">REYES, JOSHUA</td>
+                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left; padding: 12px 0;">BESA, JOHN LLOYD</td>
+                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left; padding: 12px 0;">PAULITE, JOHANES</td>
+                  <td style="text-align: right; color: #718096;">Sept 20, 2025</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left; padding: 12px 0; border-bottom: none;">EDORIA, MARK</td>
+                  <td style="text-align: right; color: #718096; border-bottom: none;">Sept 20, 2025</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      </div>
+
+</main>
+<div id="addModal" class="modal">
+  <div class="modal-content">
+    <h2>Add Attendance Record</h2>
+
+    <label>Employee Name</label>
+    <input type="text" id="addName">
+
+    <label>Date</label>
+    <input type="date" id="addDate">
+
+    <label>Check In</label>
+    <input type="time" id="addCheckIn">
+
+    <label>Check Out</label>
+    <input type="time" id="addCheckOut">
+
+    <label>Status</label>
+    <select id="addStatus">
+      <option>On Time</option>
+      <option>Late</option>
+      <option>Pending</option>
+    </select>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" id="closeAdd">Cancel</button>
+      <button class="btn btn-primary" id="saveAdd">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h2>Edit Attendance Record</h2>
+
+    <label>Employee Name</label>
+    <input type="text" id="editName">
+
+    <label>Date</label>
+    <input type="date" id="editDate">
+
+    <label>Check In</label>
+    <input type="time" id="editCheckIn">
+
+    <label>Check Out</label>
+    <input type="time" id="editCheckOut">
+
+    <label>Status</label>
+    <select id="editStatus">
+      <option>On Time</option>
+      <option>Late</option>
+      <option>Pending</option>
+    </select>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" id="closeEdit">Cancel</button>
+      <button class="btn btn-primary" id="saveEdit">Update</button>
+    </div>
+  </div>
+</div>
+
+<div id="viewModal" class="modal">
+  <div class="modal-content">
+    <h2>Attendance Details</h2>
+    <p><strong>Employee Name:</strong> <span id="viewName"></span></p>
+    <p><strong>Date:</strong> <span id="viewDate"></span></p>
+    <p><strong>Check In:</strong> <span id="viewCheckIn"></span></p>
+    <p><strong>Check Out:</strong> <span id="viewCheckOut"></span></p>
+    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="closeView">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <h2>Generated Report</h2>
+    <textarea id="reportArea" style="width:100%; height:250px;"></textarea>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
+      <button class="btn-primary" id="modalExportBtn">Export</button>
+    </div>
+  </div>
+</div>
+         
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+lucide.createIcons();
+
+const tbody = document.querySelector(".activity-table tbody");
+let editRowIndex = null;
+
+let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || `[
+  { "name": "Juan Dela Cruz", "date": "Sep 8", "checkIn": "8:10 AM", "checkOut": "5:30 PM", "status": "On Time" },
+  { "name": "Maria Santos", "date": "Sep 9", "checkIn": "8:00 AM", "checkOut": "5:45 PM", "status": "On Time" },
+  { "name": "Jose Reyes", "date": "Sep 10", "checkIn": "8:30 AM", "checkOut": "5:15 PM", "status": "Late" },
+  { "name": "Ana Lopez", "date": "Sep 11", "checkIn": "8:15 AM", "checkOut": "5:25 PM", "status": "Pending" }
+]`);
+
+function saveData() {
+  localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
+}
+
+function renderTable() {
+  tbody.innerHTML = "";
+  attendanceData.forEach((record, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.date}</td>
+      <td>${record.checkIn}</td>
+      <td>${record.checkOut}</td>
+      <td>${record.status}</td>
+      <td>
+        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+    lucide.createIcons();
+    attachRowEvents(tr, index);
+  });
+}
+
+function openModal(id) { document.getElementById(id).style.display = "flex"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
+document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
+
+document.getElementById("saveAdd").addEventListener("click", () => {
+  const name = document.getElementById("addName").value.trim();
+  const date = document.getElementById("addDate").value;
+  const checkIn = document.getElementById("addCheckIn").value;
+  const checkOut = document.getElementById("addCheckOut").value;
+  const status = document.getElementById("addStatus").value;
+
+  if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
+  attendanceData.push({ name, date, checkIn, checkOut, status });
+  saveData();
+  renderTable();
+
+  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
+  closeModal("addModal");
+});
+document.getElementById("generateBtn").addEventListener("click", () => {
+  let reportText = "Attendance Report\n\n";
+  reportText += "Employee Name | Date | Check In | Check Out | Status\n";
+  reportText += "---------------------------------------------------\n";
+
+  attendanceData.forEach(record => {
+    reportText += `${record.name} | ${record.date} | ${record.checkIn} | ${record.checkOut} | ${record.status}\n`;
+  });
+
+  document.getElementById("reportArea").value = reportText;
+  openModal("reportModal");
+});
+
+document.getElementById("modalExportBtn").addEventListener("click", () => {
+  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
+  attendanceData.forEach(row => {
+    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "attendance_report.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
+document.getElementById("saveEdit").addEventListener("click", () => {
+  if (editRowIndex === null) return;
+  attendanceData[editRowIndex] = {
+    name: document.getElementById("editName").value,
+    date: document.getElementById("editDate").value,
+    checkIn: document.getElementById("editCheckIn").value,
+    checkOut: document.getElementById("editCheckOut").value,
+    status: document.getElementById("editStatus").value
+  };
+  saveData();
+  renderTable();
+  editRowIndex = null;
+  closeModal("editModal");
+});
+
+document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
+
+function attachRowEvents(row, index) {
+  const viewBtn = row.querySelector(".view-btn");
+  const editBtn = row.querySelector(".edit-btn");
+  const deleteBtn = row.querySelector(".delete-btn");
+
+  viewBtn.addEventListener("click", () => {
+    const record = attendanceData[index];
+    document.getElementById("viewName").innerText = record.name;
+    document.getElementById("viewDate").innerText = record.date;
+    document.getElementById("viewCheckIn").innerText = record.checkIn;
+    document.getElementById("viewCheckOut").innerText = record.checkOut;
+    document.getElementById("viewStatus").innerText = record.status;
+    openModal("viewModal");
+  });
+
+  editBtn.addEventListener("click", () => {
+    editRowIndex = index;
+    const record = attendanceData[index];
+    document.getElementById("editName").value = record.name;
+    document.getElementById("editDate").value = record.date;
+    document.getElementById("editCheckIn").value = record.checkIn;
+    document.getElementById("editCheckOut").value = record.checkOut;
+    document.getElementById("editStatus").value = record.status;
+    openModal("editModal");
+  });
+
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Delete this record?")) {
+      attendanceData.splice(index, 1);
+      saveData();
+      renderTable();
+    }
+  });
+}
+
+const searchInput = document.querySelector('.search-filter input');
+const filterSelect = document.querySelector('.search-filter select');
+
+function filterTable() {
+  const searchText = searchInput.value.toLowerCase();
+  const filterStatus = filterSelect.value;
+
+  tbody.querySelectorAll('tr').forEach((row, i) => {
+    const record = attendanceData[i];
+    const matchesSearch = record.name.toLowerCase().includes(searchText);
+    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
+    row.style.display = matchesSearch && matchesStatus ? "" : "none";
+  });
+}
+
+searchInput.addEventListener("input", filterTable);
+filterSelect.addEventListener("change", filterTable);
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
+  attendanceData.forEach(row => {
+    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "attendance_records.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+
+const sidebarToggle = document.getElementById("sidebarToggle");
+sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
+
+document.getElementById("backButton").addEventListener("click", () => window.history.back());
+
+renderTable();
+</script>
