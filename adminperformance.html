@@ -234,7 +234,7 @@
  .content-wrapper {
   padding: 30px;
   background-color: #f9fafb;
-  min-height: calc(100vh - 80px); /* fill below header */
+  min-height: calc(100vh - 80px); 
   box-sizing: border-box;
 }
 
@@ -246,7 +246,6 @@
   border: 1px solid #e2e8f0;
 }
 
-/* Title bar */
 .title-bar {
   display: flex;
   align-items: center;
@@ -270,7 +269,6 @@
   color: var(--saas-primary);
 }
 
-/* Action buttons */
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -306,7 +304,6 @@
   box-shadow: 0 4px 10px rgba(236,72,153,0.3);
 }
 
-/* Panels layout */
 .main-layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -331,13 +328,12 @@
   letter-spacing: 0.05em;
 }
 
-/* Responsive */
 @media (max-width: 992px) {
   .main-layout {
     grid-template-columns: 1fr;
   }
 }
-    /* Stat cards */
+    
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -381,13 +377,11 @@
   color: #6b7280;
 }
 
-/* Color coding */
-.stat-completed i { color: #10b981; }   /* green */
-.stat-pending i { color: #f59e0b; }     /* yellow */
-.stat-average i { color: #3b82f6; }     /* blue */
-.stat-total i { color: #ec4899; }       /* pink */
+.stat-completed i { color: #10b981; }  
+.stat-pending i { color: #f59e0b; }    
+.stat-average i { color: #3b82f6; }     
+.stat-total i { color: #ec4899; }      
 
-/* Bar chart container */
 .chart-box {
   background: #fff;
   border-radius: 12px;
@@ -403,7 +397,6 @@
   color: #374151;
 }
 
-/* Bar chart rows */
 .chart-row {
   display: flex;
   align-items: center;
@@ -762,11 +755,11 @@
 }
 
 .left-panel, .right-panel {
-  flex: 1; /* equal width */
+  flex: 1; 
 }
 
 .right-panel {
-  overflow-x: auto; /* in case table is wide */
+  overflow-x: auto; 
 }
     .search-input {
     padding: 8px 12px;
@@ -1047,7 +1040,6 @@
   </div>
 </div>
 
-<!-- EDIT EVALUATION MODAL -->
 <div id="editModal" class="modal">
   <div class="modal-content">
     <h2>Edit Evaluation</h2>
@@ -1077,7 +1069,6 @@
   </div>
 </div>
 
-<!-- VIEW EVALUATION MODAL -->
 <div id="viewModal" class="modal">
   <div class="modal-content">
     <h2>Evaluation Details</h2>
