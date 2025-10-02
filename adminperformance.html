@@ -768,14 +768,23 @@
     width: 200px;
     font-size: 14px;
 }
+.recent-table td {
+  display: flex;
+  flex-direction: column;  /* stack buttons vertically */
+  align-items: center;     /* center horizontally */
+  gap: 5px;                /* space between buttons */
+}
+
 .recent-table .edit-btn,
 .recent-table .view-btn,
 .recent-table .delete-btn {
-  margin: 0 5px;         
   padding: 4px 8px;       
   font-size: 12px;        
   border-radius: 6px;  
+  width: 80px;            /* optional: make all buttons uniform width */
+  text-align: center;
 }
+
   </style>
 </head>
 <body>
