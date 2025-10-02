@@ -785,7 +785,7 @@
             Employees</h3>
           <p>Process Payroll</p>
         </div>
-        <i data-lucide="Clock" class="stat-card-icon icon-loan"></i>
+        <i data-lucide="clock" class="stat-card-icon icon-loan"></i>
       </div>
       
       <div class="stat-card">
@@ -896,98 +896,66 @@
 <div id="addModal" class="modal">
   <div class="modal-content">
     <h2>Add Payroll Record</h2>
-
-    <label>Employee Name</label>
-    <input type="text" id="addName">
-
-    <label>Position</label>
-    <input type="text" id="addPosition">
-
-    <label>Basic Pay</label>
-    <input type="number" id="addBasic">
-
-    <label>Overtime</label>
-    <input type="number" id="addOvertime">
-  
-    <label>Deduction</label>
-    <input type="number" id="addDeduction">
-
-    <label>Net Pay</label>
-    <input type="number" id="addNet">
-
-    <label>Status</label>
+    <input id="addName" placeholder="Employee Name">
+    <input id="addPosition" placeholder="Position">
+    <input id="addBasic" type="number" placeholder="Basic Pay">
+    <input id="addOvertime" type="number" placeholder="Overtime">
+    <input id="addDeduction" type="number" placeholder="Deductions">
+    <input id="addNet" type="number" placeholder="Net Pay">
     <select id="addStatus">
-      <option>Approved</option>
       <option>Processed</option>
       <option>Pending</option>
+      <option>Approved</option>
     </select>
-
     <div class="modal-actions">
-      <button class="btn-secondary" id="closeAdd">Cancel</button>
-      <button class="btn btn-primary" id="saveAdd">Save</button>
+      <button id="saveAdd" class="btn-primary">Save</button>
+      <button id="closeAdd" class="btn-secondary">Cancel</button>
     </div>
   </div>
 </div>
-
+   
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h2>Edit Payroll Record</h2>
-
-    <label>Employee Name</label>
-    <input type="text" id="editName">
-
-    <label>Position</label>
-    <input type="text" id="editPosition">
-
-    <label>Basic Pay</label>
-    <input type="number" id="editBasic">
-
-    <label>OverTime</label>
-    <input type="number" id="editOvertime">
-
-    <label>Deduction</label>
-    <input type="number" id="editDeduction">
-
-    <label>Net Pay</label>
-    <input type="number" id="editNet">
-
-    <label>Status</label>
+    <h2>Edit Payroll</h2>
+    <input id="editName" placeholder="Employee Name">
+    <input id="editPosition" placeholder="Position">
+    <input id="editBasic" type="number" placeholder="Basic Pay">
+    <input id="editOvertime" type="number" placeholder="Overtime">
+    <input id="editDeduction" type="number" placeholder="Deductions">
+    <input id="editNet" type="number" placeholder="Net Pay">
     <select id="editStatus">
-      <option>Approved</option>
       <option>Processed</option>
       <option>Pending</option>
+      <option>Approved</option>
     </select>
-
     <div class="modal-actions">
-      <button class="btn-secondary" id="closeEdit">Cancel</button>
-      <button class="btn btn-primary" id="saveEdit">Update</button>
+      <button id="saveEdit" class="btn-primary">Save</button>
+      <button id="closeEdit" class="btn-secondary">Cancel</button>
     </div>
   </div>
 </div>
 
 <div id="viewModal" class="modal">
   <div class="modal-content">
-    <h2>Attendance Details</h2>
-    <p><strong>Employee Name:</strong> <span id="viewName"></span></p>
+    <h2>View Payroll</h2>
+    <p><strong>Name:</strong> <span id="viewName"></span></p>
     <p><strong>Position:</strong> <span id="viewPosition"></span></p>
-    <p><strong>Basic Pay:</strong> <span id="viewBasic"></span></p>
-    <p><strong>Overtime:</strong> <span id="viewOvertime"></span></p>
-     <p><strong>Deduction:</strong> <span id="viewDeduction"></span></p>
-     <p><strong>Net Pay:</strong> <span id="viewNet"></span></p>
+    <p><strong>Basic Pay:</strong> P<span id="viewBasic"></span></p>
+    <p><strong>Overtime:</strong> P<span id="viewOvertime"></span></p>
+    <p><strong>Deductions:</strong> P<span id="viewDeduction"></span></p>
+    <p><strong>Net Pay:</strong> P<span id="viewNet"></span></p>
     <p><strong>Status:</strong> <span id="viewStatus"></span></p>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="closeView">Close</button>
-    </div>
+    <button id="closeView" class="btn-secondary">Close</button>
   </div>
 </div>
 
 <div id="reportModal" class="modal">
   <div class="modal-content">
-    <h2>Generated Payroll Report</h2>
-    <textarea id="reportArea" style="width:100%; height:250px;"></textarea>
+    <h2>Payroll Report</h2>
+    <textarea id="reportArea" rows="10" cols="50"></textarea>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('reportModal')">Close</button>
-      <button class="btn-primary" id="modalExportBtn">Export</button>
+      <button id="modalExportBtn" class="btn-primary">Export CSV</button>
+      <button onclick="closeModal('reportModal')" class="btn-secondary">Close</button>
     </div>
   </div>
 </div>
@@ -1189,4 +1157,3 @@ document.getElementById("backButton").addEventListener("click", () => window.his
 renderTable();
 </script>
 
-</script>
