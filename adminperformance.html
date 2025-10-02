@@ -768,6 +768,13 @@
 .right-panel {
   overflow-x: auto; /* in case table is wide */
 }
+    .search-input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 200px;
+    font-size: 14px;
+}
   </style>
 </head>
 <body>
@@ -1089,148 +1096,121 @@
 <script>
 lucide.createIcons();
 
-// Initialize evaluations from localStorage or empty array
-let evaluations = JSON.parse(localStorage.getItem("evaluations")) || [];
+let evaluations = [
+  {employeeName:"RUADO, CYRILL", department:"Marketing", score:4.5, remarks:"Excellent work", date:"Sept 20, 2025"},
+  {employeeName:"REYES, JOSHUA", department:"Sales", score:3.2, remarks:"Good", date:"Sept 20, 2025"},
+  {employeeName:"BESA, JOHN LLOYD", department:"Engineering", score:2.8, remarks:"Needs improvement", date:"Sept 20, 2025"},
+  {employeeName:"PAULITE, JOHANES", department:"HR", score:4.0, remarks:"Good performance", date:"Sept 20, 2025"},
+  {employeeName:"EDORIA, MARK", department:"Finance", score:3.5, remarks:"Satisfactory", date:"Sept 20, 2025"}
+];
+
 let editIndex = null;
 
-// Modal helpers
-function openModal(id) { document.getElementById(id).style.display = "flex"; }
-function closeModal(id) { document.getElementById(id).style.display = "none"; }
+function openModal(id){document.getElementById(id).style.display="flex";}
+function closeModal(id){document.getElementById(id).style.display="none";}
 
-// Add Evaluation Modal
-document.querySelector(".btn-add-eval").addEventListener("click", () => openModal("addModal"));
-document.getElementById("closeModalBtn").addEventListener("click", () => closeModal("addModal"));
+document.querySelector(".btn-add-eval").addEventListener("click",()=>openModal("addModal"));
+document.getElementById("closeModalBtn").addEventListener("click",()=>closeModal("addModal"));
+document.getElementById("closeEdit").addEventListener("click",()=>closeModal("editModal"));
+document.getElementById("closeView").addEventListener("click",()=>closeModal("viewModal"));
 
-document.getElementById("evaluationForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const employeeName = document.getElementById("employeeName").value.trim();
-    const department = document.getElementById("department").value;
-    const score = parseFloat(document.getElementById("score").value);
-    const remarks = document.getElementById("remarks").value.trim();
+function openEditModal(index){
+  editIndex=index;
+  const evalData=evaluations[index];
+  document.getElementById("editName").value=evalData.employeeName;
+  document.getElementById("editDepartment").value=evalData.department;
+  document.getElementById("editScore").value=evalData.score;
+  document.getElementById("editRemarks").value=evalData.remarks;
+  openModal("editModal");
+}
 
-    if (!employeeName || !department || isNaN(score)) return alert("Please fill all required fields.");
+function openViewModal(index){
+  const evalData=evaluations[index];
+  document.getElementById("viewName").innerText=evalData.employeeName;
+  document.getElementById("viewDepartment").innerText=evalData.department;
+  document.getElementById("viewScore").innerText=evalData.score;
+  document.getElementById("viewRemarks").innerText=evalData.remarks;
+  openModal("viewModal");
+}
 
-    evaluations.push({
-        employeeName,
-        department,
-        score,
-        remarks,
-        date: new Date().toLocaleDateString()
-    });
+function deleteRecord(index){
+  if(confirm("Are you sure you want to delete this evaluation?")){
+    evaluations.splice(index,1);
+    renderTable(document.getElementById("searchInput").value);
+  }
+}
 
-    localStorage.setItem("evaluations", JSON.stringify(evaluations));
-    renderTable();
-    this.reset();
-    closeModal("addModal");
+document.getElementById("evaluationForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const employeeName=document.getElementById("employeeName").value.trim();
+  const department=document.getElementById("department").value;
+  const score=parseFloat(document.getElementById("score").value);
+  const remarks=document.getElementById("remarks").value.trim();
+  if(!employeeName||!department||isNaN(score)) return alert("Please fill all required fields.");
+  evaluations.push({employeeName, department, score, remarks, date:new Date().toLocaleDateString()});
+  localStorage.setItem("evaluations",JSON.stringify(evaluations));
+  renderTable(document.getElementById("searchInput").value);
+  this.reset();
+  closeModal("addModal");
 });
 
-// Edit Evaluation Modal
-document.getElementById("editEvaluationForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    if (editIndex === null) return;
-
-    evaluations[editIndex] = {
-        employeeName: document.getElementById("editName").value.trim(),
-        department: document.getElementById("editDepartment").value,
-        score: parseFloat(document.getElementById("editScore").value),
-        remarks: document.getElementById("editRemarks").value.trim(),
-        date: evaluations[editIndex].date
-    };
-
-    localStorage.setItem("evaluations", JSON.stringify(evaluations));
-    renderTable();
-    editIndex = null;
-    closeModal("editModal");
+document.getElementById("editEvaluationForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  if(editIndex===null) return;
+  evaluations[editIndex]={
+    employeeName:document.getElementById("editName").value.trim(),
+    department:document.getElementById("editDepartment").value,
+    score:parseFloat(document.getElementById("editScore").value),
+    remarks:document.getElementById("editRemarks").value.trim(),
+    date:evaluations[editIndex].date
+  };
+  localStorage.setItem("evaluations",JSON.stringify(evaluations));
+  renderTable(document.getElementById("searchInput").value);
+  editIndex=null;
+  closeModal("editModal");
 });
 
-document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
-document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
-
-// Open modals
-function openEditModal(index) {
-    editIndex = index;
-    const evalData = evaluations[index];
-    document.getElementById("editName").value = evalData.employeeName;
-    document.getElementById("editDepartment").value = evalData.department;
-    document.getElementById("editScore").value = evalData.score;
-    document.getElementById("editRemarks").value = evalData.remarks;
-    openModal("editModal");
+function renderTable(filter=""){
+  const tbody=document.querySelector(".recent-table tbody");
+  tbody.innerHTML="";
+  let filtered=evaluations.filter(e=>
+    e.employeeName.toLowerCase().includes(filter.toLowerCase())||
+    e.department.toLowerCase().includes(filter.toLowerCase())
+  );
+  filtered.forEach((e,i)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${e.employeeName}</td>
+      <td style="text-align:center;">${e.date}</td>
+      <td style="text-align:center;">
+        <button class="edit-btn btn-primary" onclick="openEditModal(${i})">Edit</button>
+        <button class="edit-btn btn-primary" onclick="openViewModal(${i})">View</button>
+        <button class="delete-btn btn-secondary" onclick="deleteRecord(${i})">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+  updateStats(filtered);
 }
 
-function openViewModal(index) {
-    const evalData = evaluations[index];
-    document.getElementById("viewName").innerText = evalData.employeeName;
-    document.getElementById("viewDepartment").innerText = evalData.department;
-    document.getElementById("viewScore").innerText = evalData.score;
-    document.getElementById("viewRemarks").innerText = evalData.remarks;
-    openModal("viewModal");
+function updateStats(filteredEvaluations=evaluations){
+  const total=filteredEvaluations.length;
+  const completed=filteredEvaluations.filter(e=>e.score>=3).length;
+  const pending=total-completed;
+  const avgScore=total>0?(filteredEvaluations.reduce((a,b)=>a+b.score,0)/total).toFixed(2):0;
+  const statCards=document.querySelectorAll(".overview-grid .stat-card");
+  statCards[0].querySelector("h3").innerText=completed;
+  statCards[1].querySelector("h3").innerText=pending;
+  statCards[2].querySelector("h3").innerText=avgScore;
+  statCards[3].querySelector("h3").innerText=evaluations.length;
 }
 
-// Delete evaluation
-function deleteRecord(index) {
-    if (confirm("Are you sure you want to delete this evaluation?")) {
-        evaluations.splice(index, 1);
-        localStorage.setItem("evaluations", JSON.stringify(evaluations));
-        renderTable();
-    }
-}
+document.getElementById("searchInput").addEventListener("input",e=>renderTable(e.target.value));
 
-// Render table and stats
-function renderTable(filter = "") {
-    const tbody = document.querySelector(".recent-table tbody");
-    tbody.innerHTML = "";
+document.getElementById("sidebarToggle").addEventListener("click",()=>document.body.classList.toggle("sidebar-collapsed"));
+document.getElementById("backButton").addEventListener("click",()=>window.history.back());
 
-    let filtered = evaluations.filter(e =>
-        e.employeeName.toLowerCase().includes(filter.toLowerCase()) ||
-        e.department.toLowerCase().includes(filter.toLowerCase())
-    );
-
-    filtered.forEach((evalData, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${evalData.employeeName}</td>
-            <td style="text-align:center;">${evalData.date}</td>
-            <td style="text-align:center;">
-                <button class="edit-btn btn-primary" onclick="openEditModal(${i})">Edit</button>
-                <button class="edit-btn btn-primary" onclick="openViewModal(${i})">View</button>
-                <button class="delete-btn btn-secondary" onclick="deleteRecord(${i})">Delete</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-
-    updateStats(filtered);
-}
-
-// Update stat cards
-function updateStats(filteredEvaluations = evaluations) {
-    const total = filteredEvaluations.length;
-    const completed = filteredEvaluations.filter(e => e.score >= 3).length;
-    const pending = total - completed;
-    const avgScore = total > 0 ? (filteredEvaluations.reduce((a,b) => a + b.score,0)/total).toFixed(2) : 0;
-
-    const statCards = document.querySelectorAll(".overview-grid .stat-card");
-    statCards[0].querySelector("h3").innerText = completed;
-    statCards[0].querySelector("p").innerText = "Completed";
-    statCards[1].querySelector("h3").innerText = pending;
-    statCards[1].querySelector("p").innerText = "Pending";
-    statCards[2].querySelector("h3").innerText = avgScore;
-    statCards[2].querySelector("p").innerText = "Average Score";
-    statCards[3].querySelector("h3").innerText = evaluations.length;
-    statCards[3].querySelector("p").innerText = "Total Evaluations";
-}
-
-// Search functionality
-const searchInput = document.querySelector(".btn-search");
-searchInput.addEventListener("click", () => {
-    const searchTerm = prompt("Enter employee name or department to search:");
-    renderTable(searchTerm || "");
-});
-
-// Initialize table
 renderTable();
-
-// Sidebar toggle & back button
-document.getElementById("sidebarToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
-document.getElementById("backButton").addEventListener("click", () => window.history.back());
 </script>
+</body>
+</html>
