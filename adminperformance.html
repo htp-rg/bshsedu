@@ -1089,12 +1089,15 @@
 <script>
 lucide.createIcons();
 
+// Initialize evaluations from localStorage or empty array
 let evaluations = JSON.parse(localStorage.getItem("evaluations")) || [];
 let editIndex = null;
 
+// Modal helpers
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
+// Add Evaluation Modal
 document.querySelector(".btn-add-eval").addEventListener("click", () => openModal("addModal"));
 document.getElementById("closeModalBtn").addEventListener("click", () => closeModal("addModal"));
 
@@ -1104,16 +1107,24 @@ document.getElementById("evaluationForm").addEventListener("submit", function(e)
     const department = document.getElementById("department").value;
     const score = parseFloat(document.getElementById("score").value);
     const remarks = document.getElementById("remarks").value.trim();
-    
+
     if (!employeeName || !department || isNaN(score)) return alert("Please fill all required fields.");
-    
-    evaluations.push({ employeeName, department, score, remarks, date: new Date().toLocaleDateString() });
+
+    evaluations.push({
+        employeeName,
+        department,
+        score,
+        remarks,
+        date: new Date().toLocaleDateString()
+    });
+
     localStorage.setItem("evaluations", JSON.stringify(evaluations));
     renderTable();
     this.reset();
     closeModal("addModal");
 });
 
+// Edit Evaluation Modal
 document.getElementById("editEvaluationForm").addEventListener("submit", function(e) {
     e.preventDefault();
     if (editIndex === null) return;
@@ -1123,7 +1134,7 @@ document.getElementById("editEvaluationForm").addEventListener("submit", functio
         department: document.getElementById("editDepartment").value,
         score: parseFloat(document.getElementById("editScore").value),
         remarks: document.getElementById("editRemarks").value.trim(),
-        date: evaluations[editIndex].date 
+        date: evaluations[editIndex].date
     };
 
     localStorage.setItem("evaluations", JSON.stringify(evaluations));
@@ -1135,6 +1146,7 @@ document.getElementById("editEvaluationForm").addEventListener("submit", functio
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
+// Open modals
 function openEditModal(index) {
     editIndex = index;
     const evalData = evaluations[index];
@@ -1154,6 +1166,7 @@ function openViewModal(index) {
     openModal("viewModal");
 }
 
+// Delete evaluation
 function deleteRecord(index) {
     if (confirm("Are you sure you want to delete this evaluation?")) {
         evaluations.splice(index, 1);
@@ -1162,10 +1175,17 @@ function deleteRecord(index) {
     }
 }
 
-function renderTable() {
+// Render table and stats
+function renderTable(filter = "") {
     const tbody = document.querySelector(".recent-table tbody");
     tbody.innerHTML = "";
-    evaluations.forEach((evalData, i) => {
+
+    let filtered = evaluations.filter(e =>
+        e.employeeName.toLowerCase().includes(filter.toLowerCase()) ||
+        e.department.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    filtered.forEach((evalData, i) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${evalData.employeeName}</td>
@@ -1179,14 +1199,15 @@ function renderTable() {
         tbody.appendChild(tr);
     });
 
-    updateStats();
+    updateStats(filtered);
 }
 
-function updateStats() {
-    const total = evaluations.length;
-    const completed = evaluations.filter(e => e.score >= 3).length;
+// Update stat cards
+function updateStats(filteredEvaluations = evaluations) {
+    const total = filteredEvaluations.length;
+    const completed = filteredEvaluations.filter(e => e.score >= 3).length;
     const pending = total - completed;
-    const avgScore = total > 0 ? (evaluations.reduce((a,b) => a + b.score,0)/total).toFixed(2) : 0;
+    const avgScore = total > 0 ? (filteredEvaluations.reduce((a,b) => a + b.score,0)/total).toFixed(2) : 0;
 
     const statCards = document.querySelectorAll(".overview-grid .stat-card");
     statCards[0].querySelector("h3").innerText = completed;
@@ -1195,12 +1216,21 @@ function updateStats() {
     statCards[1].querySelector("p").innerText = "Pending";
     statCards[2].querySelector("h3").innerText = avgScore;
     statCards[2].querySelector("p").innerText = "Average Score";
-    statCards[3].querySelector("h3").innerText = total;
+    statCards[3].querySelector("h3").innerText = evaluations.length;
     statCards[3].querySelector("p").innerText = "Total Evaluations";
 }
 
+// Search functionality
+const searchInput = document.querySelector(".btn-search");
+searchInput.addEventListener("click", () => {
+    const searchTerm = prompt("Enter employee name or department to search:");
+    renderTable(searchTerm || "");
+});
+
+// Initialize table
 renderTable();
 
+// Sidebar toggle & back button
 document.getElementById("sidebarToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
 </script>
