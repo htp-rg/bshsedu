@@ -1001,6 +1001,10 @@ function renderTable() {
     attachRowEvents(tr, index);
   });
 }
+  
+  const viewButtons = document.querySelectorAll(".view-btn");
+  const editButtons = document.querySelectorAll(".edit-btn");
+  const deleteButtons = document.querySelectorAll(".delete-btn");
 
 // ---------- MODAL HANDLERS ----------
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
