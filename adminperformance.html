@@ -756,6 +756,24 @@
 .overview-grid .stat-card {
   text-align: center;
 }
+    .main-container {
+    display: flex;
+    gap: 20px; /* space between left and right panels */
+}
+
+/* Make left panel take remaining space */
+.left-panel {
+    flex: 1;
+}
+
+/* Right panel fixed width or percentage */
+.right-panel {
+    width: 350px; /* or any width you prefer */
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
   </style>
 </head>
 <body>
