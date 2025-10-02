@@ -679,6 +679,17 @@
 .payroll-table tr:hover {
   background-color: #f1f5f9;
 }  
+    .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;             
+  align-items: stretch; 
+}
+
+.action-buttons .btn {
+  width: 100%;
+}
+
   </style>
 </head>
 <body>
@@ -992,10 +1003,10 @@ function renderTable() {
       <td>P${record.deduction.toLocaleString()}</td>
       <td>P${record.net.toLocaleString()}</td>
       <td>${record.status}</td>
-      <td>
+      <td class="action-buttons">
         <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-warning edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-danger delete-btn"><i data-lucide="trash-2"></i></button>
+        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1003,13 +1014,10 @@ function renderTable() {
     attachRowEvents(tr, index);
   });
 }
-
-  
   const viewButtons = document.querySelectorAll(".view-btn");
   const editButtons = document.querySelectorAll(".edit-btn");
   const deleteButtons = document.querySelectorAll(".delete-btn");
 
-// ---------- MODAL HANDLERS ----------
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
@@ -1034,7 +1042,6 @@ document.getElementById("saveAdd").addEventListener("click", () => {
   closeModal("addModal");
 });
 
-// ---------- REPORT GENERATION ----------
 document.getElementById("generateBtn").addEventListener("click", () => {
   let reportText = "Payroll Report\n\n";
   reportText += "Employee Name | Position | Basic Pay | Overtime | Deduction | Net Pay | Status\n";
@@ -1062,7 +1069,6 @@ document.getElementById("modalExportBtn").addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
-// ---------- EDIT ----------
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
 document.getElementById("saveEdit").addEventListener("click", () => {
   if (editRowIndex === null) return;
@@ -1081,7 +1087,6 @@ document.getElementById("saveEdit").addEventListener("click", () => {
   closeModal("editModal");
 });
 
-// ---------- VIEW ----------
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
 function attachRowEvents(row, index) {
@@ -1123,7 +1128,6 @@ function attachRowEvents(row, index) {
   });
 }
 
-// ---------- SEARCH & FILTER ----------
 const searchInput = document.querySelector('.search-filter input');
 const filterSelect = document.querySelector('.search-filter select');
 
@@ -1141,7 +1145,6 @@ function filterTable() {
 searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
-// ---------- EXPORT BUTTON ----------
 document.getElementById("exportBtn").addEventListener("click", () => {
   let csvContent = "data:text/csv;charset=utf-8,Employee Name,Position,Basic Pay,Overtime,Deduction,Net Pay,Status\r\n";
   payrollData.forEach(row => {
@@ -1156,7 +1159,6 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
-// ---------- SIDEBAR & BACK ----------
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
