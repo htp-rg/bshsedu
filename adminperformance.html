@@ -795,7 +795,7 @@
         <i data-lucide="arrow-left-to-line" class="icon"></i>
         Recruitment and Hiring
     </a>
-    <a href="admintime.html"class="active">
+    <a href="admintime.html">
         <i data-lucide="triangle-alert" class="icon"></i>
         Time & Attendance Monitoring
     </a>
@@ -809,7 +809,7 @@
         <i data-lucide="book-open" class="icon"></i>
         Payroll & Compensation
     </a>
-    <a href="adminperformance.html">
+    <a href="adminperformance.html"class="active">
         <i data-lucide="calendar-check" class="icon"></i>
         Performance Evaluation System
     </a>
@@ -841,7 +841,7 @@
   
   <div class="content-header">
     <div class="header-title-section">
-      <h1>Performance Evaluation System</h1>
+      <h1>  </h1>
     </div>
     <div class="header-actions-section">
       <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
@@ -1089,144 +1089,118 @@
 <script>
 lucide.createIcons();
 
+let evaluations = JSON.parse(localStorage.getItem("evaluations")) || [];
+let editIndex = null;
+
 function openModal(id) { document.getElementById(id).style.display = "flex"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
-document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
+document.querySelector(".btn-add-eval").addEventListener("click", () => openModal("addModal"));
+document.getElementById("closeModalBtn").addEventListener("click", () => closeModal("addModal"));
 
-document.getElementById("saveAdd").addEventListener("click", () => {
-  const name = document.getElementById("addName").value.trim();
-  const date = document.getElementById("addDate").value;
-  const checkIn = document.getElementById("addCheckIn").value;
-  const checkOut = document.getElementById("addCheckOut").value;
-  const status = document.getElementById("addStatus").value;
-
-  if (!name || !date || !checkIn || !checkOut) return alert("Fill all fields!");
-  attendanceData.push({ name, date, checkIn, checkOut, status });
-  saveData();
-  renderTable();
-
-  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
-  closeModal("addModal");
-});
-document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Attendance Report\n\n";
-  reportText += "Employee Name | Date | Check In | Check Out | Status\n";
-  reportText += "---------------------------------------------------\n";
-
-  attendanceData.forEach(record => {
-    reportText += `${record.name} | ${record.date} | ${record.checkIn} | ${record.checkOut} | ${record.status}\n`;
-  });
-
-  document.getElementById("reportArea").value = reportText;
-  openModal("reportModal");
+document.getElementById("evaluationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const employeeName = document.getElementById("employeeName").value.trim();
+    const department = document.getElementById("department").value;
+    const score = parseFloat(document.getElementById("score").value);
+    const remarks = document.getElementById("remarks").value.trim();
+    
+    if (!employeeName || !department || isNaN(score)) return alert("Please fill all required fields.");
+    
+    evaluations.push({ employeeName, department, score, remarks, date: new Date().toLocaleDateString() });
+    localStorage.setItem("evaluations", JSON.stringify(evaluations));
+    renderTable();
+    this.reset();
+    closeModal("addModal");
 });
 
-document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
-  attendanceData.forEach(row => {
-    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_report.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+document.getElementById("editEvaluationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (editIndex === null) return;
+
+    evaluations[editIndex] = {
+        employeeName: document.getElementById("editName").value.trim(),
+        department: document.getElementById("editDepartment").value,
+        score: parseFloat(document.getElementById("editScore").value),
+        remarks: document.getElementById("editRemarks").value.trim(),
+        date: evaluations[editIndex].date 
+    };
+
+    localStorage.setItem("evaluations", JSON.stringify(evaluations));
+    renderTable();
+    editIndex = null;
+    closeModal("editModal");
 });
 
 document.getElementById("closeEdit").addEventListener("click", () => closeModal("editModal"));
-document.getElementById("saveEdit").addEventListener("click", () => {
-  if (editRowIndex === null) return;
-  attendanceData[editRowIndex] = {
-    name: document.getElementById("editName").value,
-    date: document.getElementById("editDate").value,
-    checkIn: document.getElementById("editCheckIn").value,
-    checkOut: document.getElementById("editCheckOut").value,
-    status: document.getElementById("editStatus").value
-  };
-  saveData();
-  renderTable();
-  editRowIndex = null;
-  closeModal("editModal");
-});
-
 document.getElementById("closeView").addEventListener("click", () => closeModal("viewModal"));
 
-function attachRowEvents(row, index) {
-  const viewBtn = row.querySelector(".view-btn");
-  const editBtn = row.querySelector(".edit-btn");
-  const deleteBtn = row.querySelector(".delete-btn");
-
-  viewBtn.addEventListener("click", () => {
-    const record = attendanceData[index];
-    document.getElementById("viewName").innerText = record.name;
-    document.getElementById("viewDate").innerText = record.date;
-    document.getElementById("viewCheckIn").innerText = record.checkIn;
-    document.getElementById("viewCheckOut").innerText = record.checkOut;
-    document.getElementById("viewStatus").innerText = record.status;
-    openModal("viewModal");
-  });
-
-  editBtn.addEventListener("click", () => {
-    editRowIndex = index;
-    const record = attendanceData[index];
-    document.getElementById("editName").value = record.name;
-    document.getElementById("editDate").value = record.date;
-    document.getElementById("editCheckIn").value = record.checkIn;
-    document.getElementById("editCheckOut").value = record.checkOut;
-    document.getElementById("editStatus").value = record.status;
+function openEditModal(index) {
+    editIndex = index;
+    const evalData = evaluations[index];
+    document.getElementById("editName").value = evalData.employeeName;
+    document.getElementById("editDepartment").value = evalData.department;
+    document.getElementById("editScore").value = evalData.score;
+    document.getElementById("editRemarks").value = evalData.remarks;
     openModal("editModal");
-  });
+}
 
-  deleteBtn.addEventListener("click", () => {
-    if (confirm("Delete this record?")) {
-      attendanceData.splice(index, 1);
-      saveData();
-      renderTable();
+function openViewModal(index) {
+    const evalData = evaluations[index];
+    document.getElementById("viewName").innerText = evalData.employeeName;
+    document.getElementById("viewDepartment").innerText = evalData.department;
+    document.getElementById("viewScore").innerText = evalData.score;
+    document.getElementById("viewRemarks").innerText = evalData.remarks;
+    openModal("viewModal");
+}
+
+function deleteRecord(index) {
+    if (confirm("Are you sure you want to delete this evaluation?")) {
+        evaluations.splice(index, 1);
+        localStorage.setItem("evaluations", JSON.stringify(evaluations));
+        renderTable();
     }
-  });
 }
 
-const searchInput = document.querySelector('.search-filter input');
-const filterSelect = document.querySelector('.search-filter select');
+function renderTable() {
+    const tbody = document.querySelector(".recent-table tbody");
+    tbody.innerHTML = "";
+    evaluations.forEach((evalData, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${evalData.employeeName}</td>
+            <td style="text-align:center;">${evalData.date}</td>
+            <td style="text-align:center;">
+                <button class="edit-btn btn-primary" onclick="openEditModal(${i})">Edit</button>
+                <button class="edit-btn btn-primary" onclick="openViewModal(${i})">View</button>
+                <button class="delete-btn btn-secondary" onclick="deleteRecord(${i})">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
 
-function filterTable() {
-  const searchText = searchInput.value.toLowerCase();
-  const filterStatus = filterSelect.value;
-
-  tbody.querySelectorAll('tr').forEach((row, i) => {
-    const record = attendanceData[i];
-    const matchesSearch = record.name.toLowerCase().includes(searchText);
-    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
-    row.style.display = matchesSearch && matchesStatus ? "" : "none";
-  });
+    updateStats();
 }
 
-searchInput.addEventListener("input", filterTable);
-filterSelect.addEventListener("change", filterTable);
+function updateStats() {
+    const total = evaluations.length;
+    const completed = evaluations.filter(e => e.score >= 3).length;
+    const pending = total - completed;
+    const avgScore = total > 0 ? (evaluations.reduce((a,b) => a + b.score,0)/total).toFixed(2) : 0;
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
-  attendanceData.forEach(row => {
-    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_records.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
-
-
-const sidebarToggle = document.getElementById("sidebarToggle");
-sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
-
-document.getElementById("backButton").addEventListener("click", () => window.history.back());
+    const statCards = document.querySelectorAll(".overview-grid .stat-card");
+    statCards[0].querySelector("h3").innerText = completed;
+    statCards[0].querySelector("p").innerText = "Completed";
+    statCards[1].querySelector("h3").innerText = pending;
+    statCards[1].querySelector("p").innerText = "Pending";
+    statCards[2].querySelector("h3").innerText = avgScore;
+    statCards[2].querySelector("p").innerText = "Average Score";
+    statCards[3].querySelector("h3").innerText = total;
+    statCards[3].querySelector("p").innerText = "Total Evaluations";
+}
 
 renderTable();
+
+document.getElementById("sidebarToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
+document.getElementById("backButton").addEventListener("click", () => window.history.back());
 </script>
