@@ -689,7 +689,18 @@
         message.className = "error-msg";
         return;
       }
-
+const backBtn = document.getElementById('backButton');
+    backBtn?.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.history.back();
+    });
+  
+    const toggleButton = document.getElementById('sidebarToggle');
+    const body = document.body;
+    toggleButton?.addEventListener('click', () => {
+        body.classList.toggle('sidebar-collapsed');
+    });
+      
       const updatedProfile = { name, email, number };
       localStorage.setItem("adminProfile", JSON.stringify(updatedProfile));
 
