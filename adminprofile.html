@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+    }
+    :root {
+      --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+      --saas-primary: #ec4899;
+    }
+    .main-sidebar {
+      width: 260px;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      background-color: #2d3748;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+    .sidebar-header {
+      padding: 0 25px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #4a5568;
+    }
+    .sidebar-header h1 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #fff;
+      font-weight: 600;
+    }
+    .main-sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #cbd5e0;
+      text-decoration: none;
+      padding: 12px 25px 12px 35px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .main-sidebar a:hover { background-color: #4a5568; color: #fff; }
+    .main-sidebar a.active { color: var(--saas-primary); }
+    .main-content {
+      margin-left: 260px;
+    }
+    .content-header {
+      height: 80px;
+      background: #fff;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .content-header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+    .content-wrapper {
+      padding: 30px;
+      min-height: calc(100vh - 80px);
+    }
+    .content-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      max-width: 600px;
+    }
+    .content-block h2 {
+      margin-top: 0;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn-primary {
+      background-image: var(--saas-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .success-msg {
+      color: green;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .error-msg {
+      color: red;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <nav class="main-sidebar">
+        <button id="sidebarToggle" class="sidebar-toggle">
+            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
+            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
+        </button>
+ <div class="sidebar-header">
+      <h1><a href="#">Admin Panel</a></h1>
+    </div>
+    
+<div class="sidebar-links">
+    <span class="sidebar-heading">MAIN</span>
+    <a href="admindashboard.html">
+        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
+    </a>
+
+    <span class="sidebar-heading">MODULE</span>
+    <a href="adminemployee.html">
+        <i data-lucide="arrow-right-from-line" class="icon"></i>
+        Employee Information & Records Management
+    </a>
+    <a href="adminrecruitment.html">
+        <i data-lucide="arrow-left-to-line" class="icon"></i>
+        Recruitment and Hiring
+    </a>
+    <a href="admintime.html">
+        <i data-lucide="triangle-alert" class="icon"></i>
+        Time & Attendance Monitoring
+    </a>
+    <a href="adminleave.html">
+        <i data-lucide="book-user" class="icon"></i>
+        Leave & Overtime Management
+    </a>
+
+    <span class="sidebar-heading">SUPERVISION</span>
+    <a href="adminpayroll.html">
+        <i data-lucide="book-open" class="icon"></i>
+        Payroll & Compensation
+    </a>
+    <a href="adminperformance.html"class="active">
+        <i data-lucide="calendar-check" class="icon"></i>
+        Performance Evaluation System
+    </a>
+    <a href="admintraining.html">
+        <i data-lucide="users" class="icon"></i>
+        Training & Development
+    </a>
+    <a href="adminbenefits.html">
+        <i data-lucide="school" class="icon"></i>
+        Employee Benefits & Welfare
+    </a>
+    <a href="adminlogs.html">
+        <i data-lucide="history" class="icon"></i>
+        System Logs
+    </a>
+</div>
+
+<div class="sidebar-footer">
+    <a href="adminprofile.html">
+        <i data-lucide="user-circle" class="icon"></i> My Profile
+    </a>
+    <a href="main.html" class="nav-alert">
+        <i data-lucide="log-out" class="icon"></i> Logout
+    </a>
+</div>
+    </nav>
+
+
+  <main class="main-content">
+    <div class="content-header">
+      <h1>My Profile</h1>
+    </div>
+    <div class="content-wrapper">
+      <div class="content-block">
+        <h2>Profile Information</h2>
+        <form id="profileForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="number">Phone Number</label>
+            <input type="text" id="number" required>
+          </div>
+
+          <h2>Change Password</h2>
+          <div class="form-group">
+            <label for="oldPassword">Old Password</label>
+            <input type="password" id="oldPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" required>
+          </div>
+
+          <button type="submit" class="btn-primary">Save Changes</button>
+          <p id="message"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    const profile = JSON.parse(localStorage.getItem("adminProfile") || '{}');
+    const loginData = JSON.parse(localStorage.getItem("adminLogin") || '{"username":"admin","password":"1234"}');
+
+    document.getElementById("name").value = profile.name || "Administrator";
+    document.getElementById("email").value = profile.email || "admin@example.com";
+    document.getElementById("number").value = profile.number || "";
+
+    const form = document.getElementById("profileForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let number = document.getElementById("number").value;
+      let oldPassword = document.getElementById("oldPassword").value;
+      let newPassword = document.getElementById("newPassword").value;
+
+      if (oldPassword !== loginData.password) {
+        message.textContent = "❌ Old password is incorrect.";
+        message.className = "error-msg";
+        return;
+      }
+
+      const updatedProfile = { name, email, number };
+      localStorage.setItem("adminProfile", JSON.stringify(updatedProfile));
+
+      if (newPassword.trim() !== "") {
+        loginData.password = newPassword;
+        localStorage.setItem("adminLogin", JSON.stringify(loginData));
+      }
+
+      message.textContent = "✅ Profile updated successfully!";
+      message.className = "success-msg";
+
+      document.getElementById("oldPassword").value = "";
+      document.getElementById("newPassword").value = "";
+    });
+  </script>
+</body>
+</html>
+
