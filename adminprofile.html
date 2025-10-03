@@ -513,22 +513,32 @@
   white-space: normal;     
   word-break: break-word;  
 }
-   .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .form-group input {
-      width: 80%;
-      padding: 10px;
-      border: 1px solid #cbd5e0;
-      border-radius: 8px;
-      font-size: 14px;
-    }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;  
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 80%;           
+    max-width: 400px;      
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;  
+}
 .success-msg {
       color: green;
       margin-top: 10px;
