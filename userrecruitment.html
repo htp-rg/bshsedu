@@ -783,15 +783,15 @@
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
 </div>
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
+   <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
+  <input type="text" id="searchInput" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+  <select id="departmentFilter" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+    <option value="">All Departments</option>
+    <option value="Academics">Academics</option>
+    <option value="HR">HR</option>
+    <option value="Library">Library</option>
+  </select>
+</div>
 
        <div style="overflow-x:auto;">
 <table class="activity-table">
