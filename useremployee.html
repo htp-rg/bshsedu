@@ -803,7 +803,7 @@
         <th>Status</th>
       </tr>
     </thead>
-    <tbody id="employeeTableBody">   <!-- ✅ Add ID here -->
+    <tbody id="employeeTableBody">   
       <tr>
         <td>Juan Dela Cruz</td>
         <td>Teacher</td>
@@ -858,55 +858,85 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.back();
   });
 
- const tbody = document.getElementById("employeeTableBody");
-const searchInput = document.getElementById("searchInput");
-const departmentSelect = document.getElementById("departmentSelect");
+  const tbody = document.getElementById("employeeTableBody");
+  const searchInput = document.getElementById("searchInput");
+  const departmentSelect = document.getElementById("departmentSelect");
 
-      function loadTable() {
-        const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
-        tbody.innerHTML = "";
-        data.forEach(emp => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${emp.name}</td>
-            <td>${emp.position}</td>
-            <td>${emp.department}</td>
-            <td>${emp.status}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
+  const defaultData = [
+    { name: "Juan Dela Cruz", position: "Teacher", department: "Academics", status: "Active" },
+    { name: "Maria Santos", position: "Admin Staff", department: "HR", status: "Inactive" },
+    { name: "Jose Reyes", position: "Librarian", department: "Library", status: "Onboarding" },
+    { name: "Ana Lopez", position: "Teacher", department: "Academics", status: "Active" }
+  ];
 
-      function filterTable() {
-        const searchValue = searchInput.value.toLowerCase();
-        const departmentValue = departmentSelect.value;
-        const rows = tbody.querySelectorAll("tr");
+  if (!localStorage.getItem("employeeData")) {
+    localStorage.setItem("employeeData", JSON.stringify(defaultData));
+  }
 
-        rows.forEach(row => {
-          const cells = row.querySelectorAll("td");
-          const name = cells[0].innerText.toLowerCase();
-          const position = cells[1].innerText.toLowerCase();
-          const department = cells[2].innerText;
-          const status = cells[3].innerText.toLowerCase();
-
-          const matchesSearch =
-            name.includes(searchValue) ||
-            position.includes(searchValue) ||
-            department.toLowerCase().includes(searchValue) ||
-            status.includes(searchValue);
-
-          const matchesDepartment =
-            departmentValue === "Department" || department === departmentValue;
-
-          row.style.display = matchesSearch && matchesDepartment ? "" : "none";
-        });
-      }
-
-      searchInput.addEventListener("keyup", filterTable);
-      departmentSelect.addEventListener("change", filterTable);
-
-      loadTable();
+  function loadTable() {
+    const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
+    tbody.innerHTML = "";
+    data.forEach(emp => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${emp.name}</td>
+        <td>${emp.position}</td>
+        <td>${emp.department}</td>
+        <td>${emp.status}</td>
+      `;
+      tbody.appendChild(tr);
     });
-  </script>
-</body>
-</html>
+  }
+
+  function filterTable() {
+    const searchValue = searchInput.value.toLowerCase();
+    const departmentValue = departmentSelect.value;
+    const rows = tbody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+      const cells = row.querySelectorAll("td");
+      const name = cells[0].innerText.toLowerCase();
+      const position = cells[1].innerText.toLowerCase();
+      const department = cells[2].innerText;
+      const status = cells[3].innerText.toLowerCase();
+
+      const matchesSearch =
+        name.includes(searchValue) ||
+        position.includes(searchValue) ||
+        department.toLowerCase().includes(searchValue) ||
+        status.includes(searchValue);
+
+      const matchesDepartment =
+        departmentValue === "Department" || department === departmentValue;
+
+      row.style.display = matchesSearch && matchesDepartment ? "" : "none";
+    });
+  }
+
+  searchInput.addEventListener("keyup", filterTable);
+  departmentSelect.addEventListener("change", filterTable);
+
+  function exportTableToCSV() {
+    const rows = tbody.querySelectorAll("tr");
+    let csvContent = "Employee Name,Position,Department,Status\n";
+
+    rows.forEach(row => {
+      if (row.style.display !== "none") {
+        const cols = row.querySelectorAll("td");
+        const rowData = Array.from(cols).map(td => `"${td.innerText}"`).join(",");
+        csvContent += rowData + "\n";
+      }
+    });
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "employee_records.csv";
+    a.click();
+  }
+
+  document.getElementById("exportBtn").addEventListener("click", exportTableToCSV);
+
+  loadTable();
+});
