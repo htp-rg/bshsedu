@@ -2,7 +2,7 @@ html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Performance Evaluation System</title>
+  <title>System logs</title>
 
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -631,7 +631,7 @@ html lang="en">
         <i data-lucide="book-open" class="icon"></i>
         Payroll & Compensation
     </a>
-    <a href="adminperformance.html"class="active">
+    <a href="adminperformance.html">
         <i data-lucide="calendar-check" class="icon"></i>
         Performance Evaluation System
     </a>
@@ -643,7 +643,7 @@ html lang="en">
         <i data-lucide="school" class="icon"></i>
         Employee Benefits & Welfare
     </a>
-    <a href="adminlogs.html">
+    <a href="adminlogs.html"class="active">
         <i data-lucide="history" class="icon"></i>
         System Logs
     </a>
@@ -698,12 +698,10 @@ html lang="en">
 <script>
   lucide.createIcons();
 
-  // Load logs from localStorage
   let logs = JSON.parse(localStorage.getItem("systemLogs") || "[]");
 
   const logTableBody = document.getElementById("logTableBody");
 
-  // Function to render logs
   function renderLogs() {
     logTableBody.innerHTML = "";
     logs.forEach(log => {
@@ -716,7 +714,6 @@ html lang="en">
     });
   }
 
-  // Function to add log
   function addLog(message) {
     const time = new Date().toLocaleString();
     const newLog = { time, message };
@@ -725,23 +722,19 @@ html lang="en">
     renderLogs();
   }
 
-  // Simulate logs
   document.getElementById("simulateLog").addEventListener("click", () => {
     addLog("User performed a simulated action.");
   });
 
-  // Clear logs
   document.getElementById("clearLogs").addEventListener("click", () => {
     logs = [];
     localStorage.setItem("systemLogs", "[]");
     renderLogs();
   });
 
-  // Back button
   document.getElementById("backButton").addEventListener("click", () => {
     window.history.back();
   });
 
-  // Initial render
   renderLogs();
 </script>
