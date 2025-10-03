@@ -861,6 +861,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const tbody = document.getElementById("employeeTableBody");
   const searchInput = document.getElementById("searchInput");
   const departmentSelect = document.getElementById("departmentSelect");
+  const reportModal = document.getElementById("reportModal");
+  const reportArea = document.getElementById("reportArea");
 
   const defaultData = [
     { name: "Juan Dela Cruz", position: "Teacher", department: "Academics", status: "Active" },
@@ -936,7 +938,51 @@ document.addEventListener('DOMContentLoaded', () => {
     a.click();
   }
 
-  document.getElementById("exportBtn").addEventListener("click", exportTableToCSV);
+  document.getElementById("exportBtn").addEventListener("click", () => {
+    openModal("reportModal");
+
+    const rows = tbody.querySelectorAll("tr");
+    let reportText = "Employee Records Report\n\n";
+    rows.forEach(row => {
+      if (row.style.display !== "none") {
+        const cols = row.querySelectorAll("td");
+        reportText += `${cols[0].innerText} | ${cols[1].innerText} | ${cols[2].innerText} | ${cols[3].innerText}\n`;
+      }
+    });
+    reportArea.value = reportText;
+  });
+
+
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = "flex";
+    gsap.fromTo(modal.querySelector(".modal-content"),
+      { y: -50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    gsap.to(modal.querySelector(".modal-content"), {
+      y: -50,
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2.in",
+      onComplete: () => {
+        modal.style.display = "none";
+      }
+    });
+  }
+
+  window.closeModal = closeModal; // make it callable from HTML
+
+  document.getElementById("modalExportBtn").addEventListener("click", () => {
+    exportTableToCSV();
+    closeModal("reportModal");
+  });
+
 
   loadTable();
 });
+</script>
