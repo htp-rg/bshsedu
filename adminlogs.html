@@ -717,13 +717,13 @@ html lang="en">
   function addLog(message) {
     const time = new Date().toLocaleString();
     const newLog = { time, message };
-    logs.unshift(newLog); // latest log on top
+    logs.unshift(newLog); 
     localStorage.setItem("systemLogs", JSON.stringify(logs));
     renderLogs();
   }
 
   document.getElementById("simulateLog").addEventListener("click", () => {
-    addLog("User performed a simulated action.");
+    addLog("Admin performed a simulated action.");
   });
 
   document.getElementById("clearLogs").addEventListener("click", () => {
