@@ -783,54 +783,54 @@
   </div>
 </div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
+  <input id="searchInput" type="text" placeholder="🔍 Search employees..." 
+         style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+  <select id="departmentSelect" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+    <option>Department</option>
+    <option>Academics</option>
+    <option>HR</option>
+    <option>Library</option>
+  </select>
+</div>
 
-        <div style="overflow-x:auto;">
-          <table class="activity-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Department</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-          <td>Juan Dela Cruz</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td>Maria Santos</td>
-          <td>Admin Staff</td>
-          <td>HR</td>
-          <td>Inactive</td>
-        </tr>
-        <tr>
-          <td>Jose Reyes</td>
-          <td>Librarian</td>
-          <td>Library</td>
-          <td>Onboarding</td>
-        </tr>
-        <tr>
-          <td>Ana Lopez</td>
-          <td>Teacher</td>
-          <td>Academics</td>
-          <td>Active</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</main>
+<div style="overflow-x:auto;">
+  <table class="activity-table">
+    <thead>
+      <tr>
+        <th>Employee Name</th>
+        <th>Position</th>
+        <th>Department</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="employeeTableBody">   <!-- ✅ Add ID here -->
+      <tr>
+        <td>Juan Dela Cruz</td>
+        <td>Teacher</td>
+        <td>Academics</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>Maria Santos</td>
+        <td>Admin Staff</td>
+        <td>HR</td>
+        <td>Inactive</td>
+      </tr>
+      <tr>
+        <td>Jose Reyes</td>
+        <td>Librarian</td>
+        <td>Library</td>
+        <td>Onboarding</td>
+      </tr>
+      <tr>
+        <td>Ana Lopez</td>
+        <td>Teacher</td>
+        <td>Academics</td>
+        <td>Active</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <div id="reportModal" class="modal">
   <div class="modal-content">
@@ -858,9 +858,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.back();
   });
 
-  const tbody = document.getElementById("employeeTableBody");
-      const searchInput = document.getElementById("searchInput");
-      const departmentSelect = document.getElementById("departmentSelect");
+ const tbody = document.getElementById("employeeTableBody");
+const searchInput = document.getElementById("searchInput");
+const departmentSelect = document.getElementById("departmentSelect");
 
       function loadTable() {
         const data = JSON.parse(localStorage.getItem("employeeData") || "[]");
