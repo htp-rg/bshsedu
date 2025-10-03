@@ -869,35 +869,73 @@
          
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
- <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-     
-      document.getElementById("backButton")?.addEventListener("click", () => window.history.back());
- 
-      function loadRecruitmentData() {
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  lucide.createIcons();
 
-        const data = JSON.parse(localStorage.getItem("recruitmentData") || "[]");
-        const tbody = document.querySelector("#recruitmentTable tbody");
-        tbody.innerHTML = "";
-        data.forEach(item => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${item.dept}</td>
-            <td>${item.name}</td>
-            <td>${item.position}</td>
-            <td>${item.date}</td>
-            <td>${item.status}</td>
-            <td>${item.result}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+  document.getElementById("backButton")?.addEventListener("click", () => window.history.back());
+
+  const searchInput = document.getElementById("searchInput");
+  const deptFilter = document.getElementById("departmentFilter");
+  const table = document.getElementById("recruitmentTable");
+  const exportBtn = document.getElementById("exportBtn");
+
+  let recruitmentData = [];
+
+  function loadRecruitmentData() {
+    recruitmentData = JSON.parse(localStorage.getItem("recruitmentData") || "[]");
+    renderTable();
+  }
+
+  function renderTable() {
+    const searchValue = searchInput.value.toLowerCase();
+    const deptValue = deptFilter.value;
+    const tbody = table.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    recruitmentData.forEach(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchValue);
+      const matchesDept = !deptValue || item.dept === deptValue;
+
+      if (matchesSearch && matchesDept) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${item.dept}</td>
+          <td>${item.name}</td>
+          <td>${item.position}</td>
+          <td>${item.date}</td>
+          <td>${item.status}</td>
+          <td>${item.result}</td>
+        `;
+        tbody.appendChild(tr);
       }
-
-      loadRecruitmentData();
-
-      setInterval(loadRecruitmentData, 5000);
     });
-  </script>
-</body>
-</html>
+  }
+
+  searchInput.addEventListener("input", renderTable);
+  deptFilter.addEventListener("change", renderTable);
+
+  exportBtn.addEventListener("click", () => {
+    const rows = Array.from(table.querySelectorAll("tr"))
+      .filter(row => row.style.display !== "none");
+
+    let csv = rows.map(row => {
+      const cols = Array.from(row.cells).map(cell => `"${cell.textContent}"`);
+      return cols.join(",");
+    }).join("\n");
+
+    const csvContent = "data:text/csv;charset=utf-8," + csv;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "recruitment_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  loadRecruitmentData();
+
+  setInterval(loadRecruitmentData, 5000);
+});
+</script>
