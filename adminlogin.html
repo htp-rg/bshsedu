@@ -181,39 +181,37 @@
       }, 1000);
     }
 
-    function sendOTP(email) {
-      otp = Math.floor(100000 + Math.random() * 900000);
-      otpExpiry = new Date(Date.now() + 15*60*1000);
+   function sendOTP() {
+  otp = Math.floor(100000 + Math.random() * 900000);
+  otpExpiry = new Date(Date.now() + 15*60*1000);
 
-      const templateParams = {
-        to_email: "joshuareyes.ad1@gmail.com",
-        passcode: otp,
-        time: otpExpiry.toLocaleTimeString()
-      };
+  const templateParams = {
+    to_email: "joshuareyes.ad1@gmail.com", 
+    passcode: otp,
+    time: otpExpiry.toLocaleTimeString()
+  };
 
-      emailjs.send('service_ntac4v5', 'template_icabi8a', templateParams)
-        .then(() => {
-          document.getElementById("message").textContent = "OTP sent to admin email (joshuareyes.ad1@gmail.com)";
-          startTimer();
-        })
-        .catch(err => {
-          console.error(err);
-          document.getElementById("message").textContent = "Failed to send OTP";
-        });
-    }
-
-    sendBtn.addEventListener("click", () => {
-      const email = document.getElementById("email").value.trim();
-      if(!email) return alert("Enter your email");
-      sendOTP(email);
+  emailjs.send('service_ntac4v5', 'template_icabi8a', templateParams)
+    .then(() => {
+      document.getElementById("message").textContent = "OTP sent to admin email (joshuareyes.ad1@gmail.com)";
+      startTimer();
+    })
+    .catch(err => {
+      console.error("EmailJS Error:", err);
+      document.getElementById("message").textContent = "Failed to send OTP";
     });
+}
 
-    resendBtn.addEventListener("click", () => {
-      const email = document.getElementById("email").value.trim();
-      if(!email) return alert("Enter your email");
-      sendOTP(email);
-      resendBtn.style.display = "none";
-    });
+
+sendBtn.addEventListener("click", () => {
+  sendOTP();
+});
+
+
+resendBtn.addEventListener("click", () => {
+  sendOTP();
+  resendBtn.style.display = "none";
+});
 
     document.getElementById("loginForm").addEventListener("submit", (e) => {
       e.preventDefault();
