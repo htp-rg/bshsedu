@@ -186,7 +186,7 @@
       otpExpiry = new Date(Date.now() + 15*60*1000);
 
       const templateParams = {
-        user_email: email,
+        to_email: email,
         passcode: otp,
         time: otpExpiry.toLocaleTimeString()
       };
@@ -219,7 +219,7 @@
       e.preventDefault();
       const password = document.getElementById("password").value;
       const codeInput = document.getElementById("codeInput").value.trim();
-      const correctPassword = "orariojames";
+      const correctPassword = "adminjoshuareyes";
 
       if(!otp) {
         document.getElementById("message").textContent = "Request OTP first";
