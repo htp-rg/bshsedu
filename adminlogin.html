@@ -186,7 +186,7 @@
       otpExpiry = new Date(Date.now() + 15*60*1000);
 
       const templateParams = {
-        to_email: email,
+        user_email: email,
         passcode: otp,
         time: otpExpiry.toLocaleTimeString()
       };
