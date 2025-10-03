@@ -661,61 +661,70 @@
     </div>
   </main>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    lucide.createIcons();
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
 
-    const profile = JSON.parse(localStorage.getItem("adminProfile") || '{}');
-    const loginData = JSON.parse(localStorage.getItem("adminLogin") || '{"username":"admin","password":"1234"}');
+  const profile = JSON.parse(localStorage.getItem("adminProfile") || '{}');
+  const loginData = JSON.parse(localStorage.getItem("adminLogin") || '{"username":"admin","password":"1234"}');
 
-    document.getElementById("name").value = profile.name || "Administrator";
-    document.getElementById("email").value = profile.email || "admin@example.com";
-    document.getElementById("number").value = profile.number || "";
+  document.getElementById("name").value = profile.name || "Administrator";
+  document.getElementById("email").value = profile.email || "admin@example.com";
+  document.getElementById("number").value = profile.number || "";
 
-    const form = document.getElementById("profileForm");
-    const message = document.getElementById("message");
+  const form = document.getElementById("profileForm");
+  const message = document.getElementById("message");
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
+  const backBtn = document.getElementById("backButton");
+  backBtn?.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.history.back();
+  });
 
-      let name = document.getElementById("name").value;
-      let email = document.getElementById("email").value;
-      let number = document.getElementById("number").value;
-      let oldPassword = document.getElementById("oldPassword").value;
-      let newPassword = document.getElementById("newPassword").value;
+  const toggleButton = document.getElementById("sidebarToggle");
+  const body = document.body;
+  toggleButton?.addEventListener("click", () => {
+    body.classList.toggle("sidebar-collapsed");
 
-      if (oldPassword !== loginData.password) {
-        message.textContent = "❌ Old password is incorrect.";
-        message.className = "error-msg";
-        return;
-      }
-const backBtn = document.getElementById('backButton');
-    backBtn?.addEventListener('click', function (e) {
-        e.preventDefault();
-        window.history.back();
-    });
-  
-    const toggleButton = document.getElementById('sidebarToggle');
-    const body = document.body;
-    toggleButton?.addEventListener('click', () => {
-        body.classList.toggle('sidebar-collapsed');
-    });
-      
-      const updatedProfile = { name, email, number };
-      localStorage.setItem("adminProfile", JSON.stringify(updatedProfile));
+    const iconClose = toggleButton.querySelector(".icon-close");
+    const iconOpen = toggleButton.querySelector(".icon-open");
 
-      if (newPassword.trim() !== "") {
-        loginData.password = newPassword;
-        localStorage.setItem("adminLogin", JSON.stringify(loginData));
-      }
+    if (body.classList.contains("sidebar-collapsed")) {
+      iconClose.style.opacity = "0";
+      iconOpen.style.opacity = "1";
+    } else {
+      iconClose.style.opacity = "1";
+      iconOpen.style.opacity = "0";
+    }
+  });
 
-      message.textContent = "✅ Profile updated successfully!";
-      message.className = "success-msg";
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      document.getElementById("oldPassword").value = "";
-      document.getElementById("newPassword").value = "";
-    });
-  </script>
-</body>
-</html>
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let number = document.getElementById("number").value;
+    let oldPassword = document.getElementById("oldPassword").value;
+    let newPassword = document.getElementById("newPassword").value;
 
+    if (oldPassword !== loginData.password) {
+      message.textContent = "❌ Old password is incorrect.";
+      message.className = "error-msg";
+      return;
+    }
+
+    const updatedProfile = { name, email, number };
+    localStorage.setItem("adminProfile", JSON.stringify(updatedProfile));
+
+    if (newPassword.trim() !== "") {
+      loginData.password = newPassword;
+      localStorage.setItem("adminLogin", JSON.stringify(loginData));
+    }
+
+    message.textContent = "✅ Profile updated successfully!";
+    message.className = "success-msg";
+
+    document.getElementById("oldPassword").value = "";
+    document.getElementById("newPassword").value = "";
+  });
+</script>
