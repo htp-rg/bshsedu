@@ -783,15 +783,22 @@
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
 </div>
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Filter</option>
-            <option>Active</option>
-            <option>Inactive</option>
-            <option>Pending</option>
-          </select>
-        </div>
+       <input id="searchInput" type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+
+<select id="filterSelect" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+  <option>Filter</option>
+  <option>Active</option>
+  <option>Inactive</option>
+  <option>Pending</option>
+</select>
+
+<tbody id="tableBody">
+  <tr>
+    <td>Health Insurance</td>
+    <td>Medical, dental, and vision coverage</td>
+    <td>30</td>
+    <td>Active</td>
+  </tr>
 
 <div style="overflow-x:auto;">
   <table class="activity-table">
