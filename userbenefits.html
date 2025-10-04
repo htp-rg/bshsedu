@@ -855,30 +855,20 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script>
- lucide.createIcons();
+lucide.createIcons();
 
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => {
   document.body.classList.toggle("sidebar-collapsed");
 });
-  
-document.getElementById("exportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Benefit,Description,Enrolled Employees,Status\r\n";
-  benefitData.forEach(row => {
-    csvContent += `"${row.benefit}","${row.description}","${row.enrolled}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "benefits_records.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+
+document.getElementById("backButton").addEventListener("click", () => {
+  window.history.back();
 });
-  
-const tbody = document.getElementById("tableBody");
-const searchInput = document.getElementById("searchInput");
-const filterSelect = document.getElementById("filterSelect");
+
+const tbody = document.querySelector(".activity-table tbody");
+const searchInput = document.querySelector(".search-filter input");
+const filterSelect = document.querySelector(".search-filter select");
 
 let benefitData = JSON.parse(localStorage.getItem("benefitData") || `[
   { "benefit": "Health Insurance", "description": "Medical, dental, and vision coverage", "enrolled": 30, "status": "Active" },
@@ -889,7 +879,7 @@ let benefitData = JSON.parse(localStorage.getItem("benefitData") || `[
 
 function renderTable() {
   tbody.innerHTML = "";
-  benefitData.forEach((record) => {
+  benefitData.forEach(record => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${record.benefit}</td>
@@ -900,6 +890,7 @@ function renderTable() {
     tbody.appendChild(tr);
   });
 }
+renderTable();
 
 function filterTable() {
   const searchText = searchInput.value.toLowerCase();
@@ -916,4 +907,17 @@ function filterTable() {
 searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
-renderTable();
+document.getElementById("exportBtn").addEventListener("click", () => {
+  let csvContent = "data:text/csv;charset=utf-8,Benefit,Description,Enrolled Employees,Status\r\n";
+  benefitData.forEach(row => {
+    csvContent += `"${row.benefit}","${row.description}","${row.enrolled}","${row.status}"\r\n`;
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "benefits_records.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+</script>
