@@ -783,16 +783,16 @@
   </div>
 </div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Filter</option>
-            <option>Approve</option>
-            <option>Pending</option>
-          </select>
-        </div>
+  <input id="searchInput" type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+  <select id="filterSelect" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+    <option>Filter</option>
+    <option>Approved</option>
+    <option>Pending</option>
+  </select>
+</div>
 
- <div style="overflow-x:auto; margin-top: 2rem;">
-  <table class="activity-table">
+<div style="overflow-x:auto; margin-top: 2rem;">
+  <table class="activity-table" id="leaveTable">
     <thead>
       <tr>
         <th>Employee Name</th>
