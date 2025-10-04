@@ -904,9 +904,6 @@
 <script>
 lucide.createIcons();
 
-const tbody = document.querySelector(".payroll-table tbody");
-let editRowIndex = null;
-
 let payrollData = JSON.parse(localStorage.getItem("payrollData") || `[
   { "name": "Juan Dela Cruz", "position": "Teacher", "basic": 25000, "overtime": 2000, "deduction": 500, "net": 25500, "status": "Processed" },
   { "name": "Maria Santos", "position": "Admin Staff", "basic": 20000, "overtime": 1200, "deduction": 300, "net": 20900, "status": "Processed" },
@@ -921,7 +918,7 @@ function saveData() {
 function renderTable() {
   const tbody = document.querySelector(".payroll-table tbody");
   tbody.innerHTML = "";
-  payrollData.forEach((record, index) => {
+  payrollData.forEach((record) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${record.name}</td>
@@ -931,40 +928,12 @@ function renderTable() {
       <td>P${record.deduction.toLocaleString()}</td>
       <td>P${record.net.toLocaleString()}</td>
       <td>${record.status}</td>
-      </td>
     `;
     tbody.appendChild(tr);
-    lucide.createIcons();
-    attachRowEvents(tr, index);
   });
+  lucide.createIcons();
+  filterTable();
 }
-document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Payroll Report\n\n";
-  reportText += "Employee Name | Position | Basic Pay | Overtime | Deduction | Net Pay | Status\n";
-  reportText += "-------------------------------------------------------------------\n";
-
-  payrollData.forEach(record => {
-    reportText += `${record.name} | ${record.position} | ${record.basic} | ${record.overtime} | ${record.deduction} | ${record.net} | ${record.status}\n`;
-  });
-
-  document.getElementById("reportArea").value = reportText;
-  openModal("reportModal");
-});
-
-document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Position,Basic Pay,Overtime,Deduction,Net Pay,Status\r\n";
-  payrollData.forEach(row => {
-    csvContent += `"${row.name}","${row.position}","${row.basic}","${row.overtime}","${row.deduction}","${row.net}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "payroll_report.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
-
 
 const searchInput = document.querySelector('.search-filter input');
 const filterSelect = document.querySelector('.search-filter select');
@@ -973,6 +942,7 @@ function filterTable() {
   const searchText = searchInput.value.toLowerCase();
   const filterStatus = filterSelect.value;
 
+  const tbody = document.querySelector(".payroll-table tbody");
   tbody.querySelectorAll('tr').forEach((row, i) => {
     const record = payrollData[i];
     const matchesSearch = record.name.toLowerCase().includes(searchText);
@@ -980,6 +950,7 @@ function filterTable() {
     row.style.display = matchesSearch && matchesStatus ? "" : "none";
   });
 }
+
 searchInput.addEventListener("input", filterTable);
 filterSelect.addEventListener("change", filterTable);
 
