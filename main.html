@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azure AI-Powered Academic HR Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+      --saas-primary: #ec4899;
+      --saas-bg: #f8f9fa;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--saas-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #1a202c;
+    }
+
+    .login-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .login-buttons button {
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .login-buttons button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    #adminBtn {
+      background-image: var(--saas-gradient);
+      color: #fff;
+    }
+
+    #userBtn {
+      background-color: #10b981;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Azure AI-Powered Academic HR Management System</h1>
+
+  <div class="login-buttons">
+    <button id="adminBtn">Login as Admin</button>
+    <button id="userBtn">Login as User</button>
+  </div>
+
+  <script>
+    document.getElementById("adminBtn").addEventListener("click", () => {
+      window.location.href = "adminlogin.html";
+    });
+
+    document.getElementById("userBtn").addEventListener("click", () => {
+      window.location.href = "userlogin.html";
+    });
+  </script>
+</body>
+</html>
