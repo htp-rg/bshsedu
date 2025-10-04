@@ -663,82 +663,71 @@
 
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-  lucide.createIcons();
+  document.addEventListener("DOMContentLoaded", () => {
+ 
+    lucide.createIcons();
 
-  const profile = JSON.parse(localStorage.getItem("userProfile") || '{}');
-  const loginData = JSON.parse(localStorage.getItem("userLogin") || '{"username":"user","password":"1234"}');
+    const profile = JSON.parse(localStorage.getItem("userProfile") || '{}');
+    const loginData = JSON.parse(localStorage.getItem("userLogin") || '{"username":"user","password":"1234"}');
 
-  document.getElementById("name").value = profile.name || "User";
-  document.getElementById("email").value = profile.email || "user@example.com";
-  document.getElementById("number").value = profile.number || "";
+    document.getElementById("name").value = profile.name || "User";
+    document.getElementById("email").value = profile.email || "user@example.com";
+    document.getElementById("number").value = profile.number || "";
 
-  const form = document.getElementById("profileForm");
-  const message = document.getElementById("message");
+    const form = document.getElementById("profileForm");
+    const message = document.getElementById("message");
 
-  const backBtn = document.getElementById("backButton");
-  backBtn?.addEventListener("click", function (e) {
-    e.preventDefault();
-    window.history.back();
+    const backBtn = document.getElementById("backButton");
+    backBtn?.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.history.back();
+    });
+
+    const toggleButton = document.getElementById("sidebarToggle");
+    const body = document.body;
+    toggleButton?.addEventListener("click", () => {
+      body.classList.toggle("sidebar-collapsed");
+
+      const iconClose = toggleButton.querySelector(".icon-close");
+      const iconOpen = toggleButton.querySelector(".icon-open");
+
+      if (body.classList.contains("sidebar-collapsed")) {
+        iconClose.style.opacity = "0";
+        iconOpen.style.opacity = "1";
+      } else {
+        iconClose.style.opacity = "1";
+        iconOpen.style.opacity = "0";
+      }
+    });
+  
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let number = document.getElementById("number").value;
+      let oldPassword = document.getElementById("oldPassword").value;
+      let newPassword = document.getElementById("newPassword").value;
+
+      if (oldPassword !== loginData.password) {
+        message.textContent = "❌ Old password is incorrect.";
+        message.className = "error-msg";
+        return;
+      }
+
+      const updatedProfile = { name, email, number };
+      localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+
+      if (newPassword.trim() !== "") {
+        loginData.password = newPassword;
+        localStorage.setItem("userLogin", JSON.stringify(loginData));
+      }
+
+      message.textContent = "✅ Profile updated successfully!";
+      message.className = "success-msg";
+
+      document.getElementById("oldPassword").value = "";
+      document.getElementById("newPassword").value = "";
+    });
   });
-
-  const toggleButton = document.getElementById("sidebarToggle");
-  const body = document.body;
-  toggleButton?.addEventListener("click", () => {
-    body.classList.toggle("sidebar-collapsed");
-
-    const iconClose = toggleButton.querySelector(".icon-close");
-    const iconOpen = toggleButton.querySelector(".icon-open");
-
-    if (body.classList.contains("sidebar-collapsed")) {
-      iconClose.style.opacity = "0";
-      iconOpen.style.opacity = "1";
-    } else {
-      iconClose.style.opacity = "1";
-      iconOpen.style.opacity = "0";
-    }
-  });
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let number = document.getElementById("number").value;
-    let oldPassword = document.getElementById("oldPassword").value;
-    let newPassword = document.getElementById("newPassword").value;
-
-    if (oldPassword !== loginData.password) {
-      message.textContent = "❌ Old password is incorrect.";
-      message.className = "error-msg";
-      return;
-    }
-
-    const updatedProfile = { name, email, number };
-    localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
-
-    if (newPassword.trim() !== "") {
-      loginData.password = newPassword;
-      localStorage.setItem("userLogin", JSON.stringify(loginData));
-    }
-
-    message.textContent = "✅ Profile updated successfully!";
-    message.className = "success-msg";
-
-    document.getElementById("oldPassword").value = "";
-    document.getElementById("newPassword").value = "";
-  });
-
-  const loginData = JSON.parse(localStorage.getItem("userLogin") || '{"username":"user","password":"1234"}');
-
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  if (username === loginData.username && password === loginData.password) {
-    window.location.href = "userdashboard.html";
-  } else {
-    alert("Incorrect username or password!");
-  }
-});
 </script>
