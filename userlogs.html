@@ -1,0 +1,738 @@
+html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System logs</title>
+
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  :root {
+    --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+    --saas-primary: #ec4899;
+  }
+
+  .main-sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #2d3748;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out;
+  }
+
+  .sidebar-header {
+    padding: 0 25px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #4a5568;
+    flex-shrink: 0;
+  }
+
+  .sidebar-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .sidebar-header h1 a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+.sidebar-links {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+  .sidebar-heading {
+    display: block;
+    padding: 10px 25px;
+    margin-top: 15px;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .sidebar-links .sidebar-heading:first-child {
+    margin-top: 0;
+  }
+
+  .main-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #cbd5e0;
+    text-decoration: none;
+    padding: 12px 25px 12px 35px;
+    margin: 2px 0;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .main-sidebar a .icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  .main-sidebar a:hover {
+    background-color: #4a5568;
+    color: #ffffff;
+  }
+
+  .main-sidebar a.active {
+    background-color: transparent;
+    color: var(--saas-primary);
+    font-weight: 500;
+  }
+
+  .main-sidebar a.active .icon {
+    color: var(--saas-primary);
+  }
+
+  .main-sidebar a.active::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background-image: var(--saas-gradient);
+    border-radius: 2px;
+    animation: pulse-indicator-open 2.5s infinite;
+  }
+
+
+  .main-sidebar a.active .notification-badge {
+    background-color: #ffffff;
+    color: #4f46e5;
+    font-weight: bold;
+  }
+
+  .main-sidebar a.nav-alert {
+    color: #f56565;
+    font-weight: 600;
+  }
+
+  .main-sidebar a.nav-alert .icon {
+    color: #f56565;
+  }
+
+  .main-sidebar a.nav-alert:hover {
+    color: #fff;
+    background-color: #dc2626;
+  }
+
+  .main-sidebar a.nav-alert.active {
+    background-color: transparent;
+    color: #ef4444;
+  }
+
+  .main-sidebar a.nav-alert.active .icon {
+    color: #ef4444;
+  }
+
+  .main-sidebar a.nav-alert.active::before {
+    background-image: none;
+    background-color: #ef4444;
+    animation: none;
+  }
+
+  .sidebar-footer {
+    padding: 20px 0 10px 0;
+    border-top: 1px solid #4a5568;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .main-content {
+    margin-left: 260px;
+    padding: 0;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  .content-header {
+    height: 80px;
+    background-color: #ffffff;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    flex-shrink: 0;
+  }
+
+  .header-title-section h1 {
+    margin: 0 0 4px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #718096;
+  }
+
+  .breadcrumbs a {
+    color: var(--saas-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumbs .separator {
+    color: #cbd5e0;
+  }
+
+ .content-wrapper {
+  padding: 30px;
+  background-color: #f9fafb;
+  min-height: calc(100vh - 80px); 
+  box-sizing: border-box;
+}
+
+.page-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.title-bar h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #1a202c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-bar .total-icon {
+  color: var(--saas-primary);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-search {
+  background: #edf2f7;
+  color: #4a5568;
+}
+.btn-search:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.btn-add-eval {
+  background-image: var(--saas-gradient);
+  color: #ffffff;
+}
+.btn-add-eval:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(236,72,153,0.3);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.section-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #718096;
+  margin-bottom: 15px;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 992px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+  .btn-primary {
+    background-image: var(--saas-gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+
+  .btn-primary .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  .page-description {
+    font-size: 16px;
+    color: #718096;
+    max-width: 800px;
+  }
+
+
+  .icon-books { color: #3b82f6; }
+  .icon-students { color: #10b981; }
+  .icon-loan { color: #f97316; }
+  .icon-requests { color: #ec4899; }
+  .icon-returns { color: #8b5cf6; }
+
+  .gradient-text {
+    background: var(--saas-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .dashboard-main-content {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .content-block {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .content-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+  }
+
+  .quick-actions-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .quick-action-btn:hover {
+    background-color: var(--saas-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+  }
+
+  .quick-action-btn .icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 10px;
+  }
+
+
+
+  @media (max-width: 992px) {
+    .dashboard-main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  body.sidebar-collapsed .main-sidebar { width: 75px; }
+  body.sidebar-collapsed .main-content { margin-left: 75px; }
+  body.sidebar-collapsed .sidebar-header h1 { opacity: 0; }
+  body.sidebar-collapsed .sidebar-heading {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  body.sidebar-collapsed .main-sidebar a {
+    border-radius: 8px;
+    margin: 4px 8px;
+    padding: 12px;
+    justify-content: center;
+  }
+  body.sidebar-collapsed .main-sidebar a::before { display: none; }
+  body.sidebar-collapsed .main-sidebar a.active {
+    animation: glow-collapsed 3s infinite ease-in-out;
+  }
+  body.sidebar-collapsed .main-sidebar a.active .icon { color: #ffffff; }
+  body.sidebar-collapsed .main-sidebar .sidebar-links a,
+  body.sidebar-collapsed .main-sidebar .sidebar-footer a {
+    font-size: 0;
+    gap: 0;
+  }
+  body.sidebar-collapsed .notification-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    font-size: 0;
+    border: none;
+  }
+  body.sidebar-collapsed .sidebar-toggle {
+    top: 50%;
+    right: -22px;
+  }
+  body.sidebar-collapsed .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-close {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  body.sidebar-collapsed .sidebar-toggle .icon-open {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px;
+    z-index: 1001;
+    background-image: var(--saas-gradient);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .sidebar-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-toggle .icon {
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-toggle .icon-close {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle .icon-open {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  @keyframes pulse-indicator-open {
+    0%   { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+  }
+
+  @keyframes glow-collapsed {
+    0%, 100% { background-color: #4f46e0; box-shadow: 0 0 10px rgba(79, 70, 229, 0.6); }
+    50%      { background-color: #8b5cf6; box-shadow: 0 0 18px rgba(139, 92, 246, 0.9); }
+  }
+    
+  .main-sidebar a,
+.sidebar-heading {
+  white-space: normal;     
+  word-break: break-word;  
+}
+    
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    align-items: center; justify-content: center;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+  }
+  .modal-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .btn-secondary {
+    background: #e2e8f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    .overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+.overview-grid .stat-card {
+  text-align: center;
+}
+    .main-layout {
+  display: flex;
+  gap: 30px;
+}
+
+
+  </style>
+</head>
+<body>
+  <nav class="main-sidebar">
+        <button id="sidebarToggle" class="sidebar-toggle">
+            <i data-lucide="arrow-left-to-line" class="icon icon-close"></i>
+            <i data-lucide="arrow-right-to-line" class="icon icon-open"></i>
+        </button>
+ <div class="sidebar-header">
+      <h1><a href="#">Admin Panel</a></h1>
+    </div>
+    
+<div class="sidebar-links">
+    <span class="sidebar-heading">MAIN</span>
+    <a href="userdashboard.html">
+        <i data-lucide="layout-dashboard" class="icon"></i> Dashboard
+    </a>
+
+    <span class="sidebar-heading">MODULE</span>
+    <a href="useremployee.html">
+        <i data-lucide="arrow-right-from-line" class="icon"></i>
+        Employee Information & Records Management
+    </a>
+    <a href="userrecruitment.html">
+        <i data-lucide="arrow-left-to-line" class="icon"></i>
+        Recruitment and Hiring
+    </a>
+    <a href="usertime.html">
+        <i data-lucide="triangle-alert" class="icon"></i>
+        Time & Attendance Monitoring
+    </a>
+    <a href="userleave.html">
+        <i data-lucide="book-user" class="icon"></i>
+        Leave & Overtime Management
+    </a>
+
+    <span class="sidebar-heading">SUPERVISION</span>
+    <a href="userpayroll.html">
+        <i data-lucide="book-open" class="icon"></i>
+        Payroll & Compensation
+    </a>
+    <a href="userperformance.html">
+        <i data-lucide="calendar-check" class="icon"></i>
+        Performance Evaluation System
+    </a>
+    <a href="usertraining.html">
+        <i data-lucide="users" class="icon"></i>
+        Training & Development
+    </a>
+    <a href="userbenefits.html">
+        <i data-lucide="school" class="icon"></i>
+        Employee Benefits & Welfare
+    </a>
+    <a href="userlogs.html"class="active">
+        <i data-lucide="history" class="icon"></i>
+        System Logs
+    </a>
+</div>
+
+<div class="sidebar-footer">
+    <a href="userprofile.html">
+        <i data-lucide="user-circle" class="icon"></i> My Profile
+    </a>
+    <a href="main.html" class="nav-alert">
+        <i data-lucide="log-out" class="icon"></i> Logout
+    </a>
+</div>
+    </nav>
+<main class="main-content">
+  <div class="content-header">
+    <div class="header-title-section">
+      <h1>System Logs</h1>
+    </div>
+    <div class="header-actions-section">
+      <a href="javascript:void(0)" id="backButton" class="btn btn-primary">
+        <i data-lucide="arrow-left" class="icon"></i> Back
+      </a>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="content-block">
+      <h2>Activity Logs</h2>
+      <div class="activity-table-container">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Activity</th>
+            </tr>
+          </thead>
+          <tbody id="logTableBody">
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:15px;">
+        <button id="clearLogs" class="btn-primary">Clear Logs</button>
+        <button id="simulateLog" class="btn-primary">Simulate Log</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+
+  let logs = JSON.parse(localStorage.getItem("systemLogs") || "[]");
+
+  const logTableBody = document.getElementById("logTableBody");
+
+  function renderLogs() {
+    logTableBody.innerHTML = "";
+    logs.forEach(log => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${log.time}</td>
+        <td>${log.message}</td>
+      `;
+      logTableBody.appendChild(row);
+    });
+  }
+
+  function addLog(message) {
+    const time = new Date().toLocaleString();
+    const newLog = { time, message };
+    logs.unshift(newLog); 
+    localStorage.setItem("systemLogs", JSON.stringify(logs));
+    renderLogs();
+  }
+
+  document.getElementById("simulateLog").addEventListener("click", () => {
+    addLog("Admin performed a simulated action.");
+  });
+
+  document.getElementById("clearLogs").addEventListener("click", () => {
+    logs = [];
+    localStorage.setItem("systemLogs", "[]");
+    renderLogs();
+  });
+
+  document.getElementById("backButton").addEventListener("click", () => {
+    window.history.back();
+  });
+
+  renderLogs();
+</script>
