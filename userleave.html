@@ -859,125 +859,84 @@
 <script>
 lucide.createIcons();
 
-const tbody = document.querySelector(".activity-table tbody");
-let editRowIndex = null;
+ let leaveData = JSON.parse(localStorage.getItem("LeaveData")) || [
+    { name: "Juan Dela Cruz", type: "Vacation", date: "Sep 10", duration: "2 days", status: "Pending" },
+    { name: "Maria Santos", type: "Overtime", date: "Sep 14", duration: "5 hours", status: "Approved" },
+    { name: "Jose Reyes", type: "Sick Leave", date: "Sep 18", duration: "2 days", status: "Approved" },
+    { name: "Ana Lopez", type: "Vacation", date: "Sep 24", duration: "1 week", status: "Pending" }
+  ];
 
+  const tbody = document.querySelector("#leaveTable tbody");
+  const searchInput = document.getElementById("searchInput");
+  const filterSelect = document.getElementById("filterSelect");
 
-let leaveData = JSON.parse(localStorage.getItem("LeaveData")) || [
-  { name: "Juan Dela Cruz", type: "Vacation", date: "Sep 10", duration: "2 days", status: "Pending" },
-  { name: "Maria Santos", type: "Overtime", date: "Sep 14", duration: "5 hours", status: "Approved" },
-  { name: "Jose Reyes", type: "Sick Leave", date: "Sep 18", duration: "2 days", status: "Approved" },
-  { name: "Ana Lopez", type: "Vacation", date: "Sep 24", duration: "1 week", status: "Pending" }
-];
+  function renderTable() {
+    tbody.innerHTML = "";
+    let totalOvertime = 0;
+    let approved = 0;
+    let pending = 0;
 
-function renderTable() {
-  tbody.innerHTML = "";
-  leaveData.forEach((record, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${record.name}</td>
-      <td>${record.type}</td>
-      <td>${record.date}</td>
-      <td>${record.duration}</td>
-      <td>${record.status}</td>
-      <td>
-      </td>
-    `;
-    tbody.appendChild(tr);
-    lucide.createIcons();
-    attachRowEvents(tr, index); 
+    leaveData.forEach(record => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${record.name}</td>
+        <td>${record.type}</td>
+        <td>${record.date}</td>
+        <td>${record.duration}</td>
+        <td>${record.status}</td>
+      `;
+      tbody.appendChild(tr);
+
+      if(record.type.toLowerCase() === "overtime") {
+        const hours = parseInt(record.duration) || 0;
+        totalOvertime += hours;
+      }
+      if(record.status.toLowerCase() === "approved") approved++;
+      if(record.status.toLowerCase() === "pending") pending++;
+    });
+
+    document.getElementById("totalEmployees").textContent = leaveData.length;
+    document.getElementById("totalOvertime").textContent = totalOvertime;
+    document.getElementById("approvedRequests").textContent = approved;
+    document.getElementById("pendingRequests").textContent = pending;
+  }
+
+  function saveData() {
+    localStorage.setItem("LeaveData", JSON.stringify(leaveData));
+  }
+
+  function filterTable() {
+    const searchText = searchInput.value.toLowerCase();
+    const filterStatus = filterSelect.value;
+
+    tbody.querySelectorAll('tr').forEach((row, i) => {
+      const record = leaveData[i];
+      const matchesSearch = record.name.toLowerCase().includes(searchText);
+      const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
+      row.style.display = matchesSearch && matchesStatus ? "" : "none";
+    });
+  }
+
+  document.getElementById("exportBtn").addEventListener("click", () => {
+    let csvContent = "data:text/csv;charset=utf-8,Employee Name,Type,Date,Leave Duration,Status\r\n";
+    leaveData.forEach(row => {
+      csvContent += `"${row.name}","${row.type}","${row.date}","${row.duration}","${row.status}"\r\n`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "Leave_overtime_records.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
-}
 
-renderTable();
-
-
-function openModal(id) { document.getElementById(id).style.display = "flex"; }
-function closeModal(id) { document.getElementById(id).style.display = "none"; }
-
-
-document.getElementById("addBtn").addEventListener("click", () => openModal("addModal"));
-document.getElementById("closeAdd").addEventListener("click", () => closeModal("addModal"));
-
-document.getElementById("saveAdd").addEventListener("click", () => {
-  const name = document.getElementById("addName").value.trim();
-  const date = document.getElementById("addType").value;
-  const checkIn = document.getElementById("addDate").value;
-  const checkOut = document.getElementById("addDuration").value;
-  const status = document.getElementById("addStatus").value;
-
-  if (!name || !type || !date || !duration) return alert("Fill all fields!");
-  leaveData.push({ name, type, date, duration, status });
-  saveData();
-  renderTable();
-
-  document.querySelectorAll("#addModal input, #addModal select").forEach(el => el.value = "");
-  closeModal("addModal");
-});
-document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Leave and Overtime\n\n";
-  reportText += "Employee Name | Type | Date | Leave Duration | Status\n";
-  reportText += "---------------------------------------------------\n";
-
-  leaveData.forEach(record => {
-    reportText += `${record.name} | ${record.type} | ${record.date} | ${record.duration} | ${record.status}\n`;
-  });
-
-  document.getElementById("reportArea").value = reportText;
-  openModal("reportModal");
-});
-
-
-document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Type,Date,Leave Duration,Status\r\n";
-  leaveData.forEach(row => {
-    csvContent += `"${row.name}","${row.type}","${row.date}","${row.duration}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "Leave&overtime_report.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
-
-const searchInput = document.querySelector('.search-filter input');
-const filterSelect = document.querySelector('.search-filter select');
-
-function filterTable() {
-  const searchText = searchInput.value.toLowerCase();
-  const filterStatus = filterSelect.value;
-
-  tbody.querySelectorAll('tr').forEach((row, i) => {
-    const record = leaveData[i];
-    const matchesSearch = record.name.toLowerCase().includes(searchText);
-    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
-    row.style.display = matchesSearch && matchesStatus ? "" : "none";
-  });
-}
-
-searchInput.addEventListener("input", filterTable);
-filterSelect.addEventListener("change", filterTable);
-
-document.getElementById("exportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Type,Date,Leave Duration,Status\r\n";
-  leaveData.forEach(row => {
-    csvContent += `"${row.name}","${row.type}","${row.date}","${row.duration}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "Leave&overtime_records.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
+  searchInput.addEventListener("input", filterTable);
+  filterSelect.addEventListener("change", filterTable);
+  document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
-
-document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
 
 renderTable();
