@@ -1006,64 +1006,62 @@
 </div>
          
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-t evaluations = [
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script>
-lucide.createIcons();
+ <script>
+ 
+    lucide.createIcons();
 
-le{employeeName:"RUADO, CYRILL", department:"Marketing", score:4.5, remarks:"Excellent work", date:"Sept 20, 2025"},
-  {employeeName:"REYES, JOSHUA", department:"Sales", score:3.2, remarks:"Good", date:"Sept 20, 2025"},
-  {employeeName:"BESA, JOHN LLOYD", department:"Engineering", score:2.8, remarks:"Needs improvement", date:"Sept 20, 2025"},
-  {employeeName:"PAULITE, JOHANES", department:"HR", score:4.0, remarks:"Good performance", date:"Sept 20, 2025"},
-  {employeeName:"EDORIA, MARK", department:"Finance", score:3.5, remarks:"Satisfactory", date:"Sept 20, 2025"}
-];
+  
+    const evaluations = [
+      {employeeName:"RUADO, CYRILL", department:"Marketing", score:4.5, remarks:"Excellent work", date:"Sept 20, 2025"},
+      {employeeName:"REYES, JOSHUA", department:"Sales", score:3.2, remarks:"Good", date:"Sept 20, 2025"},
+      {employeeName:"BESA, JOHN LLOYD", department:"Engineering", score:2.8, remarks:"Needs improvement", date:"Sept 20, 2025"},
+      {employeeName:"PAULITE, JOHANES", department:"HR", score:4.0, remarks:"Good performance", date:"Sept 20, 2025"},
+      {employeeName:"EDORIA, MARK", department:"Finance", score:3.5, remarks:"Satisfactory", date:"Sept 20, 2025"}
+    ];
 
-let editIndex = null;
+ 
+    function renderTable(filter = "") {
+      const tbody = document.querySelector(".recent-table tbody");
+      tbody.innerHTML = "";
 
-  localStorage.setItem("evaluations",JSON.stringify(evaluations));
-  renderTable(document.getElementById("searchInput").value);
-  editIndex=null;
-  closeModal("editModal");
-});
+      const filtered = evaluations.filter(e => 
+        e.employeeName.toLowerCase().includes(filter.toLowerCase()) ||
+        e.department.toLowerCase().includes(filter.toLowerCase())
+      );
 
-function renderTable(filter=""){
-  const tbody=document.querySelector(".recent-table tbody");
-  tbody.innerHTML="";
-  let filtered=evaluations.filter(e=>
-    e.employeeName.toLowerCase().includes(filter.toLowerCase())||
-    e.department.toLowerCase().includes(filter.toLowerCase())
-  );
-  filtered.forEach((e,i)=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`
-  <td>${e.employeeName}</td>
-  <td style="text-align:center;">${e.date}</td>
-  <td style="text-align:center;">
-  </td>
-`;
-    tbody.appendChild(tr);
-  });
-  updateStats(filtered);
-}
+      filtered.forEach(e => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${e.employeeName}</td>
+          <td style="text-align:center;">${e.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
 
-function updateStats(filteredEvaluations=evaluations){
-  const total=filteredEvaluations.length;
-  const completed=filteredEvaluations.filter(e=>e.score>=3).length;
-  const pending=total-completed;
-  const avgScore=total>0?(filteredEvaluations.reduce((a,b)=>a+b.score,0)/total).toFixed(2):0;
-  const statCards=document.querySelectorAll(".overview-grid .stat-card");
-  statCards[0].querySelector("h3").innerText=completed;
-  statCards[1].querySelector("h3").innerText=pending;
-  statCards[2].querySelector("h3").innerText=avgScore;
-  statCards[3].querySelector("h3").innerText=evaluations.length;
-}
+      updateStats(filtered);
+    }
 
-document.getElementById("searchInput").addEventListener("input",e=>renderTable(e.target.value));
 
-document.getElementById("sidebarToggle").addEventListener("click",()=>document.body.classList.toggle("sidebar-collapsed"));
-document.getElementById("backButton").addEventListener("click",()=>window.history.back());
+    function updateStats(filteredEvaluations = evaluations) {
+      const total = filteredEvaluations.length;
+      const completed = filteredEvaluations.filter(e => e.score >= 3).length;
+      const pending = total - completed;
+      const avgScore = total > 0 ? (filteredEvaluations.reduce((a,b) => a + b.score, 0)/total).toFixed(2) : 0;
 
-renderTable();
-</script>
+      const statCards = document.querySelectorAll(".overview-grid .stat-card");
+      statCards[0].querySelector("h3").innerText = completed;
+      statCards[1].querySelector("h3").innerText = pending;
+      statCards[2].querySelector("h3").innerText = avgScore;
+      statCards[3].querySelector("h3").innerText = evaluations.length;
+    }
+
+   document.getElementById("searchInput").addEventListener("input", e => renderTable(e.target.value));
+    document.getElementById("sidebarToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
+    document.getElementById("backButton").addEventListener("click", () => window.history.back());
+
+  
+    renderTable();
+  </script>
 </body>
 </html>
