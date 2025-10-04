@@ -779,10 +779,8 @@
         <h2>Employees Log</h2>
        <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
   <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" id="generateBtn">Generate Report</button>
     <button class="btn btn-primary" id="exportBtn">Export</button>
   </div>
- <button class="btn btn-primary" id="addBtn">Add New Log</button>
 </div>
         <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
           <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
@@ -863,7 +861,8 @@
 lucide.createIcons();
 
 const tbody = document.querySelector(".activity-table tbody");
-let editRowIndex = null;
+const searchInput = document.querySelector('.search-filter input');
+const filterSelect = document.querySelector('.search-filter select');
 
 let attendanceData = JSON.parse(localStorage.getItem("attendanceData") || `[
   { "name": "Juan Dela Cruz", "date": "Sep 8", "checkIn": "8:10 AM", "checkOut": "5:30 PM", "status": "On Time" },
@@ -877,68 +876,36 @@ function saveData() {
 }
 
 function renderTable() {
-  tbody.innerHTML = "";
-  attendanceData.forEach((record, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${record.name}</td>
-      <td>${record.date}</td>
-      <td>${record.checkIn}</td>
-      <td>${record.checkOut}</td>
-      <td>${record.status}</td>
-      <td>
-      </td>
-    `;
-    tbody.appendChild(tr);
-    lucide.createIcons();
-    attachRowEvents(tr, index);
-  });
-}
-
-document.getElementById("generateBtn").addEventListener("click", () => {
-  let reportText = "Attendance Report\n\n";
-  reportText += "Employee Name | Date | Check In | Check Out | Status\n";
-  reportText += "---------------------------------------------------\n";
-
-  attendanceData.forEach(record => {
-    reportText += `${record.name} | ${record.date} | ${record.checkIn} | ${record.checkOut} | ${record.status}\n`;
-  });
-
-  document.getElementById("reportArea").value = reportText;
-  openModal("reportModal");
-});
-
-document.getElementById("modalExportBtn").addEventListener("click", () => {
-  let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
-  attendanceData.forEach(row => {
-    csvContent += `"${row.name}","${row.date}","${row.checkIn}","${row.checkOut}","${row.status}"\r\n`;
-  });
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "attendance_report.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
-
-const searchInput = document.querySelector('.search-filter input');
-const filterSelect = document.querySelector('.search-filter select');
-
-function filterTable() {
   const searchText = searchInput.value.toLowerCase();
   const filterStatus = filterSelect.value;
 
-  tbody.querySelectorAll('tr').forEach((row, i) => {
-    const record = attendanceData[i];
+  tbody.innerHTML = ""; 
+
+  attendanceData.forEach((record) => {
     const matchesSearch = record.name.toLowerCase().includes(searchText);
-    const matchesStatus = filterStatus === "Filter" || record.status === filterStatus;
-    row.style.display = matchesSearch && matchesStatus ? "" : "none";
+    const matchesStatus = filterStatus === "Filter" || record.status.toLowerCase() === filterStatus.toLowerCase();
+
+    if (matchesSearch && matchesStatus) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${record.name}</td>
+        <td>${record.date}</td>
+        <td>${record.checkIn}</td>
+        <td>${record.checkOut}</td>
+        <td>${record.status}</td>
+        <td></td>
+      `;
+      tbody.appendChild(tr);
+    }
   });
+
+  lucide.createIcons();
 }
 
-searchInput.addEventListener("input", filterTable);
-filterSelect.addEventListener("change", filterTable);
+
+searchInput.addEventListener("input", renderTable);
+filterSelect.addEventListener("change", renderTable);
+
 
 document.getElementById("exportBtn").addEventListener("click", () => {
   let csvContent = "data:text/csv;charset=utf-8,Employee Name,Date,Check In,Check Out,Status\r\n";
@@ -958,7 +925,8 @@ document.getElementById("exportBtn").addEventListener("click", () => {
 const sidebarToggle = document.getElementById("sidebarToggle");
 sidebarToggle.addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
 
+
 document.getElementById("backButton").addEventListener("click", () => window.history.back());
 
-renderTable();
+renderTable(); 
 </script>
