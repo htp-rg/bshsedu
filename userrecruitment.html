@@ -931,6 +931,9 @@
       row.style.display = (matchesSearch && matchesDept) ? "" : "none";
     });
   }
+ const sidebarToggle = document.getElementById("sidebarToggle");
+    const body = document.body;
+    sidebarToggle?.addEventListener("click", () => body.classList.toggle("sidebar-collapsed"));
 
   searchInput.addEventListener("input", filterTable);
   deptFilter.addEventListener("change", filterTable);
