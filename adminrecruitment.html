@@ -659,7 +659,7 @@
   border: 1px solid #ddd;
   box-sizing: border-box;
 }
-  .progress-step {
+.progress-step {
     width:40px;
     height:40px;
     border-radius:50%;
@@ -817,12 +817,13 @@
 <div class="recruitment-section" 
      style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
 
-  <!-- Top: Process Flow + Admin Controls -->
+  <!-- Top: Process Flow and Admin Side -->
   <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px;">
 
     <!-- Centered Process Flow -->
     <div style="flex:2; display:flex; flex-direction:column; align-items:center; justify-content:center;">
       <h2 style="margin-bottom:20px; text-align:center;">Recruitment & Hiring Process</h2>
+
       <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:15px;">
         <div style="text-align:center;">
           <div class="progress-step completed">✓</div>
@@ -851,7 +852,7 @@
         </div>
       </div>
 
-      <div style="margin-top:35px; width:80%; max-width:800px;">
+      <div style="margin-top:40px; width:85%; max-width:900px;">
         <h3 style="text-align:center; margin-bottom:10px;">Recruitment Records</h3>
 
         <div style="overflow-x:auto;">
@@ -927,7 +928,8 @@
   </div>
 </div>
 
- <div class="admin-controls" style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px; align-self:center;">
+<div class="admin-controls" 
+         style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px; align-self:flex-start;">
       <h3 style="margin-bottom:10px;">Admin Controls</h3>
       <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
       <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
