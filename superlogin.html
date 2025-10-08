@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMS4 | Academic HR Management System</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f5f6f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 10px 0 5px;
+      color: #1f3c88;
+    }
+
+    h2 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: normal;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #1f3c88;
+      outline: none;
+      box-shadow: 0 0 3px rgba(31, 60, 136, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1f6feb;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #155ac9;
+    }
+
+    #sendCodeBtn, #resendBtn {
+      width: 48%;
+      display: inline-block;
+    }
+
+    #resendBtn {
+      background-color: #888;
+      display: none;
+    }
+
+    #timer {
+      color: #555;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #e63946;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="a3dd0197-255a-44d1-8262-134fcc273345.jfif" alt="Logo" />
+    <h1>SMS4</h1>
+    <h2>Academic Human Resources Management System</h2>
+
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="text" id="codeInput" placeholder="Enter OTP" />
+
+      <div>
+        <button type="button" id="sendCodeBtn">Send OTP</button>
+        <button type="button" id="resendBtn">Resend OTP</button>
+      </div>
+
+      <div id="timer"></div>
+      <button type="submit">Log in</button>
+    </form>
+
+    <div id="message"></div>
+
+    <footer>Super Admin • Admin • Staff • Employee</footer>
+  </div>
+
+  <script>
+    emailjs.init("SfkoRiwnpYb5I2LE-"); 
+
+    let otp = null;
+    let otpExpiry = null;
+    let timerInterval = null;
+
+    const sendBtn = document.getElementById("sendCodeBtn");
+    const resendBtn = document.getElementById("resendBtn");
+    const timerDiv = document.getElementById("timer");
+
+    function startTimer() {
+      let timeLeft = 60;
+      sendBtn.disabled = true;
+      timerDiv.textContent = `Please wait ${timeLeft}s to resend OTP`;
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDiv.textContent = `Please wait ${timeLeft}s to resend OTP`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          sendBtn.disabled = false;
+          resendBtn.style.display = "inline-block";
+          timerDiv.textContent = "";
+        }
+      }, 1000);
+    }
+
+    function sendOTP() {
+      otp = Math.floor(100000 + Math.random() * 900000);
+      otpExpiry = new Date(Date.now() + 15 * 60 * 1000);
+
+      const templateParams = {
+        to_email: "joshuareyes.ad1@gmail.com",
+        passcode: otp,
+        time: otpExpiry.toLocaleTimeString(),
+      };
+
+      emailjs
+        .send("service_ntac4v5", "template_icabi8a", templateParams)
+        .then(() => {
+          document.getElementById("message").textContent =
+            "OTP sent to admin email (joshuareyes.ad1@gmail.com)";
+          startTimer();
+        })
+        .catch((err) => {
+          console.error("EmailJS Error:", err);
+          document.getElementById("message").textContent = "Failed to send OTP";
+        });
+    }
+
+    sendBtn.addEventListener("click", sendOTP);
+    resendBtn.addEventListener("click", () => {
+      sendOTP();
+      resendBtn.style.display = "none";
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const password = document.getElementById("password").value;
+      const codeInput = document.getElementById("codeInput").value.trim();
+      const correctPassword = "adminjoshuareyes";
+
+      if (!otp) {
+        document.getElementById("message").textContent = "Request OTP first";
+        return;
+      }
+      if (new Date() > otpExpiry) {
+        document.getElementById("message").textContent = "OTP expired! Request again";
+        return;
+      }
+      if (password === correctPassword && codeInput == otp) {
+        window.location.href = "admindashboard.html";
+      } else {
+        document.getElementById("message").textContent =
+          "Invalid password or OTP";
+      }
+    });
+  </script>
+</body>
+</html>
