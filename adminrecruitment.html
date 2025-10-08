@@ -806,12 +806,13 @@
       </div>
     </div>
     
- <div class="recruitment-section" style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px;">
+< div class="recruitment-wrapper" style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
 
-  <div style="flex:2; min-width:400px;">
-    <h2 style="margin-bottom:20px;">Recruitment & Hiring</h2>
-    <div style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap;">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px; border-bottom:1px solid #e5e7eb; padding-bottom:25px;">
 
+    <div style="flex:2; min-width:400px;">
+      <h2 style="margin-bottom:20px;">Recruitment & Hiring</h2>
+      <div style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap;">
       <div style="text-align:center;">
         <div class="progress-step completed">✓</div>
         <p>Job Posting</p>
@@ -841,39 +842,19 @@
     </div>
   </div>
 
-  <div class="admin-controls" style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px;">
-    <h3 style="margin-bottom:10px;">Admin Controls</h3>
-    <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
-    <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
-    <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance to Next Step</button>
-    <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
-    <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject Application</button>
-    <button class="btn btn-primary" id="exportBtn" style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export Report</button>
-  </div>
-
- </div>
-
-  <div class="content-block" style="margin-top:50px;">
-    <h2>Recruitment Records</h2>
-
-    <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <div style="display:flex; gap:10px;">
-        <button class="btn btn-primary" id="generateBtn2">New Job Position</button>
-        <button class="btn btn-primary" id="exportBtn2">Export</button>
-      </div>
-      <button class="btn btn-primary" id="addBtn2">Add New Recruit</button>
+   <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px;">
+      <h3 style="margin-bottom:10px;">Admin Controls</h3>
+      <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
+      <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
+      <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance to Next Step</button>
+      <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
+      <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject Application</button>
+      <button class="btn btn-primary" id="exportBtn" style="background:#f3f4f6; color:#1e293b;"><i data-lucide="download"></i> Export Report</button>
     </div>
-
-    <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-      <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-      <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-        <option>Department</option>
-        <option>Academics</option>
-        <option>HR</option>
-        <option>Library</option>
-      </select>
     </div>
-
+   
+  <div style="margin-top:30px;">
+    <h3 style="margin-bottom:15px;">Candidate</h3>
     <div style="overflow-x:auto;">
       <table class="activity-table">
         <thead>
