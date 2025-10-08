@@ -659,6 +659,36 @@
   border: 1px solid #ddd;
   box-sizing: border-box;
 }
+    .progress-step {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#e2e8f0;
+    color:#333;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:16px;
+  }
+  .progress-step.completed {
+    background:#22c55e;
+    color:#fff;
+  }
+  .progress-step.current {
+    background:#3b82f6;
+    color:#fff;
+  }
+  .progress-line {
+    flex:1;
+    height:3px;
+    background:#e2e8f0;
+    margin:0 8px;
+    border-radius:3px;
+  }
+  .progress-line.active {
+    background:#3b82f6;
+  }
   </style>
 </head>
 <body>
@@ -742,6 +772,39 @@
   </div>
 
   <div class="content-wrapper">
+    <div class="recruitment-progress" style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+  <h2 style="margin-bottom:20px;">Recruitment & Hiring</h2>
+  <div style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap;">
+    
+    <div style="text-align:center;">
+      <div class="progress-step completed">✓</div>
+      <p>Job Posting</p>
+    </div>
+
+    <div class="progress-line active"></div>
+
+    <div style="text-align:center;">
+      <div class="progress-step completed">✓</div>
+      <p>Application Review</p>
+    </div>
+
+    <div class="progress-line active"></div>
+
+    <div style="text-align:center;">
+      <div class="progress-step current">3</div>
+      <p>Interview & Evaluation</p>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div style="text-align:center;">
+      <div class="progress-step">4</div>
+      <p>Hiring Decision</p>
+    </div>
+
+  </div>
+</div>
+
     <div class="dashboard-container">
       <div class="stat-card">
         <div class="stat-card-info">
