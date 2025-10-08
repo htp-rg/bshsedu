@@ -100,9 +100,22 @@
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 13px;
-      color: #666;
+      color: #1f3c88;
+    }
+
+    footer a {
+      color: #1f3c88;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 6px;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #155ac9;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -128,7 +141,13 @@
 
     <div id="message"></div>
 
-    <footer>Super Admin • Admin • Staff • Employee</footer>
+   <footer>
+      <a href="superlogin.html">Super Admin</a> • 
+      <a href="adminlogin.html">Admin</a> • 
+      <a href="stafflogin.html">Staff</a> • 
+      <a href="employeelogin.html">Employee</a>
+    </footer>
+  </div>
   </div>
 
   <script>
@@ -203,7 +222,7 @@
         return;
       }
       if (password === correctPassword && codeInput == otp) {
-        window.location.href = "admindashboard.html";
+        window.location.href = "superdashboard.html";
       } else {
         document.getElementById("message").textContent =
           "Invalid password or OTP";
