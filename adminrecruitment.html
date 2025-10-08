@@ -805,10 +805,8 @@
 <div class="recruitment-section" 
      style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:flex-start; gap:30px;">
 
-  <!-- LEFT: Process + Table -->
   <div style="flex:2; display:flex; flex-direction:column; align-items:center;">
 
-    <!-- Smaller Process Flow -->
     <h2 style="margin-bottom:15px; text-align:center; font-size:20px;">Recruitment & Hiring Process</h2>
     <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px;">
 
@@ -839,7 +837,6 @@
       </div>
     </div>
 
-    <!-- Recruitment Table -->
     <div style="margin-top:30px; width:100%; max-width:700px;">
       <h3 style="text-align:center; margin-bottom:10px;">Recruitment Records</h3>
       <div style="overflow-x:auto;">
@@ -915,7 +912,6 @@
     </div>
   </div>
 
-  <!-- RIGHT: Admin Controls -->
   <div class="admin-controls" 
        style="flex:1; min-width:220px; display:flex; flex-direction:column; gap:8px; align-self:flex-start;">
     <h3 style="margin-bottom:10px;">Admin Controls</h3>
@@ -1086,7 +1082,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = JSON.parse(localStorage.getItem("recruitmentData") || "[]");
         
         if (data.length === 0) {
-            // Attach events to existing HTML rows
+           
             document.querySelectorAll(".activity-table tbody tr").forEach(attachRowEvents);
             lucide.createIcons();
             return;
