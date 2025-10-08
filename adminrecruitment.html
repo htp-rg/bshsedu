@@ -803,121 +803,125 @@
     </div>
     
 <div class="recruitment-section" 
-     style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:flex-start; gap:40px;">
+     style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:flex-start; gap:30px;">
 
- <div style="flex:2; display:flex; flex-direction:column; align-items:center;">
+  <!-- LEFT: Process + Table -->
+  <div style="flex:2; display:flex; flex-direction:column; align-items:center;">
 
-  <!-- Process Flow -->
-  <h2 style="margin-bottom:20px; text-align:center;">Recruitment & Hiring Process</h2>
-  <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:15px;">
-    <div style="text-align:center;">
-      <div class="progress-step completed">✓</div>
-      <p>Job Posting</p>
-    </div>
-    <div class="progress-line active"></div>
-    <div style="text-align:center;">
-      <div class="progress-step completed">✓</div>
-      <p>Application Review</p>
-    </div>
-    <div class="progress-line active"></div>
-    <div style="text-align:center;">
-      <div class="progress-step current">3</div>
-      <p>Interview & Evaluation</p>
-    </div>
-    <div class="progress-line"></div>
-    <div style="text-align:center;">
-      <div class="progress-step">4</div>
-      <p>Hiring Decision</p>
-    </div>
-  </div>
-
-  <!-- Recruitment Table -->
-  <div style="margin-top:40px; width:100%; max-width:850px;">
-    <h3 style="text-align:center; margin-bottom:10px;">Recruitment Records</h3>
-    <div style="overflow-x:auto;">
-      <table class="activity-table" style="width:100%; border-collapse:collapse;">
-            <thead>
-              <tr>
-                <th>Department</th>
-                <th>Candidate Name</th>
-                <th>Position</th>
-                <th>Submitted</th>
-                <th>Application Status</th>
-                <th>Result</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Academics</td>
-                <td>Antonio Remigio</td>
-                <td>Teacher</td>
-                <td>May 10, 2025</td>
-                <td>Interview Completed</td>
-                <td>Accepted</td>
-                <td>
-                  <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                  <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                  <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>HR</td>
-                <td>Lisa Guillermo</td>
-                <td>Admin Staff</td>
-                <td>May 8, 2025</td>
-                <td>Interviewing</td>
-                <td>Pending</td>
-                <td>
-                  <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                  <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                  <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>Library</td>
-                <td>Daniel Riego</td>
-                <td>Librarian</td>
-                <td>May 9, 2025</td>
-                <td>Application Review</td>
-                <td>Rejected</td>
-                <td>
-                  <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                  <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                  <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>Academics</td>
-                <td>Sara Mendoza</td>
-                <td>Teacher</td>
-                <td>May 9, 2025</td>
-                <td>Pending Review</td>
-                <td>Pending</td>
-                <td>
-                  <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-                  <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-                  <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <!-- Process Flow -->
+    <h2 style="margin-bottom:20px; text-align:center;">Recruitment & Hiring Process</h2>
+    <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="text-align:center;">
+        <div class="progress-step completed">✓</div>
+        <p>Job Posting</p>
+      </div>
+      <div class="progress-line active"></div>
+      <div style="text-align:center;">
+        <div class="progress-step completed">✓</div>
+        <p>Application Review</p>
+      </div>
+      <div class="progress-line active"></div>
+      <div style="text-align:center;">
+        <div class="progress-step current">3</div>
+        <p>Interview & Evaluation</p>
+      </div>
+      <div class="progress-line"></div>
+      <div style="text-align:center;">
+        <div class="progress-step">4</div>
+        <p>Hiring Decision</p>
       </div>
     </div>
 
+    <!-- Recruitment Table -->
+    <div style="margin-top:30px; width:100%; max-width:700px;">
+      <h3 style="text-align:center; margin-bottom:10px;">Recruitment Records</h3>
+      <div style="overflow-x:auto;">
+        <table class="activity-table" 
+               style="width:100%; border-collapse:collapse; font-size:12px; line-height:1.3; text-align:center;">
+          <thead style="background:#f9fafb;">
+            <tr>
+              <th style="padding:6px;">Department</th>
+              <th style="padding:6px;">Candidate Name</th>
+              <th style="padding:6px;">Position</th>
+              <th style="padding:6px;">Submitted</th>
+              <th style="padding:6px;">Application Status</th>
+              <th style="padding:6px;">Result</th>
+              <th style="padding:6px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Academics</td>
+              <td>Antonio Remigio</td>
+              <td>Teacher</td>
+              <td>May 10, 2025</td>
+              <td>Interview Completed</td>
+              <td>Accepted</td>
+              <td>
+                <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+                <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+                <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>HR</td>
+              <td>Lisa Guillermo</td>
+              <td>Admin Staff</td>
+              <td>May 8, 2025</td>
+              <td>Interviewing</td>
+              <td>Pending</td>
+              <td>
+                <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+                <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+                <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Library</td>
+              <td>Daniel Riego</td>
+              <td>Librarian</td>
+              <td>May 9, 2025</td>
+              <td>Application Review</td>
+              <td>Rejected</td>
+              <td>
+                <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+                <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+                <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Academics</td>
+              <td>Sara Mendoza</td>
+              <td>Teacher</td>
+              <td>May 9, 2025</td>
+              <td>Pending Review</td>
+              <td>Pending</td>
+              <td>
+                <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+                <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+                <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Admin Controls -->
   <div class="admin-controls" 
-     style="flex:1; min-width:260px; display:flex; flex-direction:column; gap:10px; align-self:flex-start;">
-  <h3 style="margin-bottom:10px;">Admin Controls</h3>
-  <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
-  <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
-  <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance to Next Step</button>
-  <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
-  <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject Application</button>
-  <button class="btn btn-primary" id="exportBtn" 
-          style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export Report</button>
+       style="flex:1; min-width:220px; display:flex; flex-direction:column; gap:8px; align-self:flex-start;">
+    <h3 style="margin-bottom:10px;">Admin Controls</h3>
+    <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
+    <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
+    <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance Step</button>
+    <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
+    <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject</button>
+    <button class="btn btn-primary" id="exportBtn" 
+            style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export</button>
+  </div>
 </div>
-</main>
+    
 <div id="addModal" class="modal">
   <div class="modal-content">
     <h2>Add New Recruit</h2>
