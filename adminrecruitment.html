@@ -659,7 +659,7 @@
   border: 1px solid #ddd;
   box-sizing: border-box;
 }
- .progress-step {
+  .progress-step {
     width:40px;
     height:40px;
     border-radius:50%;
@@ -680,14 +680,22 @@
     color:#fff;
   }
   .progress-line {
-    flex:1;
+    width:60px;
     height:3px;
     background:#e2e8f0;
-    margin:0 8px;
     border-radius:3px;
   }
   .progress-line.active {
     background:#3b82f6;
+  }
+  .activity-table th, .activity-table td {
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:center;
+  }
+  .activity-table th {
+    background:#f9fafb;
+    font-weight:600;
   }
   </style>
 </head>
@@ -842,40 +850,13 @@
           <p>Hiring Decision</p>
         </div>
       </div>
-    </div>
 
-    <!-- Admin Controls -->
-    <div class="admin-controls" style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px; align-self:center;">
-      <h3 style="margin-bottom:10px;">Admin Controls</h3>
-      <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
-      <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
-      <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance to Next Step</button>
-      <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
-      <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject Application</button>
-      <button class="btn btn-primary" id="exportBtn" style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export Report</button>
-    </div>
-  </div>
+      <div style="margin-top:35px; width:80%; max-width:800px;">
+        <h3 style="text-align:center; margin-bottom:10px;">Recruitment Records</h3>
 
-  <!-- Bottom: Recruitment Records (aligned below process flow) -->
-  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:40px; flex-wrap:wrap; gap:30px;">
-    
-    <!-- Left side: Table -->
-    <div style="flex:2; min-width:500px;">
-      <h2>Recruitment Records</h2>
-
-      <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-        <input type="text" placeholder="🔍 Search employees..." 
-               style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-        <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <option>Department</option>
-          <option>Academics</option>
-          <option>HR</option>
-          <option>Library</option>
-        </select>
-      </div>
-
-      <div style="overflow-x:auto;">
-        <table class="activity-table">
+        <div style="overflow-x:auto;">
+          <table class="activity-table" style="width:100%; border-collapse:collapse;">
+            <thead>
         <thead>
           <tr>
             <th>Department</th>
@@ -946,7 +927,18 @@
   </div>
 </div>
 
-
+ <div class="admin-controls" style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:10px; align-self:center;">
+      <h3 style="margin-bottom:10px;">Admin Controls</h3>
+      <button class="btn btn-primary" id="addBtn"><i data-lucide="user-plus"></i> New Candidate</button>
+      <button class="btn btn-primary" id="generateBtn"><i data-lucide="file-plus"></i> New Job Posting</button>
+      <button class="btn btn-primary"><i data-lucide="arrow-right-circle"></i> Advance to Next Step</button>
+      <button class="btn btn-primary"><i data-lucide="check-circle"></i> Approve & Hire</button>
+      <button class="btn btn-primary"><i data-lucide="x-circle"></i> Reject Application</button>
+      <button class="btn btn-primary" id="exportBtn" style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export Report</button>
+    </div>
+  </div>
+</div>
+    
 </main>
 <div id="addModal" class="modal">
   <div class="modal-content">
