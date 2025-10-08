@@ -659,7 +659,7 @@
   border: 1px solid #ddd;
   box-sizing: border-box;
 }
-    .progress-step {
+ .progress-step {
     width:40px;
     height:40px;
     border-radius:50%;
@@ -851,96 +851,101 @@
     <button class="btn btn-primary" id="exportBtn" style="background:#e2e8f0; color:#1a202c;"><i data-lucide="download"></i> Export Report</button>
   </div>
 
-</div>
+ </div>
+
+  <div class="content-block" style="margin-top:50px;">
+    <h2>Recruitment Records</h2>
+
+    <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-primary" id="generateBtn2">New Job Position</button>
+        <button class="btn btn-primary" id="exportBtn2">Export</button>
+      </div>
+      <button class="btn btn-primary" id="addBtn2">Add New Recruit</button>
+    </div>
+
+    <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
+      <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
+        <option>Department</option>
+        <option>Academics</option>
+        <option>HR</option>
+        <option>Library</option>
+      </select>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="activity-table">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Candidate Name</th>
+            <th>Position</th>
+            <th>Submitted</th>
+            <th>Application Status</th>
+            <th>Result</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Academics</td>
+            <td>Antonio Remigio</td>
+            <td>Teacher</td>
+            <td>May 10, 2025</td>
+            <td>Interview Completed</td>
+            <td>Accepted</td>
+            <td>
+              <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+              <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+              <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>HR</td>
+            <td>Lisa Guillermo</td>
+            <td>Admin Staff</td>
+            <td>May 8, 2025</td>
+            <td>Interviewing</td>
+            <td>Pending</td>
+            <td>
+              <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+              <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+              <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>Library</td>
+            <td>Daniel Riego</td>
+            <td>Librarian</td>
+            <td>May 9, 2025</td>
+            <td>Application Review</td>
+            <td>Rejected</td>
+            <td>
+              <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+              <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+              <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>Academics</td>
+            <td>Sara Mendoza</td>
+            <td>Teacher</td>
+            <td>May 9, 2025</td>
+            <td>Pending Review</td>
+            <td>Pending</td>
+            <td>
+              <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
+              <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
+              <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-    <div class="content-block" style="margin-top:50px;">
-        <h2>Recruitment Records</h2>
-       <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
-  <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" id="generateBtn">New Job Position</button>
-    <button class="btn btn-primary" id="exportBtn">Export</button>
-  </div>
- <button class="btn btn-primary" id="addBtn">Add New Recruit</button>
-</div>
-        <div class="search-filter" style="display:flex; gap:10px; margin-bottom:15px;">
-          <input type="text" placeholder="🔍 Search employees..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px;">
-          <select style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>Department</option>
-            <option>Academics</option>
-            <option>HR</option>
-            <option>Library</option>
-          </select>
-        </div>
-    <div class="recruitment-progress" style="margin-top:40px; background:#fff; border-radius:12px; padding:25px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-       <div style="overflow-x:auto;">
-<table class="activity-table">
-  <thead>
-    <tr>
-      <th>Department</th>
-      <th>Candidate Name</th>
-      <th>Position</th>
-      <th>Submitted</th>
-      <th>Application Status</th>
-      <th>Result</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Academics</td>
-      <td>Antonio Remigio</td>
-      <td>Teacher</td>
-      <td>May 10, 2025</td>
-      <td>Completed</td>
-      <td>Accepted</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>HR</td>
-      <td>Lisa Guillermo</td>
-      <td>Admin Staff</td>
-      <td>May 8, 2025</td>
-      <td>Interviewing</td>
-      <td>Pending</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>Library</td>
-      <td>Daniel Riego</td>
-      <td>Librarian</td>
-      <td>May 9, 2025</td>
-      <td>Application Review</td>
-      <td>Rejected</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-    <tr>
-      <td>Academics</td>
-      <td>Sara Mendoza</td>
-      <td>Teacher</td>
-      <td>May 9, 2025</td>
-      <td>Pending Review</td>
-      <td>Pending</td>
-      <td>
-        <button class="btn btn-primary view-btn"><i data-lucide="eye"></i></button>
-        <button class="btn btn-primary edit-btn"><i data-lucide="edit"></i></button>
-        <button class="btn btn-primary delete-btn"><i data-lucide="trash-2"></i></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
 
 </main>
 <div id="addModal" class="modal">
