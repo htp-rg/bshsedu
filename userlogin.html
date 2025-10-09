@@ -1,18 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Login - AZURE AI-POWERED ACADEMIC HR MANAGEMENT SYSTEM</title>
+  <title>Staff Login - AZURE AI-POWERED ACADEMIC HR MANAGEMENT SYSTEM</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --saas-gradient: linear-gradient(90deg, #ec4899, #f97316);
+      --saas-primary: #ec4899;
+      --saas-bg: #f8f9fa;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background-color: #f8f9fa;
+      background-color: var(--saas-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -22,8 +31,8 @@
     .login-container {
       width: 100%;
       max-width: 420px;
-      background: #fff;
-      padding: 30px;
+      background: #ffffff;
+      padding: 35px;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       text-align: center;
@@ -31,23 +40,23 @@
     }
 
     h1 {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: #1a202c;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     h2 {
       font-size: 1rem;
       font-weight: 500;
       color: #718096;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     label {
       display: block;
       text-align: left;
-      margin-top: 12px;
+      margin-top: 15px;
       font-weight: 600;
       color: #4a5568;
       font-size: 0.9rem;
@@ -61,11 +70,12 @@
       border-radius: 8px;
       font-size: 14px;
       outline: none;
+      transition: border-color 0.2s;
     }
 
     input:focus {
-      border-color: #ec4899;
-      box-shadow: 0 0 0 2px rgba(236,72,153,0.2);
+      border-color: var(--saas-primary);
+      box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
     }
 
     button {
@@ -77,15 +87,41 @@
       font-weight: 600;
       border: none;
       cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #sendCodeBtn {
+      background-image: var(--saas-gradient);
       color: white;
     }
 
-    .btn-login { background: #10b981; }
-    .btn-create { background: #4285f4; }
-    .switch { margin-top: 12px; font-size: 14px; }
-    .switch a { color: #ec4899; cursor: pointer; font-weight: 600; }
-    #message { margin-top: 10px; font-size: 14px; }
-    .hidden { display: none; }
+    #resendBtn {
+      background: orange;
+      color: white;
+      display: none;
+    }
+
+    #loginForm button[type="submit"] {
+      background: #10b981;
+      color: white;
+    }
+
+    #timer {
+      text-align: center;
+      font-size: 13px;
+      color: #718096;
+      margin-top: 8px;
+    }
+
+    #message {
+      margin-top: 12px;
+      font-size: 14px;
+      color: red;
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
@@ -96,104 +132,108 @@
 <body>
   <div class="login-container">
     <h1>AZURE AI-POWERED ACADEMIC HR MANAGEMENT SYSTEM</h1>
+    <h2>Staff Login</h2>
 
-    <form id="createForm">
-      <h2>Create an Account</h2>
-      <label for="newName">Full Name:</label>
-      <input type="text" id="newName" required placeholder="Enter your name">
+    <form id="loginForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required placeholder="Enter your email">
 
-      <label for="newEmail">Email:</label>
-      <input type="email" id="newEmail" required placeholder="Enter your email">
+      <label for="password">Password:</label>
+      <input type="password" id="password" required placeholder="Enter your password">
 
-      <label for="newPassword">Password:</label>
-      <input type="password" id="newPassword" required placeholder="Enter your password">
+      <label for="codeInput">OTP Code:</label>
+      <input type="text" id="codeInput" placeholder="Enter OTP">
 
-      <button type="submit" class="btn-create">Create Account</button>
-      <div class="switch">Already have an account? <a id="showLogin">Log in here</a></div>
-    </form>
+      <button type="button" id="sendCodeBtn">Send Code</button>
+      <div id="timer"></div>
+      <button type="button" id="resendBtn">Resend Code</button>
 
-    <form id="loginForm" class="hidden">
-      <h2>Employee Login</h2>
-      <label for="loginEmail">Email:</label>
-      <input type="email" id="loginEmail" required placeholder="Enter your email">
-
-      <label for="loginPassword">Password:</label>
-      <input type="password" id="loginPassword" required placeholder="Enter your password">
-
-      <button type="submit" class="btn-login">Login</button>
-      <div class="switch">Don't have an account? <a id="showCreate">Create one here</a></div>
+      <button type="submit">Login</button>
     </form>
 
     <div id="message"></div>
   </div>
 
   <script>
-    const createForm = document.getElementById("createForm");
-    const loginForm = document.getElementById("loginForm");
-    const message = document.getElementById("message");
+    emailjs.init("ZCsxrDbkGmfk8BwNM"); 
 
-    document.getElementById("showLogin").onclick = () => {
-      createForm.classList.add("hidden");
-      loginForm.classList.remove("hidden");
-      message.textContent = "";
-    };
+    let otp = null;
+    let otpExpiry = null;
+    let timerInterval = null;
 
-    document.getElementById("showCreate").onclick = () => {
-      loginForm.classList.add("hidden");
-      createForm.classList.remove("hidden");
-      message.textContent = "";
-    };
+    const sendBtn = document.getElementById("sendCodeBtn");
+    const resendBtn = document.getElementById("resendBtn");
+    const timerDiv = document.getElementById("timer");
 
-    // Create Account
-    createForm.addEventListener("submit", (e) => {
+    function startTimer() {
+      let timeLeft = 60;
+      sendBtn.disabled = true;
+      timerDiv.textContent = `Please wait ${timeLeft}s to resend OTP`;
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDiv.textContent = `Please wait ${timeLeft}s to resend OTP`;
+        if(timeLeft <= 0) {
+          clearInterval(timerInterval);
+          sendBtn.disabled = false;
+          resendBtn.style.display = "block";
+          timerDiv.textContent = "";
+        }
+      }, 1000);
+    }
+
+   function sendOTP() {
+  otp = Math.floor(100000 + Math.random() * 900000);
+  otpExpiry = new Date(Date.now() + 15*60*1000);
+
+  const templateParams = {
+    to_email: "johaneskhimer85@gmail.com", 
+    passcode: otp,
+    time: otpExpiry.toLocaleTimeString()
+  };
+
+  emailjs.send('service_jbmgxc4', 'template_l200imb', templateParams)
+    .then(() => {
+      document.getElementById("message").textContent = "OTP sent to admin email (johaneskhimer85@gmail.com)";
+      startTimer();
+    })
+    .catch(err => {
+      console.error("EmailJS Error:", err);
+      document.getElementById("message").textContent = "Failed to send OTP";
+    });
+}
+
+
+sendBtn.addEventListener("click", () => {
+  sendOTP();
+});
+
+
+resendBtn.addEventListener("click", () => {
+  sendOTP();
+  resendBtn.style.display = "none";
+});
+
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = document.getElementById("newName").value.trim();
-      const email = document.getElementById("newEmail").value.trim();
-      const password = document.getElementById("newPassword").value.trim();
+      const password = document.getElementById("password").value;
+      const codeInput = document.getElementById("codeInput").value.trim();
+      const correctPassword = "employee00";
 
-      if (!name || !email || !password) {
-        message.style.color = "red";
-        message.textContent = "❌ Please fill all fields.";
+      if(!otp) {
+        document.getElementById("message").textContent = "Request OTP first";
         return;
       }
-
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userPassword", password);
-
-      message.style.color = "green";
-      message.textContent = "✅ Account created successfully! Please log in.";
-
-      createForm.classList.add("hidden");
-      loginForm.classList.remove("hidden");
-    });
-
-    // User Login
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-
-      const savedEmail = localStorage.getItem("userEmail");
-      const savedPassword = localStorage.getItem("userPassword");
-
-      if (email === savedEmail && password === savedPassword) {
-        localStorage.setItem("isLoggedIn", "true");
-        message.style.color = "green";
-        message.textContent = "✅ Login successful! Redirecting...";
-        setTimeout(() => { window.location.href = "userdashboard.html"; }, 1000);
+      if(new Date() > otpExpiry) {
+        document.getElementById("message").textContent = "OTP expired! Request again";
+        return;
+      }
+      if(password === correctPassword && codeInput == otp) {
+        window.location.href = "userashboard.html";
       } else {
-        message.style.color = "red";
-        message.textContent = "❌ Invalid email or password.";
+        document.getElementById("message").textContent = "Invalid password or OTP";
       }
     });
-
-    // Auto redirect if logged in
-    window.onload = () => {
-      if (localStorage.getItem("isLoggedIn") === "true") {
-        window.location.href = "userdashboard.html";
-      }
-    };
   </script>
 </body>
 </html>
