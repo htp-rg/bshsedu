@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - AZURE AI-POWERED ACADEMIC HR MANAGEMENT SYSTEM</title>
+  <title>Staff Login - AZURE AI-POWERED ACADEMIC HR MANAGEMENT SYSTEM</title>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -154,7 +154,7 @@
   </div>
 
   <script>
-    emailjs.init("SfkoRiwnpYb5I2LE-"); 
+    emailjs.init("F95jy_0Dus1jMaw5F"); 
 
     let otp = null;
     let otpExpiry = null;
@@ -191,9 +191,9 @@
     time: otpExpiry.toLocaleTimeString()
   };
 
-  emailjs.send('service_ntac4v5', 'template_icabi8a', templateParams)
+  emailjs.send('service_necde2s', 'template_q313nf6', templateParams)
     .then(() => {
-      document.getElementById("message").textContent = "OTP sent to admin email (joshuareyes.ad1@gmail.com)";
+      document.getElementById("message").textContent = "OTP sent to admin email (markjeboy23@gmail.com)";
       startTimer();
     })
     .catch(err => {
@@ -217,7 +217,7 @@ resendBtn.addEventListener("click", () => {
       e.preventDefault();
       const password = document.getElementById("password").value;
       const codeInput = document.getElementById("codeInput").value.trim();
-      const correctPassword = "adminjoshuareyes";
+      const correctPassword = "staff23login";
 
       if(!otp) {
         document.getElementById("message").textContent = "Request OTP first";
